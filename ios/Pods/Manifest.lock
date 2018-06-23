@@ -1,5 +1,6 @@
 PODS:
   - IQKeyboardManager (5.0.8)
+  - LGSideMenuController (2.1.1)
   - Masonry (1.1.0)
   - QRCodeReaderViewController (4.0.2)
   - ReactiveObjC (3.1.0)
@@ -7,7 +8,8 @@ PODS:
   - YBUtils (0.1.6)
 
 DEPENDENCIES:
-  - IQKeyboardManager
+  - IQKeyboardManager (~> 5.0.8)
+  - LGSideMenuController (~> 2.1.1)
   - Masonry (~> 1.1.0)
   - QRCodeReaderViewController (~> 4.0.2)
   - ReactiveObjC (~> 3.1.0)
@@ -16,12 +18,13 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   IQKeyboardManager: 266cb7b1d11f94a3e71229d77f960f9a1b538e5b
+  LGSideMenuController: ae40c80983ab8b8801c7cef0a6804d43aaa72d45
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   QRCodeReaderViewController: e8f27d035b3e72b1d4b1c61ff66458287e3be0ff
   ReactiveObjC: 2a38ea15335de4119d8b17caf1db1484f61db902
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   YBUtils: 198da0ec5b9805ab7b8ece50c849a7e40bd31e56
 
-PODFILE CHECKSUM: cc9f55632af81e7bf61257e18e6e9f6fb5c54606
+PODFILE CHECKSUM: 562e294337fccd07d40f537620f4362501e97d8d
 
 COCOAPODS: 1.4.0
