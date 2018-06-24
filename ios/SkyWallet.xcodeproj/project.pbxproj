@@ -785,6 +785,8 @@
 		DF7283ED20DFDD380044647F /* Basic */ = {
 			isa = PBXGroup;
 			children = (
+				DFA33D1B2059844200116E38 /* MainNavigationViewController.h */,
+				DFA33D1C2059844200116E38 /* MainNavigationViewController.m */,
 				DFA33CE3205983F200116E38 /* MainTabBarViewController.h */,
 				DFA33CE4205983F200116E38 /* MainTabBarViewController.m */,
 				DF7283EE20DFDD640044647F /* WelcomeViewController.h */,
@@ -876,6 +878,20 @@
 			path = ReceiveCoin;
 			sourceTree = "<group>";
 		};
+		DF72841D20DFF8390044647F /* OldVersion */ = {
+			isa = PBXGroup;
+			children = (
+				DFA33D1E2059849F00116E38 /* BalanceViewController.h */,
+				DFA33D1F2059849F00116E38 /* BalanceViewController.m */,
+				DF3E206C206BF1040057E950 /* WalletSeedPage-N */,
+				DF3E206D206BF1350057E950 /* PayCoin-N */,
+				DF3E206E206BF1730057E950 /* WalletGenerator-N */,
+				DF3E206F206BF1990057E950 /* PinCode-N */,
+				DF3E2071206BF1FB0057E950 /* Wallet-N */,
+			);
+			path = OldVersion;
+			sourceTree = "<group>";
+		};
 		DFA33D6E205AC59300116E38 /* Component */ = {
 			isa = PBXGroup;
 			children = (
@@ -889,17 +905,9 @@
 				DF72841120DFE3150044647F /* GeneralWalletManager */,
 				DF72840A20DFE2C70044647F /* SeedGenerator */,
 				DF72840620DFE25D0044647F /* GeneralWalletGenerator */,
-				DFA33D1B2059844200116E38 /* MainNavigationViewController.h */,
-				DFA33D1C2059844200116E38 /* MainNavigationViewController.m */,
-				DFA33D1E2059849F00116E38 /* BalanceViewController.h */,
-				DFA33D1F2059849F00116E38 /* BalanceViewController.m */,
-				DF3E2071206BF1FB0057E950 /* Wallet-N */,
 				DF3E2070206BF1B20057E950 /* WalletDetail */,
-				DF3E206F206BF1990057E950 /* PinCode-N */,
-				DF3E206E206BF1730057E950 /* WalletGenerator-N */,
-				DF3E206D206BF1350057E950 /* PayCoin-N */,
 				DF3E2046206BF04D0057E950 /* AddressQRCode */,
-				DF3E206C206BF1040057E950 /* WalletSeedPage-N */,
+				DF72841D20DFF8390044647F /* OldVersion */,
 			);
 			path = Component;
 			sourceTree = "<group>";
