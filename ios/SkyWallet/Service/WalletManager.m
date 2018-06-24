@@ -197,7 +197,8 @@ RCT_EXPORT_METHOD(refreshAddressList) {
   NSError *error;
 //  MobileRegisterNewCoin(@"spocoin", @"47.75.36.182:8620", &error);
 //  MobileRegisterNewCoin(@"skycoin", @"47.75.36.182:6420", &error);
-  MobileRegisterNewCoin(@"skycoin", @"api.skycoin.cn:6420", &error);
+  MobileRegisterNewCoin(@"skycoin", @"api.samos.io:6420", &error);
+  MobileRegisterNewCoin(@"samos", @"api.samos.io:8640", &error);
   if (error) {
     NSLog(@"register coin failed");
   }

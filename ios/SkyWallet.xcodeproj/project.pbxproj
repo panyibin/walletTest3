@@ -38,6 +38,7 @@
 		DF6DB48A205DF90200A9A0D9 /* WalletDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DF6DB489205DF90200A9A0D9 /* WalletDetailViewController.m */; };
 		DF6DB4B2205E015700A9A0D9 /* WalletBalanceModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DF6DB4B1205E015700A9A0D9 /* WalletBalanceModel.m */; };
 		DF6DB4B5205E376B00A9A0D9 /* PayCoinViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DF6DB4B4205E376B00A9A0D9 /* PayCoinViewController.m */; };
+		DF72837E20DF66A80044647F /* GeneralWalletModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DF72837D20DF66A80044647F /* GeneralWalletModel.m */; };
 		DFA33CE5205983F200116E38 /* MainTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DFA33CE4205983F200116E38 /* MainTabBarViewController.m */; };
 		DFA33D1D2059844200116E38 /* MainNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DFA33D1C2059844200116E38 /* MainNavigationViewController.m */; };
 		DFA33D202059849F00116E38 /* BalanceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DFA33D1F2059849F00116E38 /* BalanceViewController.m */; };
@@ -375,6 +376,8 @@
 		DF6DB4B1205E015700A9A0D9 /* WalletBalanceModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WalletBalanceModel.m; sourceTree = "<group>"; };
 		DF6DB4B3205E376B00A9A0D9 /* PayCoinViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PayCoinViewController.h; sourceTree = "<group>"; };
 		DF6DB4B4205E376B00A9A0D9 /* PayCoinViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PayCoinViewController.m; sourceTree = "<group>"; };
+		DF72837C20DF66A80044647F /* GeneralWalletModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeneralWalletModel.h; sourceTree = "<group>"; };
+		DF72837D20DF66A80044647F /* GeneralWalletModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GeneralWalletModel.m; sourceTree = "<group>"; };
 		DFA33CE3205983F200116E38 /* MainTabBarViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainTabBarViewController.h; sourceTree = "<group>"; };
 		DFA33CE4205983F200116E38 /* MainTabBarViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainTabBarViewController.m; sourceTree = "<group>"; };
 		DFA33D1B2059844200116E38 /* MainNavigationViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainNavigationViewController.h; sourceTree = "<group>"; };
@@ -790,6 +793,8 @@
 				DFD9A514205ACFC3002A256F /* WalletModel.m */,
 				DF6DB4B0205E015700A9A0D9 /* WalletBalanceModel.h */,
 				DF6DB4B1205E015700A9A0D9 /* WalletBalanceModel.m */,
+				DF72837C20DF66A80044647F /* GeneralWalletModel.h */,
+				DF72837D20DF66A80044647F /* GeneralWalletModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1364,6 +1369,7 @@
 				DF3E1F8420663FBD0057E950 /* AddressQRCodeViewController.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 				DF6DB477205D64A400A9A0D9 /* SWUtils.m in Sources */,
+				DF72837E20DF66A80044647F /* GeneralWalletModel.m in Sources */,
 				DF6DB48A205DF90200A9A0D9 /* WalletDetailViewController.m in Sources */,
 				DF3E20BA206BF3840057E950 /* PinInputViewController.m in Sources */,
 				DFA33D24205988B000116E38 /* RNManager.m in Sources */,
