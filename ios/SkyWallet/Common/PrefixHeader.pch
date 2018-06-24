@@ -23,10 +23,13 @@
 #import <Mobile/Mobile.objc.h>
 #import "Constants.h"
 #import "WalletModel.h"
+#import "GeneralWalletModel.h"
 #import "WalletManager.h"
 #import "NavigationHelper.h"
 #import "WalletBalanceModel.h"
 #import "LoadingView.h"
 #import <SVProgressHUD/SVProgressHUD.h>
+#import <LGSideMenuController/LGSideMenuController.h>
+#import <LGSideMenuController/UIViewController+LGSideMenuController.h>
 
 #endif /* PrefixHeader_pch */

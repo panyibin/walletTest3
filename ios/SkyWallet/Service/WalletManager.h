@@ -15,7 +15,7 @@
 
 - (void)initWallet;
 - (NSArray*)getLocalWalletArray;
-- (void)addWalletLocally:(WalletModel*)walletModel;
+- (void)addWalletLocally:(GeneralWalletModel*)walletModel;
 
 - (WalletBalanceModel*)getBalanceOfWallet:(NSString*)walletId coinType:(NSString*)coinType;
 - (WalletBalanceModel*)getBalanceOfAddress:(NSString*)address coinType:(NSString*)coinType;

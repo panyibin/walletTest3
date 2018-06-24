@@ -16,6 +16,9 @@
 #import "MainViewController.h"
 #import "PinInputViewController.h"
 
+#import "MainTabBarViewController.h"
+#import "SideMenuViewController.h"
+
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -23,8 +26,19 @@
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
 
   MainNavigationViewController *navigationVC = [[MainNavigationViewController alloc] init];
-  MainViewController *mainVC = [[MainViewController alloc] initWithNibName:@"MainViewController" bundle:nil];
-  navigationVC.viewControllers = @[mainVC];
+//  MainViewController *mainVC = [[MainViewController alloc] initWithNibName:@"MainViewController" bundle:nil];
+//  navigationVC.viewControllers = @[mainVC];
+  LGSideMenuController *sideMenuController = [LGSideMenuController new];
+  MainTabBarViewController *mainTabBarVC = [MainTabBarViewController new];
+  SideMenuViewController *sideMenuVC = [SideMenuViewController new];
+  
+  sideMenuController.rootViewController = mainTabBarVC;
+  sideMenuController.leftViewController = sideMenuVC;
+  sideMenuController.leftViewWidth = 300;
+  sideMenuController.leftViewPresentationStyle = LGSideMenuPresentationStyleSlideAbove;
+  
+  navigationVC.viewControllers = @[sideMenuController];
+  
   self.window.rootViewController = navigationVC;
   
   [self.window makeKeyAndVisible];
@@ -32,11 +46,11 @@
   [[WalletManager sharedInstance] initWallet];
   
   //show pin coe input UI when start
-  NSString *pinCode = [[NSUserDefaults standardUserDefaults] stringForKey:kPinCode];
-  
-  if (pinCode) {
-    [NavigationHelper presentPinInputViewControllerWithCloseButton:NO animated:NO pinCodeVerifiedBlock:nil];
-  }
+//  NSString *pinCode = [[NSUserDefaults standardUserDefaults] stringForKey:kPinCode];
+//
+//  if (pinCode) {
+//    [NavigationHelper presentPinInputViewControllerWithCloseButton:NO animated:NO pinCodeVerifiedBlock:nil];
+//  }
   
   return YES;
 }

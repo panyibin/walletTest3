@@ -12,13 +12,15 @@
 /**
  Multi coins wallet model
  */
-@interface GeneralWalletModel : NSObject
+@interface GeneralWalletModel : NSObject<NSCoding>
 
 @property (nonatomic, strong) NSString *walletName;
 @property (nonatomic, strong) NSString *walletId;
 @property (nonatomic, strong) NSString *seed;
-@property (nonatomic, strong) NSString *password;
+@property (nonatomic, strong) NSString *pinCode;
 @property (nonatomic, strong) WalletModel *skycoinWalletModel;
-@property (nonatomic, strong) WalletModel *spocoinWalletModel;
+@property (nonatomic, strong) WalletModel *samosWalletModel;
+
+- (NSDictionary*)convertToDictionary;
 
 @end

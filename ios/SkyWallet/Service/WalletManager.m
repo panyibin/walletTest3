@@ -56,17 +56,33 @@ RCT_REMAP_METHOD(createNewWallet, createWallet:(NSString*)walletName seed:(NSStr
     [[NSUserDefaults standardUserDefaults] setObject:pinCode forKey:kPinCode];
   }
   
-  NSString *walletId = MobileNewWallet(@"skycoin", walletName, seed, password, &error);
+  NSString *skyWalletId = MobileNewWallet(kCoinTypeSky, walletName, seed, password, &error);
+  NSString *samosWalletId = MobileNewWallet(kCoinTypeSamos, walletName, seed, password, &error);
   
   if(!error) {
     WalletModel *wm = [[WalletModel alloc] init];
     wm.walletName = walletName;
-    wm.walletId = walletId;
-    wm.walletType = @"skycoin";
+    wm.walletId = skyWalletId;
+    wm.walletType = kCoinTypeSky;
     wm.pinCode = pinCode;
     wm.seed = seed;
     
-    [self addWalletLocally:wm];
+    WalletModel *samosWM = [WalletModel new];
+    samosWM.walletName = walletName;
+    samosWM.walletId = samosWalletId;
+    samosWM.walletType = kCoinTypeSamos;
+    samosWM.pinCode = pinCode;
+    samosWM.seed = seed;
+    
+    GeneralWalletModel *generalWM = [GeneralWalletModel new];
+    generalWM.walletId = samosWalletId;
+    generalWM.walletName = walletName;
+    generalWM.seed = seed;
+    generalWM.pinCode = pinCode;
+    generalWM.skycoinWalletModel = wm;
+    generalWM.samosWalletModel = samosWM;
+    
+    [self addWalletLocally:generalWM];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:kNewWalletCreatedNotification object:nil];
     
@@ -139,7 +155,7 @@ RCT_EXPORT_METHOD(refreshAddressList) {
   }
 }
 
-- (void)addWalletLocally:(WalletModel*)walletModel {
+- (void)addWalletLocally:(GeneralWalletModel*)generalWalletModel {
   NSArray *localWalletArray = [self getLocalWalletArray];
   NSMutableArray *mutableLocalWalletArray;
   
@@ -149,7 +165,7 @@ RCT_EXPORT_METHOD(refreshAddressList) {
     mutableLocalWalletArray = [[NSMutableArray alloc] init];
   }
   
-  [mutableLocalWalletArray addObject:walletModel];
+  [mutableLocalWalletArray addObject:generalWalletModel];
   
   NSData *data = [NSKeyedArchiver archivedDataWithRootObject:mutableLocalWalletArray];
   [[NSUserDefaults standardUserDefaults] setObject:data forKey:kLocalWalletArray];

@@ -15,8 +15,8 @@
 #define kPinCode @"kPinCode"
 
 #define kCoinTypeSky @"skycoin"
-#define kCoinTypeSpo @"spocoin"
 #define kCoinTypeSamos @"samos"
+//#define kCoinTypeSpo @"spocoin"
 
 #define kLastPinCodeFailureTime @"kLastPinCodeFailureTime"
 #define kLastSuccessfulSessionTime @"kLastSuccessfulSessionTime"
