@@ -18,4 +18,9 @@
 
 + (void)dismissPinInputViewControllerAnimated:(BOOL)animated;
 
+- (void)configViewControllersStack;
+
+- (void)resetToWelcomePage;
+- (void)resetToMainPage;
+
 @end

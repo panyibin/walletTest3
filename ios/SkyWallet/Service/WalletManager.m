@@ -37,6 +37,24 @@ RCT_REMAP_METHOD(getPinCode, getPinCodeWithResolver:(RCTPromiseResolveBlock)reso
   resolve(pinCode);
 }
 
+RCT_REMAP_METHOD(hasPinCode, hasPinCodeWithResolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
+  NSString *pinCode = [[NSUserDefaults standardUserDefaults] stringForKey:kPinCode];
+  if (pinCode && pinCode.length > 0) {
+    resolve(@(YES));
+  } else {
+    resolve(@(NO));
+  }
+}
+
+RCT_REMAP_METHOD(createPinCode, createPinCode:(NSString*)pinCode resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
+  if (pinCode && [pinCode isKindOfClass:[NSString class]] && pinCode.length > 0) {
+    [[NSUserDefaults standardUserDefaults] setObject:pinCode forKey:kPinCode];    
+    resolve(@(YES));
+  } else {
+    resolve(@(NO));
+  }
+}
+
 RCT_REMAP_METHOD(createNewWallet, createWallet:(NSString*)walletName seed:(NSString*)seed pinCode:(NSString*)pinCode resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
   BOOL success = [self createWallet:walletName seed:seed pinCode:pinCode];
   
@@ -236,6 +254,12 @@ RCT_EXPORT_METHOD(refreshAddressList) {
   WalletBalanceModel *wbm = [[WalletBalanceModel alloc] initWithDictionary:balanceDict];
   
   return wbm;
+}
+
+- (NSInteger)getWalletsCount {
+  NSInteger walletsCount = [self getLocalWalletArray].count;
+  
+  return walletsCount;
 }
 
 @end

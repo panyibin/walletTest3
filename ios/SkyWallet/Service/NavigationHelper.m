@@ -17,6 +17,11 @@
 #import <QRCodeReaderViewController/QRCodeReader.h>
 #import <QRCodeReaderViewController/QRCodeReaderViewController.h>
 
+#import "WelcomeViewController.h"
+#import "MainTabBarViewController.h"
+#import "SideMenuViewController.h"
+#import <LGSideMenuController/LGSideMenuController.h>
+
 @implementation NavigationHelper
 
 RCT_EXPORT_MODULE()
@@ -154,6 +159,34 @@ RCT_EXPORT_METHOD(popToRootViewControllerAnimated:(BOOL)animated) {
 
 + (void)dismissPinInputViewControllerAnimated:(BOOL)animated {
   [[PinInputViewController sharedInstance] dismissViewControllerAnimated:animated completion:nil];
+}
+
+- (void)configViewControllersStack {
+  if([WalletSharedManager getWalletsCount] == 0) {
+    [self resetToWelcomePage];
+  } else {
+    [self resetToMainPage];
+  }
+}
+
+//welcome page
+- (void)resetToWelcomePage {
+  WelcomeViewController *welcomeVC = [WelcomeViewController new];
+  [self rootNavigationController].viewControllers = @[welcomeVC];
+}
+
+//mainTabBar page
+- (void)resetToMainPage {
+  LGSideMenuController *sideMenuController = [LGSideMenuController new];
+  MainTabBarViewController *mainTabBarVC = [MainTabBarViewController new];
+  SideMenuViewController *sideMenuVC = [SideMenuViewController new];
+  
+  sideMenuController.rootViewController = mainTabBarVC;
+  sideMenuController.leftViewController = sideMenuVC;
+  sideMenuController.leftViewWidth = 300;
+  sideMenuController.leftViewPresentationStyle = LGSideMenuPresentationStyleSlideAbove;
+  
+  [self rootNavigationController].viewControllers = @[sideMenuController];
 }
 
 @end

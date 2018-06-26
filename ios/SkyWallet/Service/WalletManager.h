@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "WalletBalanceModel.h"
 
+#define WalletSharedManager [WalletManager sharedInstance]
+
 @interface WalletManager : NSObject<RCTBridgeModule>
 
 + (instancetype)sharedInstance;
@@ -16,6 +18,7 @@
 - (void)initWallet;
 - (NSArray*)getLocalWalletArray;
 - (void)addWalletLocally:(GeneralWalletModel*)walletModel;
+- (NSInteger)getWalletsCount;
 
 - (WalletBalanceModel*)getBalanceOfWallet:(NSString*)walletId coinType:(NSString*)coinType;
 - (WalletBalanceModel*)getBalanceOfAddress:(NSString*)address coinType:(NSString*)coinType;

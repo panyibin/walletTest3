@@ -28,18 +28,11 @@
   MainNavigationViewController *navigationVC = [[MainNavigationViewController alloc] init];
 //  MainViewController *mainVC = [[MainViewController alloc] initWithNibName:@"MainViewController" bundle:nil];
 //  navigationVC.viewControllers = @[mainVC];
-  LGSideMenuController *sideMenuController = [LGSideMenuController new];
-  MainTabBarViewController *mainTabBarVC = [MainTabBarViewController new];
-  SideMenuViewController *sideMenuVC = [SideMenuViewController new];
-  
-  sideMenuController.rootViewController = mainTabBarVC;
-  sideMenuController.leftViewController = sideMenuVC;
-  sideMenuController.leftViewWidth = 300;
-  sideMenuController.leftViewPresentationStyle = LGSideMenuPresentationStyleSlideAbove;
-  
-  navigationVC.viewControllers = @[sideMenuController];
+
   
   self.window.rootViewController = navigationVC;
+  
+  [[NavigationHelper sharedInstance] configViewControllersStack];
   
   [self.window makeKeyAndVisible];
   

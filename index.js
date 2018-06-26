@@ -8,6 +8,8 @@ import PayView from './js/pay';
 import AddressQRCodeView from './js/AddressQRCode';
 import WalletSeedView from './js/WalletSeedView';
 
+import WelcomeProcess from './js/Samos/WelcomeProcess';
+
 AppRegistry.registerComponent('WalletGenerator', () => WalletGenerator);
 AppRegistry.registerComponent('PinView', () => PinView);
 AppRegistry.registerComponent('Wallet', () => Wallet);
@@ -15,3 +17,5 @@ AppRegistry.registerComponent('WalletDetail', () => WalletDetail);
 AppRegistry.registerComponent('PayView', () => PayView);
 AppRegistry.registerComponent('AddressQRCodeView', () => AddressQRCodeView);
 AppRegistry.registerComponent('WalletSeedView', () => WalletSeedView);
+
+AppRegistry.registerComponent('WelcomeProcess', () => WelcomeProcess);
