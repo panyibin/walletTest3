@@ -1,17 +1,52 @@
 import React, { Component } from 'react';
 import {
+    NativeModules,
     View,
     Text,
     StyleSheet,
     TouchableOpacity,
     Alert,
-    Modal
+    Modal,
+    TextInput
 } from 'react-native';
+
+const { WalletManager } = NativeModules;
 
 export default class CreatePasswordView extends Component {
     static defaultProps = {
         modalVisible: 'false'
     };
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            pinCode: "",
+            pinCodeConfirm: ""
+        };
+    }
+
+    async tapCreate() {
+        var pinCode = this.state.pinCode;
+        var pinCodeConfirm = this.state.pinCodeConfirm;
+        if (pinCode.length != 6) {
+            Alert.alert("pin code must be 6 digits");
+        } else if (pinCode != pinCodeConfirm) {
+            Alert.alert("the pin codes you input aren't the same");
+        } else {
+            console.log('create wallet');
+            var success = await WalletManager.createPinCode(pinCode);
+
+            if (success) {
+                // Alert.alert('create wallet success');
+                if (typeof (this.props.onPressCreate) != 'undefined') {
+                    this.props.onPressCreate();
+                }
+
+            } else {
+                Alert.alert('fail to create pin code');
+            }
+        }
+    }
 
     render() {
         return (
@@ -19,25 +54,34 @@ export default class CreatePasswordView extends Component {
                 <View style={style.background}>
                     <View style={style.container}>
                         <Text>Enter password</Text>
+                        <TextInput onChangeText={
+                            text => {
+                                this.setState({ pinCode: text });
+                            }
+                        }
+                        ></TextInput>
+                        <Text>Confirm password</Text>
+                        <TextInput onChangeText={
+                            text => {
+                                this.setState({ pinCodeConfirm: text });
+                            }
+                        }></TextInput>
                         <TouchableOpacity onPress={
                             () => {
-                                Alert.alert('password not match');
+                                Alert.alert(this.state.pinCode);
                             }
                         }>
                             <Text>
-                                confirm password
+                                show password
                                 </Text>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={
                             () => {
-                                // Alert.alert('google');
-                                if(typeof(this.props.onPressCreate) != 'undefined') {
-                                    this.props.onPressCreate();
-                                }                                
+                                this.tapCreate();
                             }
                         }>
                             <Text>
-                                close
+                                create
                                 </Text>
                         </TouchableOpacity>
                     </View>
