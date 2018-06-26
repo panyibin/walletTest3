@@ -21,6 +21,7 @@
 #import "MainTabBarViewController.h"
 #import "SideMenuViewController.h"
 #import <LGSideMenuController/LGSideMenuController.h>
+#import "GeneralWalletGeneratorViewController.h"
 
 @implementation NavigationHelper
 
@@ -98,6 +99,14 @@ RCT_EXPORT_METHOD(showAddressQRCodeViewControllerWithAddress:(NSString*)address 
   });
 }
 
+RCT_EXPORT_METHOD(showGeneralWalletGeneratorViewControllerAnimated:(BOOL)animated) {
+  dispatch_async(dispatch_get_main_queue(), ^{
+    GeneralWalletGeneratorViewController *vc = [GeneralWalletGeneratorViewController new];
+    
+    [[self rootNavigationController] pushViewController:vc animated:animated];
+  });
+}
+
 RCT_EXPORT_METHOD(showQRReaderViewControllerAnimated:(BOOL)animated) {
   dispatch_async(dispatch_get_main_queue(), ^{
     QRCodeReader *reader = [QRCodeReader readerWithMetadataObjectTypes:@[AVMetadataObjectTypeQRCode]];
@@ -162,7 +171,8 @@ RCT_EXPORT_METHOD(popToRootViewControllerAnimated:(BOOL)animated) {
 }
 
 - (void)configViewControllersStack {
-  if([WalletSharedManager getWalletsCount] == 0) {
+  NSInteger walletCount = [WalletSharedManager getWalletsCount];
+  if(walletCount == 0) {
     [self resetToWelcomePage];
   } else {
     [self resetToMainPage];
@@ -175,7 +185,6 @@ RCT_EXPORT_METHOD(popToRootViewControllerAnimated:(BOOL)animated) {
   [self rootNavigationController].viewControllers = @[welcomeVC];
 }
 
-//mainTabBar page
 - (void)resetToMainPage {
   LGSideMenuController *sideMenuController = [LGSideMenuController new];
   MainTabBarViewController *mainTabBarVC = [MainTabBarViewController new];
@@ -187,6 +196,13 @@ RCT_EXPORT_METHOD(popToRootViewControllerAnimated:(BOOL)animated) {
   sideMenuController.leftViewPresentationStyle = LGSideMenuPresentationStyleSlideAbove;
   
   [self rootNavigationController].viewControllers = @[sideMenuController];
+}
+
+//mainTabBar page
+RCT_EXPORT_METHOD(rn_resetToMainPage) {
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [self resetToMainPage];
+  });
 }
 
 @end

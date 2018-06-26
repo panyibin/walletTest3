@@ -3,24 +3,24 @@ import {
     NativeModules,
     View,
     Text,
+    TextInput,
     StyleSheet,
     TouchableOpacity,
     Alert
 } from 'react-native';
-import CreatePasswordView from './CreatePasswordView'
 
 const { WalletManager } = NativeModules;
 
-export default class WelcomeView extends Component {
+export default class NameWalletView extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            passwordViewVisible: false
+            walletName: "google"
         };
     }
 
     componentDidMount() {
-        this.showPasswordViewIfNeeded();
+        // this.showPasswordViewIfNeeded();
     }
 
     async showPasswordViewIfNeeded() {
@@ -31,27 +31,24 @@ export default class WelcomeView extends Component {
     }
 
     render() {
-        const {navigation} = this.props;
+        const { navigation } = this.props;
         return (
             <View style={style.container}>
-                <CreatePasswordView modalVisible={this.state.passwordViewVisible}
-                    onPressCreate={
-                        () => {
-                            this.setState({ passwordViewVisible: false });
-                        }
-                    }
-                ></CreatePasswordView>
                 <Text>
-                    Welcome Page
+                    Name Wallet
                 </Text>
+                <TextInput onChangeText={
+                    text=>{
+                        this.setState({walletName:text});
+                    }
+                }></TextInput>
                 <TouchableOpacity onPress={
                     () => {
-                        // Alert.alert('New wallet');
-                        navigation.navigate('NameWalletView');
+                        navigation.navigate('SeedView',{walletName:this.state.walletName});
                     }
                 }>
                     <Text>
-                        New Wallet
+                        next
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={
@@ -60,7 +57,7 @@ export default class WelcomeView extends Component {
                     }
                 }>
                     <Text>
-                        Import Wallet
+
                     </Text>
                 </TouchableOpacity>
             </View>

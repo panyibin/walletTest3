@@ -48,7 +48,7 @@ RCT_REMAP_METHOD(hasPinCode, hasPinCodeWithResolver:(RCTPromiseResolveBlock)reso
 
 RCT_REMAP_METHOD(createPinCode, createPinCode:(NSString*)pinCode resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
   if (pinCode && [pinCode isKindOfClass:[NSString class]] && pinCode.length > 0) {
-    [[NSUserDefaults standardUserDefaults] setObject:pinCode forKey:kPinCode];    
+    [[NSUserDefaults standardUserDefaults] setObject:pinCode forKey:kPinCode];
     resolve(@(YES));
   } else {
     resolve(@(NO));
@@ -60,6 +60,13 @@ RCT_REMAP_METHOD(createNewWallet, createWallet:(NSString*)walletName seed:(NSStr
   
   resolve(@(success));
 }
+
+//RCT_REMAP_METHOD(createNewWallet, createWallet:(NSString*)walletName seed:(NSString*)seed resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
+//  NSString *pinCode = [[NSUserDefaults standardUserDefaults] stringForKey:kPinCode];
+//  BOOL success = [self createWallet:walletName seed:seed pinCode:pinCode];
+//  
+//  resolve(@(success));
+//}
 
 - (BOOL)createWallet:(NSString*)walletName seed:(NSString*)seed pinCode:(NSString*)pinCode {
   if(!walletName || !seed || !pinCode) {

@@ -9,6 +9,8 @@ import AddressQRCodeView from './js/AddressQRCode';
 import WalletSeedView from './js/WalletSeedView';
 
 import WelcomeProcess from './js/Samos/WelcomeProcess';
+import SideMenuView from './js/Samos/SideMenuView';
+import CreateWalletProcess from './js/Samos/CreateWalletProcess';
 
 AppRegistry.registerComponent('WalletGenerator', () => WalletGenerator);
 AppRegistry.registerComponent('PinView', () => PinView);
@@ -19,3 +21,5 @@ AppRegistry.registerComponent('AddressQRCodeView', () => AddressQRCodeView);
 AppRegistry.registerComponent('WalletSeedView', () => WalletSeedView);
 
 AppRegistry.registerComponent('WelcomeProcess', () => WelcomeProcess);
+AppRegistry.registerComponent('SideMenuView', () => SideMenuView);
+AppRegistry.registerComponent('CreateWalletProcess', () => CreateWalletProcess);

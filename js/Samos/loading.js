@@ -6,7 +6,7 @@ import {
     Modal
 } from 'react-native';
 
-export class LoadingView extends Component {
+export default class LoadingView extends Component {
     static defaultProps = {
         loading: false
     };

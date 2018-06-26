@@ -7,11 +7,10 @@ import {
     TouchableOpacity,
     Alert
 } from 'react-native';
-import CreatePasswordView from './CreatePasswordView'
 
-const { WalletManager } = NativeModules;
+const { WalletManager, NavigationHelper } = NativeModules;
 
-export default class WelcomeView extends Component {
+export default class SideMenuView extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -20,7 +19,7 @@ export default class WelcomeView extends Component {
     }
 
     componentDidMount() {
-        this.showPasswordViewIfNeeded();
+        // this.showPasswordViewIfNeeded();
     }
 
     async showPasswordViewIfNeeded() {
@@ -34,20 +33,14 @@ export default class WelcomeView extends Component {
         const {navigation} = this.props;
         return (
             <View style={style.container}>
-                <CreatePasswordView modalVisible={this.state.passwordViewVisible}
-                    onPressCreate={
-                        () => {
-                            this.setState({ passwordViewVisible: false });
-                        }
-                    }
-                ></CreatePasswordView>
                 <Text>
-                    Welcome Page
+                    Side Menu
                 </Text>
                 <TouchableOpacity onPress={
                     () => {
                         // Alert.alert('New wallet');
-                        navigation.navigate('NameWalletView');
+                        // navigation.navigate('NameWalletView');
+                        NavigationHelper.showGeneralWalletGeneratorViewControllerAnimated(true);
                     }
                 }>
                     <Text>
