@@ -13,6 +13,7 @@
 
 #define kLocalWalletArray @"kLocalWalletArray"
 #define kPinCode @"kPinCode"
+#define kCurrentWalletId @"kCurrentWalletId"
 
 #define kCoinTypeSky @"skycoin"
 #define kCoinTypeSamos @"samos"
@@ -33,8 +34,10 @@
 
 //cooperate with RN Notification
 #define kStopLoadingAnimationNotification @"kStopLoadingAnimationNotification"
+#define kCurrentWalletDidChangedNotification @"kCurrentWalletDidChangedNotification"
 
 //RN Notification
 #define kRNStopLoadingAnimationNotification @"kRNStopLoadingAnimationNotification"
+#define kRNCurrentWalletDidChangedNotification @"kRNCurrentWalletDidChangedNotification"
 
 #endif /* Constants_h */

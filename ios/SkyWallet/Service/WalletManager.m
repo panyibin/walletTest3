@@ -85,12 +85,12 @@ RCT_REMAP_METHOD(createNewWallet, createWallet:(NSString*)walletName seed:(NSStr
   NSString *samosWalletId = MobileNewWallet(kCoinTypeSamos, walletName, seed, password, &error);
   
   if(!error) {
-    WalletModel *wm = [[WalletModel alloc] init];
-    wm.walletName = walletName;
-    wm.walletId = skyWalletId;
-    wm.walletType = kCoinTypeSky;
-    wm.pinCode = pinCode;
-    wm.seed = seed;
+    WalletModel *skyWM = [[WalletModel alloc] init];
+    skyWM.walletName = walletName;
+    skyWM.walletId = skyWalletId;
+    skyWM.walletType = kCoinTypeSky;
+    skyWM.pinCode = pinCode;
+    skyWM.seed = seed;
     
     WalletModel *samosWM = [WalletModel new];
     samosWM.walletName = walletName;
@@ -104,16 +104,45 @@ RCT_REMAP_METHOD(createNewWallet, createWallet:(NSString*)walletName seed:(NSStr
     generalWM.walletName = walletName;
     generalWM.seed = seed;
     generalWM.pinCode = pinCode;
-    generalWM.skycoinWalletModel = wm;
-    generalWM.samosWalletModel = samosWM;
+    
+    generalWM.subWalletArray = [NSMutableArray arrayWithObjects:samosWM, skyWM, nil];
+    
+//    generalWM.skycoinWalletModel = wm;
+//    generalWM.samosWalletModel = samosWM;
     
     [self addWalletLocally:generalWM];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:kNewWalletCreatedNotification object:nil];
     
+    [[NSUserDefaults standardUserDefaults] setObject:generalWM.walletId ? : @"" forKey:kCurrentWalletId];
+    
     return YES;
   } else {
     return NO;
+  }
+}
+
+RCT_REMAP_METHOD(getCurrentWalletDict, getCurrentWalletDictWithResolver:(RCTPromiseResolveBlock)resolve rejector:(RCTPromiseRejectBlock)reject) {
+  GeneralWalletModel *currentWalletModel = [self getCurrentWalletModel];
+  NSDictionary *currentWalletModelDict = [currentWalletModel convertToDictionary];
+  
+  resolve(currentWalletModelDict);
+}
+
+- (GeneralWalletModel*)getCurrentWalletModel {
+  NSString *currentWalletId = [[NSUserDefaults standardUserDefaults] stringForKey:kCurrentWalletId];
+  
+  if (currentWalletId && currentWalletId.length > 0) {
+    NSArray *localWalletArray = [self getLocalWalletArray];
+    for (GeneralWalletModel *wm in localWalletArray) {
+      if ([wm.walletId isEqualToString:currentWalletId]) {
+        return wm;
+      }
+    }
+    
+    return nil;
+  } else {
+    return nil;
   }
 }
 
@@ -177,6 +206,24 @@ RCT_EXPORT_METHOD(refreshAddressList) {
     return walletArray;
   } else {
     return nil;
+  }
+}
+
+RCT_REMAP_METHOD(getLocalWalletDictArray, getLocalWalletDictArrayWithResolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
+  NSArray *localWalletArray = [self getLocalWalletArray];
+  NSMutableArray *localWalletDictArray = [NSMutableArray new];
+  for (GeneralWalletModel *wm in localWalletArray) {
+    NSDictionary *wmDict = [wm convertToDictionary];
+    [localWalletDictArray addObject:wmDict];
+  }
+  
+  resolve(localWalletDictArray);
+}
+
+RCT_EXPORT_METHOD(resetCurrentWalletId:(NSString*)currentWalletId) {
+  if(currentWalletId && currentWalletId.length > 0) {
+    [[NSUserDefaults standardUserDefaults] setObject:currentWalletId forKey:kCurrentWalletId];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kCurrentWalletDidChangedNotification object:nil];
   }
 }
 
@@ -276,12 +323,13 @@ RCT_EXPORT_METHOD(refreshAddressList) {
 RCT_EXPORT_MODULE()
 
 - (NSArray<NSString *> *)supportedEvents {
-  return @[kRNStopLoadingAnimationNotification];
+  return @[kRNStopLoadingAnimationNotification, kRNCurrentWalletDidChangedNotification];
 }
 
 - (NSDictionary *)constantsToExport {
   return @{
-           @"stopLoadingAnimationNotification":kRNStopLoadingAnimationNotification
+           @"stopLoadingAnimationNotification":kRNStopLoadingAnimationNotification,
+           @"currentWalletDidChangedNotification":kRNCurrentWalletDidChangedNotification
            };
 }
 
@@ -289,6 +337,7 @@ RCT_EXPORT_MODULE()
   self = [super init];
   if (self) {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveStopLoadingAnimationNotification:) name:kStopLoadingAnimationNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveCurrentWalletChangedNotification:) name:kCurrentWalletDidChangedNotification object:nil];
   }
   
   return self;
@@ -297,6 +346,10 @@ RCT_EXPORT_MODULE()
 //notification sent to js
 - (void)didReceiveStopLoadingAnimationNotification:(NSNotification*)notification {
     [self sendEventWithName:kRNStopLoadingAnimationNotification body:nil];
+}
+
+- (void)didReceiveCurrentWalletChangedNotification:(NSNotification*)notification {
+  [self sendEventWithName:kRNCurrentWalletDidChangedNotification body:nil];
 }
 
 @end

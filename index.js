@@ -11,6 +11,10 @@ import WalletSeedView from './js/WalletSeedView';
 import WelcomeProcess from './js/Samos/WelcomeProcess';
 import SideMenuView from './js/Samos/SideMenuView';
 import CreateWalletProcess from './js/Samos/CreateWalletProcess';
+import GeneralWalletView from './js/Samos/GeneralWalletView';
+import MeView from './js/Samos/MeView';
+import GeneralWalletManagerProcess from './js/Samos/GeneralWalletManagerProcess';
+import SubWalletProcess from './js/Samos/SubWalletProcess';
 
 AppRegistry.registerComponent('WalletGenerator', () => WalletGenerator);
 AppRegistry.registerComponent('PinView', () => PinView);
@@ -23,3 +27,7 @@ AppRegistry.registerComponent('WalletSeedView', () => WalletSeedView);
 AppRegistry.registerComponent('WelcomeProcess', () => WelcomeProcess);
 AppRegistry.registerComponent('SideMenuView', () => SideMenuView);
 AppRegistry.registerComponent('CreateWalletProcess', () => CreateWalletProcess);
+AppRegistry.registerComponent('GeneralWalletView', () => GeneralWalletView);
+AppRegistry.registerComponent('MeView', () => MeView);
+AppRegistry.registerComponent('GeneralWalletManagerProcess', () => GeneralWalletManagerProcess);
+AppRegistry.registerComponent('SubWalletProcess', () => SubWalletProcess);

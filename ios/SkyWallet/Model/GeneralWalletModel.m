@@ -17,8 +17,9 @@
     _walletId = [aDecoder decodeObjectForKey:@"walletId"];
     _pinCode = [aDecoder decodeObjectForKey:@"pinCode"];
     _seed = [aDecoder decodeObjectForKey:@"seed"];
-    _skycoinWalletModel = [aDecoder decodeObjectForKey:@"skycoinWalletModel"];
-    _samosWalletModel = [aDecoder decodeObjectForKey:@"samosWalletModel"];
+    _subWalletArray = [aDecoder decodeObjectForKey:@"subWalletArray"];
+//    _skycoinWalletModel = [aDecoder decodeObjectForKey:@"skycoinWalletModel"];
+//    _samosWalletModel = [aDecoder decodeObjectForKey:@"samosWalletModel"];
   }
   
   return self;
@@ -29,8 +30,9 @@
   [aCoder encodeObject:_walletId forKey:@"walletId"];
   [aCoder encodeObject:_pinCode forKey:@"pinCode"];
   [aCoder encodeObject:_seed forKey:@"seed"];
-  [aCoder encodeObject:_skycoinWalletModel forKey:@"skycoinWalletModel"];
-  [aCoder encodeObject:_samosWalletModel forKey:@"samosWalletModel"];
+  [aCoder encodeObject:_subWalletArray forKey:@"subWalletArray"];
+//  [aCoder encodeObject:_skycoinWalletModel forKey:@"skycoinWalletModel"];
+//  [aCoder encodeObject:_samosWalletModel forKey:@"samosWalletModel"];
 }
 
 - (NSDictionary*)convertToDictionary {
@@ -40,11 +42,18 @@
   [dict setObject:self.pinCode forKey:@"pinCode"];
   [dict setObject:self.seed forKey:@"seed"];
   
-  NSDictionary *skycoinDict = [self.skycoinWalletModel convertToDictionary];
-  NSDictionary *samosDict = [self.samosWalletModel convertToDictionary];
+  NSMutableArray *subWalletDictArray = [NSMutableArray new];
+  for (WalletModel *wm in self.subWalletArray) {
+    NSDictionary *wmDict = [wm convertToDictionary];
+    [subWalletDictArray addObject:wmDict];
+  }
   
-  [dict setObject:skycoinDict forKey:@"skycoinWalletModel"];
-  [dict setObject:samosDict forKey:@"samosWalletModel"];
+  [dict setObject:subWalletDictArray forKey:@"subWalletArray"];
+//  NSDictionary *skycoinDict = [self.skycoinWalletModel convertToDictionary];
+//  NSDictionary *samosDict = [self.samosWalletModel convertToDictionary];
+//  
+//  [dict setObject:skycoinDict forKey:@"skycoinWalletModel"];
+//  [dict setObject:samosDict forKey:@"samosWalletModel"];
   
   return dict;
 }

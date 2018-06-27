@@ -21,7 +21,10 @@
 #import "MainTabBarViewController.h"
 #import "SideMenuViewController.h"
 #import <LGSideMenuController/LGSideMenuController.h>
+#import <LGSideMenuController/UIViewController+LGSideMenuController.h>
 #import "GeneralWalletGeneratorViewController.h"
+#import "GeneralWalletManagerViewController.h"
+#import "SubWalletViewController.h"
 
 @implementation NavigationHelper
 
@@ -99,6 +102,7 @@ RCT_EXPORT_METHOD(showAddressQRCodeViewControllerWithAddress:(NSString*)address 
   });
 }
 
+//samos start
 RCT_EXPORT_METHOD(showGeneralWalletGeneratorViewControllerAnimated:(BOOL)animated) {
   dispatch_async(dispatch_get_main_queue(), ^{
     GeneralWalletGeneratorViewController *vc = [GeneralWalletGeneratorViewController new];
@@ -106,6 +110,24 @@ RCT_EXPORT_METHOD(showGeneralWalletGeneratorViewControllerAnimated:(BOOL)animate
     [[self rootNavigationController] pushViewController:vc animated:animated];
   });
 }
+
+RCT_EXPORT_METHOD(showGeneralWalletManagerViewControllerAnimated:(BOOL)animated) {
+  dispatch_async(dispatch_get_main_queue(), ^{
+    GeneralWalletManagerViewController *vc = [GeneralWalletManagerViewController new];
+    
+    [[self rootNavigationController] pushViewController:vc animated:animated];
+  });
+}
+
+RCT_EXPORT_METHOD(showSubWalletViewControllerAnimated:(BOOL)animated) {
+  dispatch_async(dispatch_get_main_queue(), ^{
+    SubWalletViewController *vc = [SubWalletViewController new];
+    
+    [[self rootNavigationController] pushViewController:vc animated:animated];
+  });
+}
+
+//samos end
 
 RCT_EXPORT_METHOD(showQRReaderViewControllerAnimated:(BOOL)animated) {
   dispatch_async(dispatch_get_main_queue(), ^{
@@ -202,6 +224,24 @@ RCT_EXPORT_METHOD(popToRootViewControllerAnimated:(BOOL)animated) {
 RCT_EXPORT_METHOD(rn_resetToMainPage) {
   dispatch_async(dispatch_get_main_queue(), ^{
     [self resetToMainPage];
+  });
+}
+
+RCT_EXPORT_METHOD(rn_showSideMenu) {
+  dispatch_async(dispatch_get_main_queue(), ^{
+    LGSideMenuController *sideMenuController = [self rootNavigationController].viewControllers.firstObject;
+    if ([sideMenuController isKindOfClass:[LGSideMenuController class]]) {
+      [sideMenuController showLeftViewAnimated:nil];
+    }
+  });
+}
+
+RCT_EXPORT_METHOD(rn_hideSideMenu) {
+  dispatch_async(dispatch_get_main_queue(), ^{
+    LGSideMenuController *sideMenuController = [self rootNavigationController].viewControllers.firstObject;
+    if ([sideMenuController isKindOfClass:[LGSideMenuController class]]) {
+      [sideMenuController hideLeftViewAnimated:nil];
+    }
   });
 }
 

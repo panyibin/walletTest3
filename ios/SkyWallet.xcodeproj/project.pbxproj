@@ -43,7 +43,7 @@
 		DF7283F620DFDDC10044647F /* GeneralWalletViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DF7283F520DFDDC10044647F /* GeneralWalletViewController.m */; };
 		DF7283FA20DFDDEE0044647F /* MeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DF7283F920DFDDEE0044647F /* MeViewController.m */; };
 		DF7283FE20DFDE050044647F /* SideMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DF7283FD20DFDE050044647F /* SideMenuViewController.m */; };
-		DF72840520DFE20D0044647F /* WalletViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DF72840420DFE20D0044647F /* WalletViewController.m */; };
+		DF72840520DFE20D0044647F /* SubWalletViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DF72840420DFE20D0044647F /* SubWalletViewController.m */; };
 		DF72840920DFE2720044647F /* GeneralWalletGeneratorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DF72840820DFE2720044647F /* GeneralWalletGeneratorViewController.m */; };
 		DF72840D20DFE2E40044647F /* SeedGeneratorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DF72840C20DFE2E40044647F /* SeedGeneratorViewController.m */; };
 		DF72841020DFE2FB0044647F /* SeedConfirmViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DF72840F20DFE2FB0044647F /* SeedConfirmViewController.m */; };
@@ -397,8 +397,8 @@
 		DF7283F920DFDDEE0044647F /* MeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeViewController.m; sourceTree = "<group>"; };
 		DF7283FC20DFDE050044647F /* SideMenuViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SideMenuViewController.h; sourceTree = "<group>"; };
 		DF7283FD20DFDE050044647F /* SideMenuViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SideMenuViewController.m; sourceTree = "<group>"; };
-		DF72840320DFE20D0044647F /* WalletViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WalletViewController.h; sourceTree = "<group>"; };
-		DF72840420DFE20D0044647F /* WalletViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WalletViewController.m; sourceTree = "<group>"; };
+		DF72840320DFE20D0044647F /* SubWalletViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SubWalletViewController.h; sourceTree = "<group>"; };
+		DF72840420DFE20D0044647F /* SubWalletViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SubWalletViewController.m; sourceTree = "<group>"; };
 		DF72840720DFE2720044647F /* GeneralWalletGeneratorViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeneralWalletGeneratorViewController.h; sourceTree = "<group>"; };
 		DF72840820DFE2720044647F /* GeneralWalletGeneratorViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GeneralWalletGeneratorViewController.m; sourceTree = "<group>"; };
 		DF72840B20DFE2E40044647F /* SeedGeneratorViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SeedGeneratorViewController.h; sourceTree = "<group>"; };
@@ -754,13 +754,13 @@
 			path = "PinCode-N";
 			sourceTree = "<group>";
 		};
-		DF3E2070206BF1B20057E950 /* WalletDetail */ = {
+		DF3E2070206BF1B20057E950 /* WalletDetail-N */ = {
 			isa = PBXGroup;
 			children = (
 				DF6DB488205DF90200A9A0D9 /* WalletDetailViewController.h */,
 				DF6DB489205DF90200A9A0D9 /* WalletDetailViewController.m */,
 			);
-			path = WalletDetail;
+			path = "WalletDetail-N";
 			sourceTree = "<group>";
 		};
 		DF3E2071206BF1FB0057E950 /* Wallet-N */ = {
@@ -825,8 +825,8 @@
 		DF72840220DFE1310044647F /* Wallet */ = {
 			isa = PBXGroup;
 			children = (
-				DF72840320DFE20D0044647F /* WalletViewController.h */,
-				DF72840420DFE20D0044647F /* WalletViewController.m */,
+				DF72840320DFE20D0044647F /* SubWalletViewController.h */,
+				DF72840420DFE20D0044647F /* SubWalletViewController.m */,
 			);
 			path = Wallet;
 			sourceTree = "<group>";
@@ -883,6 +883,7 @@
 			children = (
 				DFA33D1E2059849F00116E38 /* BalanceViewController.h */,
 				DFA33D1F2059849F00116E38 /* BalanceViewController.m */,
+				DF3E2070206BF1B20057E950 /* WalletDetail-N */,
 				DF3E206C206BF1040057E950 /* WalletSeedPage-N */,
 				DF3E206D206BF1350057E950 /* PayCoin-N */,
 				DF3E206E206BF1730057E950 /* WalletGenerator-N */,
@@ -905,7 +906,6 @@
 				DF72841120DFE3150044647F /* GeneralWalletManager */,
 				DF72840A20DFE2C70044647F /* SeedGenerator */,
 				DF72840620DFE25D0044647F /* GeneralWalletGenerator */,
-				DF3E2070206BF1B20057E950 /* WalletDetail */,
 				DF3E2046206BF04D0057E950 /* AddressQRCode */,
 				DF72841D20DFF8390044647F /* OldVersion */,
 			);
@@ -1503,7 +1503,7 @@
 				DFD9A520205CC14D002A256F /* NavigationHelper.m in Sources */,
 				DFA33CE5205983F200116E38 /* MainTabBarViewController.m in Sources */,
 				DFA33D202059849F00116E38 /* BalanceViewController.m in Sources */,
-				DF72840520DFE20D0044647F /* WalletViewController.m in Sources */,
+				DF72840520DFE20D0044647F /* SubWalletViewController.m in Sources */,
 				DF72841C20DFE3980044647F /* SendCoinViewController.m in Sources */,
 				DF6DB4B5205E376B00A9A0D9 /* PayCoinViewController.m in Sources */,
 				DFD9A515205ACFC3002A256F /* WalletModel.m in Sources */,

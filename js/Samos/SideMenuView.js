@@ -5,8 +5,11 @@ import {
     Text,
     StyleSheet,
     TouchableOpacity,
-    Alert
+    Alert,
+    Image,
+    FlatList
 } from 'react-native';
+import Wallet from '../Wallet';
 
 const { WalletManager, NavigationHelper } = NativeModules;
 
@@ -14,12 +17,18 @@ export default class SideMenuView extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            passwordViewVisible: false
+            walletArray: []
         };
     }
 
     componentDidMount() {
         // this.showPasswordViewIfNeeded();
+        this.getLocalWalletArray();
+    }
+
+    async getLocalWalletArray() {
+        var localWalletArray = await WalletManager.getLocalWalletDictArray();
+        this.setState({ walletArray: localWalletArray });
     }
 
     async showPasswordViewIfNeeded() {
@@ -30,12 +39,10 @@ export default class SideMenuView extends Component {
     }
 
     render() {
-        const {navigation} = this.props;
+        const { navigation } = this.props;
         return (
             <View style={style.container}>
-                <Text>
-                    Side Menu
-                </Text>
+                <View style={style.topSpace} />
                 <TouchableOpacity onPress={
                     () => {
                         // Alert.alert('New wallet');
@@ -43,19 +50,58 @@ export default class SideMenuView extends Component {
                         NavigationHelper.showGeneralWalletGeneratorViewControllerAnimated(true);
                     }
                 }>
-                    <Text>
-                        New Wallet
-                    </Text>
+                    <View>
+                        <View style={style.item}>
+                            <Image source={require('./images/侧导航-添加钱包.png')} style={style.itemImage}></Image>
+                            <Text style={style.itemText}>
+                                Create Wallet
+                        </Text>
+                        </View>
+                        <View style={style.itemSeperator} />
+                    </View>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={
                     () => {
-                        Alert.alert('Import wallet');
+                        NavigationHelper.showGeneralWalletManagerViewControllerAnimated(true);
                     }
                 }>
-                    <Text>
-                        Import Wallet
-                    </Text>
+                    <View>
+                        <View style={style.item}>
+                            <Image source={require('./images/侧导航-管理钱包.png')} style={style.itemImage}></Image>
+                            <Text style={style.itemText}>
+                                Manage Wallet
+                        </Text>
+                        </View>
+                        <View style={style.itemSeperator} />
+                    </View>
                 </TouchableOpacity>
+                <View style={style.walletListTopSpace} />
+                <FlatList
+                    data={this.state.walletArray}
+                    renderItem={
+                        ({ item }) => {
+                            return (
+                                <TouchableOpacity onPress={
+                                    () => {
+                                        // Alert.alert(item.walletId);
+                                        NavigationHelper.rn_hideSideMenu();
+                                        WalletManager.resetCurrentWalletId(item.walletId);
+                                    }
+                                }>
+                                    <View style={style.walletItem}>
+                                        <Image
+                                            source={require('./images/侧导航-钱包.png')}
+                                            style={style.walletImage}
+                                        />
+                                        <Text style={style.walletName}>{item.walletName}</Text>
+                                    </View>
+                                </TouchableOpacity>
+                            );
+                        }
+                    }
+
+                    keyExtractor={item => item.walletId}
+                />
             </View>
         );
     }
@@ -65,8 +111,50 @@ const style = StyleSheet.create(
     {
         container: {
             flex: 1,
-            justifyContent: 'center',
-            backgroundColor: 'red'
+            justifyContent: 'flex-start',
+            backgroundColor: 'white'
+        },
+        topSpace: {
+            marginTop: 50
+        },
+        item: {
+            marginTop: 20,
+            flexDirection: 'row',
+            alignItems: 'center'
+        },
+        itemImage: {
+            marginLeft: 30,
+            width: 30,
+            height: 30
+        },
+        itemText: {
+            marginLeft: 20
+        },
+        itemSeperator: {
+            marginTop: 10,
+            marginLeft: 30,
+            marginRight: 50,
+            height: 0.5,
+            backgroundColor: 'black',
+        },
+        //walletList
+        walletListTopSpace: {
+            marginTop: 30
+        },
+        walletItem: {
+            flexDirection: 'row',
+            marginTop: 15,
+            alignItems: 'center'
+        },
+        walletImage: {
+            marginLeft: 30,
+            width: 35,
+            height: 35
+        },
+        walletName: {
+            marginLeft: 20,
+            fontSize: 15,
+            // backgroundColor:'red'
         }
     }
 );
