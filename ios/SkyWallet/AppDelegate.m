@@ -59,19 +59,19 @@
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
-  NSString *pinCode = [[NSUserDefaults standardUserDefaults] stringForKey:kPinCode];
-  
-  if (pinCode) {
-    NSTimeInterval spaceTimeToInputPinCode = 0;
-    
-    NSTimeInterval lastTime = [[NSUserDefaults standardUserDefaults] doubleForKey:kLastSuccessfulSessionTime];
-    NSTimeInterval currentTime = [[NSDate date] timeIntervalSince1970];
-    
-    if (currentTime - lastTime > spaceTimeToInputPinCode) {
-      [NavigationHelper dismissPinInputViewControllerAnimated:NO];
-      [NavigationHelper presentPinInputViewControllerWithCloseButton:NO animated:NO pinCodeVerifiedBlock:nil];
-    }
-  }
+//  NSString *pinCode = [[NSUserDefaults standardUserDefaults] stringForKey:kPinCode];
+//  
+//  if (pinCode) {
+//    NSTimeInterval spaceTimeToInputPinCode = 0;
+//    
+//    NSTimeInterval lastTime = [[NSUserDefaults standardUserDefaults] doubleForKey:kLastSuccessfulSessionTime];
+//    NSTimeInterval currentTime = [[NSDate date] timeIntervalSince1970];
+//    
+//    if (currentTime - lastTime > spaceTimeToInputPinCode) {
+//      [NavigationHelper dismissPinInputViewControllerAnimated:NO];
+//      [NavigationHelper presentPinInputViewControllerWithCloseButton:NO animated:NO pinCodeVerifiedBlock:nil];
+//    }
+//  }
 }
 
 @end

@@ -154,7 +154,7 @@ export default class GeneralWalletView extends Component<Props> {
                             />
                         }
                     >
-                        <FlatList                            
+                        <FlatList
                             data={this.state.subWalletArray}
                             renderItem={
                                 ({ item }) => {
@@ -183,12 +183,14 @@ export default class GeneralWalletView extends Component<Props> {
                                             }
                                             >
                                                 <View style={style.subWalletItem}>
-                                                    <Image source={walletIcon} style={style.subWalletImage} />
-                                                    <View>
-                                                        <Text style={style.subWalletTitle}>{walletTypeName}</Text>
-                                                        <Text style={style.subWalletRate}>
-                                                            {walletRate}
-                                                        </Text>
+                                                    <View style={style.subWalletImageAndTitleContainer}>
+                                                        <Image source={walletIcon} style={style.subWalletImage} />
+                                                        <View>
+                                                            <Text style={style.subWalletTitle}>{walletTypeName}</Text>
+                                                            <Text style={style.subWalletRate}>
+                                                                {walletRate}
+                                                            </Text>
+                                                        </View>
                                                     </View>
                                                     <View>
                                                         <Text style={style.subWalletBalance}>{walletBalance}</Text>
@@ -198,7 +200,7 @@ export default class GeneralWalletView extends Component<Props> {
                                                     </View>
                                                 </View>
                                             </TouchableOpacity>
-                                            <View style={style.subWalletSeperator}/>
+                                            <View style={style.subWalletSeperator} />
                                         </View>
                                     );
                                 }
@@ -246,27 +248,27 @@ const style = StyleSheet.create(
             fontSize: 17,
             marginTop: 17,
             textAlign: 'center',
-            color:'#efeeda',
-            fontWeight:'bold'
+            color: '#efeeda',
+            fontWeight: 'bold'
         },
         generalWalletImageContainer: {
             alignItems: 'center'
         },
         generalWalletImage: {
-            marginTop:20,
+            marginTop: 20,
             width: 100,
             height: 82
         },
         totalBalance: {
-            color:'#efeeda',
-            fontSize:25,
-            marginTop:20
+            color: '#efeeda',
+            fontSize: 25,
+            marginTop: 20
         },
         totalAssets: {
-            color:'#efeeda',
-            fontSize:12,
-            marginTop:32,
-            marginBottom:30
+            color: '#efeeda',
+            fontSize: 12,
+            marginTop: 32,
+            marginBottom: 30
         },
         //scrollView
         scrollView: {
@@ -279,47 +281,51 @@ const style = StyleSheet.create(
             justifyContent: 'space-between',
             // height: 50
         },
+        subWalletImageAndTitleContainer:{
+            flexDirection:'row',
+            marginLeft: 25,
+        },
         subWalletImage: {
             width: 47,
             height: 47,
-            marginLeft: 25,
-            marginTop:15,
-            marginBottom:8
+            // marginLeft: 25,
+            marginTop: 15,
+            marginBottom: 8
         },
         subWalletTitle: {
-            marginTop:18,
-            marginLeft:-120,
-            fontSize:17,
-            color:'#414042'
+            marginTop: 18,
+            marginLeft: 20,
+            fontSize: 17,
+            color: '#414042'
             // width: 100,
             // backgroundColor: 'blue'
         },
         subWalletRate: {
-            marginLeft:-120,
-            marginTop:6,
-            fontSize:12,
-            color:'#aaaaaa',
-            
+            marginLeft: 20,
+            marginTop: 6,
+            fontSize: 12,
+            color: '#aaaaaa',
+
             // width: 100,
             // backgroundColor: 'blue'
         },
         subWalletBalance: {
-            marginTop:18,
-            marginRight:25,
-            fontSize:17,            
-            color:'#414042'
+            marginTop: 18,
+            marginRight: 25,
+            fontSize: 17,
+            color: '#414042'
         },
         subWalletBalanceUSD: {
-            marginTop:6,
-            marginRight:25,
-            fontSize:12,
-            color:'#aaaaaa',
+            marginTop: 6,
+            marginRight: 25,
+            fontSize: 12,
+            color: '#aaaaaa',
         },
-        subWalletSeperator:{
-            marginLeft:20,
-            marginRight:20,
-            height:0.5,
-            backgroundColor:'black'
+        subWalletSeperator: {
+            marginLeft: 20,
+            marginRight: 20,
+            height: 0.5,
+            backgroundColor: 'black'
         }
     }
 );
