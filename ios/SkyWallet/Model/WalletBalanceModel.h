@@ -14,5 +14,6 @@
 @property (nonatomic, strong) NSString *hours;
 
 - (instancetype)initWithDictionary:(NSDictionary*)dict;
+- (NSDictionary*)getModelDictionary;
 
 @end

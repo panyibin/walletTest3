@@ -22,6 +22,6 @@
 //@property (nonatomic, strong) WalletModel *skycoinWalletModel;
 //@property (nonatomic, strong) WalletModel *samosWalletModel;
 
-- (NSDictionary*)convertToDictionary;
+- (NSDictionary*)getModelDictionary;
 
 @end

@@ -124,7 +124,7 @@ RCT_REMAP_METHOD(createNewWallet, createWallet:(NSString*)walletName seed:(NSStr
 
 RCT_REMAP_METHOD(getCurrentWalletDict, getCurrentWalletDictWithResolver:(RCTPromiseResolveBlock)resolve rejector:(RCTPromiseRejectBlock)reject) {
   GeneralWalletModel *currentWalletModel = [self getCurrentWalletModel];
-  NSDictionary *currentWalletModelDict = [currentWalletModel convertToDictionary];
+  NSDictionary *currentWalletModelDict = [currentWalletModel getModelDictionary];
   
   resolve(currentWalletModelDict);
 }
@@ -213,7 +213,7 @@ RCT_REMAP_METHOD(getLocalWalletDictArray, getLocalWalletDictArrayWithResolver:(R
   NSArray *localWalletArray = [self getLocalWalletArray];
   NSMutableArray *localWalletDictArray = [NSMutableArray new];
   for (GeneralWalletModel *wm in localWalletArray) {
-    NSDictionary *wmDict = [wm convertToDictionary];
+    NSDictionary *wmDict = [wm getModelDictionary];
     [localWalletDictArray addObject:wmDict];
   }
   
@@ -290,6 +290,20 @@ RCT_EXPORT_METHOD(resetCurrentWalletId:(NSString*)currentWalletId) {
   if (error) {
     NSLog(@"register coin failed");
   }
+}
+
+
+/**
+ {
+ "balance":1
+ "hours":2
+ }
+ */
+RCT_REMAP_METHOD(getBalanceDictOfWallet, getBalanceDictOfWallet:(NSString*)walletId coinType:(NSString*)coinType resolver:(RCTPromiseResolveBlock)resolve rejector:(RCTPromiseRejectBlock)reject) {
+  WalletBalanceModel *balanceModel = [self getBalanceOfWallet:walletId coinType:coinType];
+  NSDictionary *balanceDict = [balanceModel getModelDictionary];
+  
+  resolve(balanceDict);
 }
 
 - (WalletBalanceModel*)getBalanceOfWallet:(NSString*)walletId coinType:(NSString*)coinType {

@@ -35,7 +35,7 @@
 //  [aCoder encodeObject:_samosWalletModel forKey:@"samosWalletModel"];
 }
 
-- (NSDictionary*)convertToDictionary {
+- (NSDictionary*)getModelDictionary {
   NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
   [dict setObject:self.walletName forKey:@"walletName"];
   [dict setObject:self.walletId forKey:@"walletId"];

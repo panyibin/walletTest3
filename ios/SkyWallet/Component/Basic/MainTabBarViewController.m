@@ -29,6 +29,9 @@
   self.meVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"" image:[UIImage imageNamed:@"me"] tag:0];
   
   self.viewControllers = @[self.generalWalletVC, self.meVC];
+
+  [[UITabBar appearance] setTintColor:[UIColor blackColor]];
+  [[UITabBar appearance] setBarTintColor:[UIColor colorWithRed:239/255. green:238/255. blue:218/255. alpha:1.]];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

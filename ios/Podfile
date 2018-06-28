@@ -13,6 +13,7 @@ target 'SkyWallet' do
   pod 'QRCodeReaderViewController', '~> 4.0.2'
   pod 'SVProgressHUD', '~>2.2.5'
   pod 'LGSideMenuController', '~>2.1.1'
+  pod 'AFNetworking', '~> 3.0'
 
   target 'SkyWalletTests' do
     inherit! :search_paths
