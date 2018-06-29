@@ -56,10 +56,10 @@ export default class SideMenuView extends Component {
                             <Text style={style.itemText}>
                                 Create Wallet
                         </Text>
-                        </View>
-                        <View style={style.itemSeperator} />
+                        </View>                        
                     </View>
                 </TouchableOpacity>
+                <View style={style.itemSeperator} />
                 <TouchableOpacity onPress={
                     () => {
                         NavigationHelper.showGeneralWalletManagerViewControllerAnimated(true);
@@ -71,10 +71,10 @@ export default class SideMenuView extends Component {
                             <Text style={style.itemText}>
                                 Manage Wallet
                         </Text>
-                        </View>
-                        <View style={style.itemSeperator} />
+                        </View>                        
                     </View>
                 </TouchableOpacity>
+                <View style={style.itemSeperator} />
                 <View style={style.walletListTopSpace} />
                 <FlatList
                     data={this.state.walletArray}

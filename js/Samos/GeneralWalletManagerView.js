@@ -18,6 +18,15 @@ export default class GeneralWalletManagerView extends Component {
         };
     }
 
+    static navigateOpotions = ({navigate}) => {
+        return (
+            {
+                title:'google'
+            }
+        );
+    };
+
+
     componentDidMount() {
         // this.showPasswordViewIfNeeded();
     }

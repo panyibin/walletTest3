@@ -8,6 +8,10 @@ export default CreateWalletProcess = createStackNavigator(
         SeedView:SeedView
     },
     {
-        headerMode:'none'
+        // headerMode:'none'
+        navigationOptions:{
+            headerBackTitle:null,
+            headerTintColor:'black'
+        }
     }
 );
