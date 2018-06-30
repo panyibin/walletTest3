@@ -91,7 +91,10 @@ export default class GeneralWalletManagerView extends Component {
                 onPress={
                     () => {
                         // Alert.alert('New wallet');
-                        navigation.navigate('NameWalletView');
+                        navigation.push('NameWalletView',{
+                            previousView:'GeneralWalletManagerView',
+                            action:'create'
+                        });
                     }
                 }>
                     <Text style={style.buttonText}>
@@ -102,7 +105,10 @@ export default class GeneralWalletManagerView extends Component {
                 style={style.button}
                 onPress={
                     () => {
-                        navigation.navigate('NameWalletView');
+                        navigation.push('NameWalletView',{
+                            previousView:'GeneralWalletManagerView',
+                            action:'import'
+                        });
                     }
                 }>
                     <Text style={style.buttonText}>

@@ -56,7 +56,7 @@ export default class SideMenuView extends Component {
                             <Text style={style.itemText}>
                                 Create Wallet
                         </Text>
-                        </View>                        
+                        </View>
                     </View>
                 </TouchableOpacity>
                 <View style={style.itemSeperator} />
@@ -71,7 +71,7 @@ export default class SideMenuView extends Component {
                             <Text style={style.itemText}>
                                 Manage Wallet
                         </Text>
-                        </View>                        
+                        </View>
                     </View>
                 </TouchableOpacity>
                 <View style={style.itemSeperator} />
@@ -112,7 +112,7 @@ const style = StyleSheet.create(
         container: {
             flex: 1,
             justifyContent: 'flex-start',
-            backgroundColor: 'white'
+            backgroundColor: '#fcfbf0'
         },
         topSpace: {
             marginTop: 50
@@ -128,14 +128,15 @@ const style = StyleSheet.create(
             height: 30
         },
         itemText: {
-            marginLeft: 20
+            marginLeft: 20,
+            color:'#414042'
         },
         itemSeperator: {
             marginTop: 10,
             marginLeft: 30,
             marginRight: 50,
             height: 0.5,
-            backgroundColor: 'black',
+            backgroundColor: '#6d6f71',
         },
         //walletList
         walletListTopSpace: {
@@ -154,6 +155,7 @@ const style = StyleSheet.create(
         walletName: {
             marginLeft: 20,
             fontSize: 15,
+            color:'#414042'
             // backgroundColor:'red'
         }
     }
