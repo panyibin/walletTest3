@@ -5,18 +5,19 @@ import {
     Text,
     StyleSheet,
     TouchableOpacity,
-    Alert
+    Alert,
+    TextInput
 } from 'react-native';
 import LoadingView from './loading';
 
 const { WalletManager } = NativeModules;
 const { NavigationHelper } = NativeModules;
 
-export default class SeedView extends Component {
+export default class SeedConfirmView extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            seed: "",
+            seedConfirm: "",
             loading: false
         };
     }
@@ -24,19 +25,19 @@ export default class SeedView extends Component {
     static navigationOptions = ({ navigation }) => {
         return (
             {
-                title: 'back up mnomonic',
+                title: 'Confirm mnonomic',
                 headerRight: (
                     <Text
                         onPress={navigation.getParam('tapNavigationRightButton')}
                         style={{ marginRight: 20, fontSize:20 }}
-                    >next</Text>)
+                    >Confirm</Text>)
             }
         );
     };
 
     componentDidMount() {
         this.props.navigation.setParams({ tapNavigationRightButton: this.tapNavigationRightButton.bind(this) });
-        this.setDefaultSeed();
+        // this.setDefaultSeed();
     }
 
     async setDefaultSeed() {
@@ -49,7 +50,7 @@ export default class SeedView extends Component {
     async createWallet() {
         this.setState({ loading: true });
         var walletName = this.props.navigation.getParam('walletName');
-        var seed = this.state.seed;
+        var seed = this.state.seedConfirm;
         var pinCode = await WalletManager.getPinCode();
 
         var success = await WalletManager.createNewWallet(walletName, seed, pinCode);
@@ -60,22 +61,23 @@ export default class SeedView extends Component {
             NavigationHelper.rn_resetToMainPage();
         } else {
             this.setState({ loading: false });
-            //   Alert.alert('fail to create wallet');
+            setTimeout(() => {
+              Alert.alert('fail to create wallet');    
+            }, 500);            
         }
     }
 
-    tapNavigationRightButton() {
-        // Alert.alert('tap right button');
+    tapNavigationRightButton() {        
         const {navigation} = this.props;
-        let name = navigation.getParam('walletName','');
-        // Alert.alert(name);
-        navigation.push('SeedConfirmView',{
-            walletName:name,
-            seed:this.state.seed
-        });
+        let seed = navigation.getParam('seed','');
+        let seedConfirm = this.state.seedConfirm;
 
-        // navigation.push('SeedConfirmView');
-        // navigation.push('Home');
+        // Alert.alert(seedConfirm);
+        if(seed.length > 0 && seed == seedConfirm) {
+            this.createWallet();
+        } else {
+            Alert.alert('the seeds are not the same, please confirm');
+        }
     }
 
     render() {
@@ -85,41 +87,20 @@ export default class SeedView extends Component {
             <View style={style.container}>
                 <LoadingView loading={this.state.loading}></LoadingView>
                 <Text style={style.title} >
-                    Write down your wallet mnemonic
+                    Confirm your wallet mnemonic
                 </Text>
                 <Text style={style.description}>
-                    The mnemonic is used to restore your wallet, please write it down accurately on a piece of paper, and put it safely. The wallet cannot be restored if you forget it. Please don't put the mnemonic on the web for your wallet's safety.
+                    Please input the mnenonic your just wrote down.
                 </Text>
                 <View style={style.seedContainer}>
-                    <Text style={style.seed}>
-                        {this.state.seed}
-                    </Text>
-                </View>
-                <View style={style.buttonContainer}>
-                <TouchableOpacity 
-                style={style.button}
-                onPress={
-                    () => {
-                        // Alert.alert('create');
-                        this.setDefaultSeed();
-                    }
-                }>
-                    <Text style={style.buttonText}>
-                        Generate Seed
-                    </Text>
-                </TouchableOpacity>
-                </View>
-                {/* <TouchableOpacity onPress={
-                    () => {
-                        // Alert.alert('Import wallet');
-                        // NavigationHelper.rn_resetToMainPage();
-                        this.createWallet();
-                    }
-                }>
-                    <Text>
-                        Create
-                    </Text>
-                </TouchableOpacity> */}
+                <TextInput
+                multiline={true}
+                style={style.seedInput}
+                onChangeText={(text)=>{
+                    this.setState({seedConfirm:text});
+                }}
+                ></TextInput>
+                </View>                
             </View>
         );
     }
@@ -152,31 +133,13 @@ const style = StyleSheet.create(
             borderWidth:0.5,
             borderColor:'#efeeda'
         },
-        seed:{
+        seedInput:{
             fontSize:17,
             color:'#efeeda',
             marginLeft:25,
             marginTop:38,
             marginRight:25,
             marginBottom:38
-        },
-        buttonContainer:{
-            flex:1,
-            justifyContent:'flex-end'
-        },
-        button:{
-            marginBottom:40,
-            marginLeft:25,
-            marginRight:25,
-            borderWidth:0.5,
-            height:40,
-            borderColor:'#efeeda',
-            justifyContent:'center'
-        },
-        buttonText:{
-            fontSize:17,
-            textAlign:'center',
-            color:'#efeeda'
         }
     }
 );

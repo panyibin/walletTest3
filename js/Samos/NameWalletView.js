@@ -52,7 +52,7 @@ export default class NameWalletView extends Component {
                         /></TouchableOpacity>
                 ),
                 headerRight: (<Text
-                    style={{ marginRight: 20 }}
+                    style={{ marginRight: 20, fontSize: 20 }}
                     onPress={navigation.getParam('tapNavigationRightButton')}
                 >
                     {rightText}
@@ -98,8 +98,8 @@ export default class NameWalletView extends Component {
                 this.setState({ loading: false });
                 //avoid conflicts with modal loading
                 setTimeout(() => {
-                    Alert.alert('fail to create wallet');    
-                }, 500);                
+                    Alert.alert('fail to create wallet');
+                }, 500);
             }
         } else {
 
@@ -124,6 +124,7 @@ export default class NameWalletView extends Component {
                             Please input seed
                 </Text>
                         <TextInput
+                            multiline={true}
                             placeholder={"Please input seed"}
                             placeholderTextColor={'#6d6f71'}
                             // color={'blue'}
@@ -142,6 +143,7 @@ export default class NameWalletView extends Component {
                         Wallet's Name
                 </Text>
                     <TextInput
+                        multiline={true}
                         placeholder={"please input wallet's name"}
                         placeholderTextColor={'#6d6f71'}
                         // color={'blue'}
@@ -179,6 +181,7 @@ const style = StyleSheet.create(
         walletNameInput: {
             marginTop: 20,
             marginLeft: 25,
+            marginRight:25,
             color: '#efeeda'
         },
         seperator: {
