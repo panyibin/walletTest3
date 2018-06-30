@@ -96,7 +96,10 @@ export default class NameWalletView extends Component {
                 NavigationHelper.rn_resetToMainPage();
             } else {
                 this.setState({ loading: false });
-                Alert.alert('fail to create wallet');
+                //avoid conflicts with modal loading
+                setTimeout(() => {
+                    Alert.alert('fail to create wallet');    
+                }, 500);                
             }
         } else {
 

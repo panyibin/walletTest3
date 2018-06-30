@@ -133,7 +133,7 @@ const style = StyleSheet.create(
             marginTop: 30
         },
         walletListContainer:{
-
+            height:'70%'
         },
         walletItem: {
             flexDirection: 'row',
