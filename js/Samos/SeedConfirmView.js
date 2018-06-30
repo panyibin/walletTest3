@@ -29,7 +29,7 @@ export default class SeedConfirmView extends Component {
                 headerRight: (
                     <Text
                         onPress={navigation.getParam('tapNavigationRightButton')}
-                        style={{ marginRight: 20, fontSize:20 }}
+                        style={{ marginRight: 20, fontSize: 20 }}
                     >Confirm</Text>)
             }
         );
@@ -62,24 +62,24 @@ export default class SeedConfirmView extends Component {
         } else {
             this.setState({ loading: false });
             setTimeout(() => {
-              Alert.alert('fail to create wallet');    
-            }, 500);            
+                Alert.alert('fail to create wallet');
+            }, 500);
         }
     }
 
-    tapNavigationRightButton() {        
-        const {navigation} = this.props;
-        let seed = navigation.getParam('seed','');
+    tapNavigationRightButton() {
+        const { navigation } = this.props;
+        let seed = navigation.getParam('seed', '');
         let seedConfirm = this.state.seedConfirm;
 
         // Alert.alert(seedConfirm);
-        if(seed.length > 0 && seed == seedConfirm) {
+        if (seed.length > 0 && seed == seedConfirm) {
             this.createWallet();
         } else {
             Alert.alert('the seeds are not the same, please confirm');
         }
     }
-
+    
     render() {
         const { navigation } = this.props;
 
@@ -93,14 +93,14 @@ export default class SeedConfirmView extends Component {
                     Please input the mnenonic your just wrote down.
                 </Text>
                 <View style={style.seedContainer}>
-                <TextInput
-                multiline={true}
-                style={style.seedInput}
-                onChangeText={(text)=>{
-                    this.setState({seedConfirm:text});
-                }}
-                ></TextInput>
-                </View>                
+                    <TextInput
+                        multiline={true}
+                        style={style.seedInput}
+                        onChangeText={(text) => {
+                            this.setState({ seedConfirm: text });
+                        }}
+                    ></TextInput>
+                </View>
             </View>
         );
     }
@@ -112,34 +112,34 @@ const style = StyleSheet.create(
             flex: 1,
             backgroundColor: '#2f3239'
         },
-        title:{
-            marginTop:50,
-            fontSize:17,
-            textAlign:'center',
-            color:'#efeeda'
+        title: {
+            marginTop: 50,
+            fontSize: 17,
+            textAlign: 'center',
+            color: '#efeeda'
         },
-        description:{
-            marginTop:26,
-            marginLeft:25,
-            marginRight:25,
-            fontSize:12,
-            textAlign:'center',
-            color:'#efeeda'
+        description: {
+            marginTop: 26,
+            marginLeft: 25,
+            marginRight: 25,
+            fontSize: 12,
+            textAlign: 'center',
+            color: '#efeeda'
         },
-        seedContainer:{
-            marginTop:26,
-            marginLeft:25,
-            marginRight:25,
-            borderWidth:0.5,
-            borderColor:'#efeeda'
+        seedContainer: {
+            marginTop: 26,
+            marginLeft: 25,
+            marginRight: 25,
+            borderWidth: 0.5,
+            borderColor: '#efeeda'
         },
-        seedInput:{
-            fontSize:17,
-            color:'#efeeda',
-            marginLeft:25,
-            marginTop:38,
-            marginRight:25,
-            marginBottom:38
+        seedInput: {
+            fontSize: 17,
+            color: '#efeeda',
+            marginLeft: 25,
+            marginTop: 38,
+            marginRight: 25,
+            marginBottom: 38
         }
     }
 );

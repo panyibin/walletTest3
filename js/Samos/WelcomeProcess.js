@@ -10,6 +10,6 @@ export default WelcomeProcess = createStackNavigator(
         SeedView:SeedView
     },
     {
-        headerMode:'none'
+        // headerMode:'none'
     }
 );

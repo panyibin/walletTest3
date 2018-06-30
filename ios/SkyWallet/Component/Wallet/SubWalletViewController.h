@@ -10,4 +10,6 @@
 
 @interface SubWalletViewController : UIViewController
 
+@property (nonatomic, strong) NSDictionary *walletModelDict;
+
 @end

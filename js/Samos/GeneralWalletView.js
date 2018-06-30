@@ -178,7 +178,7 @@ export default class GeneralWalletView extends Component<Props> {
                                             <TouchableOpacity onPress={
                                                 () => {
                                                     // Alert.alert(item.walletId);
-                                                    NavigationHelper.showSubWalletViewControllerAnimated(true);
+                                                    NavigationHelper.showSubWalletViewController(item, true);
                                                 }
                                             }
                                             >

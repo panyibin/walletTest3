@@ -19,7 +19,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
   
-  self.rctView = [RNManager viewWithModuleName:@"SubWalletProcess" initialProperties:nil];
+  NSDictionary *initialProperties = @{@"walletModel":self.walletModelDict?:@{}};
+  
+  self.rctView = [RNManager viewWithModuleName:@"SubWalletProcess" initialProperties:initialProperties];
   self.view = self.rctView;
 }
 

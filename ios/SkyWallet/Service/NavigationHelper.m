@@ -119,9 +119,10 @@ RCT_EXPORT_METHOD(showGeneralWalletManagerViewControllerAnimated:(BOOL)animated)
   });
 }
 
-RCT_EXPORT_METHOD(showSubWalletViewControllerAnimated:(BOOL)animated) {
+RCT_EXPORT_METHOD(showSubWalletViewController:(NSDictionary*)subWalletModelDict animated:(BOOL)animated) {
   dispatch_async(dispatch_get_main_queue(), ^{
     SubWalletViewController *vc = [SubWalletViewController new];
+    vc.walletModelDict = subWalletModelDict;
     
     [[self rootNavigationController] pushViewController:vc animated:animated];
   });
