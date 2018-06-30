@@ -10,6 +10,12 @@ export default GeneralWalletManagerProcess = createStackNavigator(
         SeedView:SeedView
     },
     {
-        headerMode:'none'
+        // headerMode:'none'
+        navigationOptions:{            
+            headerTintColor:'black',
+            headerStyle:{
+                backgroundColor:'#efeedb'
+            }
+        }
     }
 );

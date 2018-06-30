@@ -11,7 +11,10 @@ export default CreateWalletProcess = createStackNavigator(
         // headerMode:'none'
         navigationOptions:{
             headerBackTitle:null,
-            headerTintColor:'black'
+            headerTintColor:'black',
+            headerStyle:{
+                backgroundColor:'#efeedb'
+            }
         }
     }
 );
