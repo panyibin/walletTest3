@@ -96,6 +96,7 @@ export default class SeedConfirmView extends Component {
                     <TextInput
                         multiline={true}
                         placeholder={'input the mnenonic again'}
+                        placeholderTextColor={'#6d6f71'}
                         style={style.seedInput}
                         onChangeText={(text) => {
                             this.setState({ seedConfirm: text });

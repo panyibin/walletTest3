@@ -104,7 +104,7 @@
   float totalHourBalance = 0;
   
   for (WalletModel *wm in self.walletArray) {
-    NSDictionary *wmDict = [wm convertToDictionary];
+    NSDictionary *wmDict = [wm getModelDictionary];
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithDictionary:wmDict];
     
     NSError *error;
@@ -130,7 +130,7 @@
 - (NSArray*)getJsonArray {
   NSMutableArray *array = [[NSMutableArray alloc] init];
   for (WalletModel *wm in self.walletArray) {
-    NSDictionary *wmDict = [wm convertToDictionary];
+    NSDictionary *wmDict = [wm getModelDictionary];
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithDictionary:wmDict];
     
     NSError *error;

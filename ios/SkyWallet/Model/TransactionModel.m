@@ -40,10 +40,11 @@
   _walletId = [dict getStringForKey:@"walletId"];
   _walletType = [dict getStringForKey:@"walletType"];
   _transactionType = [dict getStringForKey:@"transactionType"];
+  _targetAddress = [dict getStringForKey:@"targetAddress"];
   _amount = [dict getStringForKey:@"amount"];
   _transactionTime = [dict getStringForKey:@"transactionTime"];
   
-  if (_walletId.length == 0 || _walletType.length == 0 || _transactionType.length == 0 || _amount.length == 0) {
+  if (_walletId.length == 0 || _walletType.length == 0 || _transactionType.length == 0 || _amount.length == 0 || _targetAddress.length == 0) {
     return NO;
   }
   
@@ -57,6 +58,7 @@
     _walletId = [aDecoder decodeObjectForKey:@"walletId"];
     _walletType = [aDecoder decodeObjectForKey:@"walletType"];
     _transactionType = [aDecoder decodeObjectForKey:@"transactionType"];
+    _targetAddress = [aDecoder decodeObjectForKey:@"targetAddress"];
     _amount = [aDecoder decodeObjectForKey:@"amount"];
     _transactionTime = [aDecoder decodeObjectForKey:@"transactionTime"];
   }
@@ -69,6 +71,7 @@
   [aCoder encodeObject:self.walletId forKey:@"walletId"];
   [aCoder encodeObject:self.walletType forKey:@"walletType"];
   [aCoder encodeObject:self.transactionType forKey:@"transactionType"];
+  [aCoder encodeObject:self.targetAddress forKey:@"targetAddress"];
   [aCoder encodeObject:self.amount forKey:@"amount"];
   [aCoder encodeObject:self.transactionTime forKey:@"transactionTime"];
 }

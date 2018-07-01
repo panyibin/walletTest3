@@ -87,7 +87,7 @@ export default class NameWalletView extends Component {
 
             this.setState({ loading: true });
             var walletName = currentWalletName;
-            var pinCode = await WalletManager.getPinCode();
+            var pinCode = await WalletManager.getLocalPinCode();
             var success = await WalletManager.createNewWallet(walletName, seed, pinCode);
 
             if (success) {

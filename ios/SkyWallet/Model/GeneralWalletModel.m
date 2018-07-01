@@ -69,7 +69,7 @@
   
   NSMutableArray *subWalletDictArray = [NSMutableArray new];
   for (WalletModel *wm in self.subWalletArray) {
-    NSDictionary *wmDict = [wm convertToDictionary];
+    NSDictionary *wmDict = [wm getModelDictionary];
     [subWalletDictArray addObject:wmDict];
   }
   

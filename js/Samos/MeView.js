@@ -34,27 +34,8 @@ export default class MeView extends Component {
         return (
             <View style={style.container}>
                 <Text>
-                    Me Page
-                </Text>
-                <TouchableOpacity onPress={
-                    () => {
-                        Alert.alert('New wallet');
-                        // navigation.navigate('NameWalletView');
-                    }
-                }>
-                    <Text>
-                        New Wallet
-                    </Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={
-                    () => {
-                        Alert.alert('Import wallet');
-                    }
-                }>
-                    <Text>
-                        Import Wallet
-                    </Text>
-                </TouchableOpacity>
+                    TBD
+                </Text>                   
             </View>
         );
     }
@@ -65,7 +46,8 @@ const style = StyleSheet.create(
         container: {
             flex: 1,
             justifyContent: 'center',
-            backgroundColor: 'green'
+            alignItems:'center',
+            backgroundColor: '#fcfbf0'
         }
     }
 );

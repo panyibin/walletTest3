@@ -31,7 +31,7 @@
     _pinCode = [aDecoder decodeObjectForKey:@"pinCode"];
     _seed = [aDecoder decodeObjectForKey:@"seed"];
     _walletType = [aDecoder decodeObjectForKey:@"walletType"];
-    _transctionArray = [aDecoder decodeObjectForKey:@"transctionArray"];
+    _transactionArray = [aDecoder decodeObjectForKey:@"transactionArray"];
   }
   
   return self;
@@ -44,10 +44,10 @@
   [aCoder encodeObject:_pinCode forKey:@"pinCode"];
   [aCoder encodeObject:_seed forKey:@"seed"];
   [aCoder encodeObject:_walletType forKey:@"walletType"];
-  [aCoder encodeObject:_transctionArray forKey:@"transctionArray"];
+  [aCoder encodeObject:_transactionArray forKey:@"transactionArray"];
 }
 
-- (NSDictionary*)convertToDictionary {
+- (NSDictionary*)getModelDictionary {
   NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
   [dict setObject:self.walletName forKey:@"walletName"];
   [dict setObject:self.walletId forKey:@"walletId"];
@@ -56,23 +56,23 @@
   [dict setObject:self.walletType forKey:@"walletType"];
   
   NSMutableArray *transactionArray = [NSMutableArray new];
-  for (TransactionModel *tm in self.transctionArray) {
+  for (TransactionModel *tm in self.transactionArray) {
     if (tm && [tm isKindOfClass:[TransactionModel class]]) {
       NSDictionary *tmDict = [tm getModelDictionary];
       [transactionArray addObject:tmDict];
     }
   }
   
-  [dict setObject:transactionArray forKey:@"transctionArray"];
+  [dict setObject:transactionArray forKey:@"transactionArray"];
   
   return dict;
 }
 
 - (void)addTransaction:(TransactionModel*)transactionModel {
   if (transactionModel) {
-    NSMutableArray *transactionArray = [NSMutableArray arrayWithArray:self.transctionArray];
-    [transactionArray addObject:transactionModel];
-    self.transctionArray = transactionArray;
+    NSMutableArray *transactionArray = [NSMutableArray arrayWithArray:self.transactionArray];
+    [transactionArray insertObject:transactionModel atIndex:0];
+    self.transactionArray = transactionArray;
   }
   
 }

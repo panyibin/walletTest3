@@ -16,28 +16,48 @@ export default class TransactionConfirmView extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            password: ""
+            transactionDict: {}
         };
     }
+
+    /**
+transaction example
+ {
+ "walletId":"sky_coin_ddsd",
+ "walletType":"skycoin",
+ "transactionType":"out"
+ "targetAddress":"ssss",
+ "amount":"1",
+ "transactionTime":"2018-1-1",
+ }
+ */
 
     static defaultProps = {
         onPressConfirm: () => { },
         onPressBack: () => { },
-        visible: false
+        visible: false,
+        transactionDict: {}
     };
     render() {
+        let transactionDict = this.props.transactionDict;
+
+        let transactionType = ' roll out ' + transactionDict.walletType;
+        let targetAddress = ' '+transactionDict.targetAddress;
+        let amount = ' '+ transactionDict.amount;
+        let transactionTime = ' '+ transactionDict.transactionTime;
+
         return (
             <Modal visible={this.props.visible} transparent={true}>
-                <View style={style.background}>                
+                <View style={style.background}>
                     <TouchableOpacity
-                    style={style.dark}
-                    onPress={
-                        ()=>{
-                            this.props.onPressBack();
-                        }
-                    }>
-                        <View></View>
-                    </TouchableOpacity>               
+                        style={style.dark}
+                        onPress={
+                            () => {
+                                this.props.onPressBack();
+                            }
+                        }>
+                        <View />
+                    </TouchableOpacity>
                     <View style={style.container}>
                         <View style={style.titleContainer}>
                             <View style={style.titleSidePlaceHolder}>
@@ -56,8 +76,22 @@ export default class TransactionConfirmView extends Component {
                             </View>
                             <View style={style.titleSidePlaceHolder} />
                         </View>
-                        <Text style={style.password}>Transaction</Text>
-                        <View style={style.seperator} />
+                        <View style={style.itemContainer}>
+                            <Text style={style.itemLeft}>Transaction Type: </Text>
+                            <Text style={style.itemRight}>{transactionType}</Text>
+                        </View>
+                        <View style={style.itemContainer}>
+                            <Text style={style.itemLeft}>To Address: </Text>
+                            <Text style={style.itemRight}>{targetAddress}</Text>
+                        </View>
+                        <View style={style.itemContainer}>
+                            <Text style={style.itemLeft}>Amount: </Text>
+                            <Text style={style.itemRight}>{amount}</Text>
+                        </View>
+                        <View style={style.itemContainer}>
+                            <Text style={style.itemLeft}>Transaction time: </Text>
+                            <Text style={style.itemRight}>{transactionTime}</Text>
+                        </View>
                         <TouchableOpacity
                             style={style.button}
                             onPress={
@@ -82,8 +116,8 @@ const style = StyleSheet.create(
             backgroundColor: 'rgba(0,0,0,0.5)',
             justifyContent: 'flex-end'
         },
-        dark:{
-            flex:1,
+        dark: {
+            flex: 1,
         },
         container: {
             height: 300,
@@ -91,6 +125,7 @@ const style = StyleSheet.create(
         },
         titleContainer: {
             marginTop: 16,
+            marginBottom:20,
             flexDirection: 'row',
             alignItems: 'center'
         },
@@ -110,23 +145,21 @@ const style = StyleSheet.create(
             color: '#414042',
             textAlign: 'center'
         },
-        password: {
-            marginLeft: 25,
-            marginTop: 35,
-            fontSize: 13,
-            color: '#414042'
+        //item
+        itemContainer:{
+            flexDirection:'row',
+            marginTop:15
         },
-        textInput: {
-            marginLeft: 25,
-            marginRight: 25,
-            marginTop: 24
+        itemLeft:{
+            flex:1,
+            textAlign:'right',
+            fontSize:11,
+            color:'#414042'
         },
-        seperator: {
-            marginLeft: 25,
-            marginRight: 25,
-            marginTop: 14,
-            backgroundColor: '#414042',
-            height: 0.5
+        itemRight:{
+            flex:2,
+            fontSize:11,
+            color:'#aaaaaa'
         },
         button: {
             marginTop: 40,
@@ -141,13 +174,6 @@ const style = StyleSheet.create(
             fontSize: 17,
             color: '#414042',
             textAlign: 'center'
-        },
-        description: {
-            marginTop: 20,
-            marginLeft: 25,
-            marginRight: 25,
-            fontSize: 11,
-            color: '#6d6f71'
         }
     }
 );

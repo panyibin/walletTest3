@@ -11,6 +11,7 @@ import {
 
 import InputPasswordView from './InputPasswordView'
 import TransactionConfirmView from './TransactionConfirmView'
+import LoadingView from './loading'
 
 const { WalletManager } = NativeModules;
 
@@ -21,8 +22,10 @@ export default class SendCoinView extends Component {
             walletModel: {},
             targetAddress: '',
             amount: '',
-            showPasswordView:false,
-            showTransactionConfirmView:false
+            showPasswordView: false,
+            showTransactionConfirmView: false,
+            transactionDict: {},
+            loading: false,
         };
     }
 
@@ -60,21 +63,77 @@ export default class SendCoinView extends Component {
         } else if (amount.length == 0) {
             Alert.alert("amount is invalid");
         } else {
-            let a = typeof(this.showPasswordViewIfNeeded);
-            // Alert.alert(a);
+            /**
+            transaction example
+             {
+             "walletId":"sky_coin_ddsd",
+             "walletType":"skycoin",
+             "transactionType":"out"
+             "targetAddress":"ssss",
+             "amount":"1",
+             "transactionTime":"2018-1-1",
+             }
+             */
+            let currentTime = await WalletManager.getCurrentTime();
+            let transactionDict = {
+                walletId: walletModel.walletId,
+                walletType: walletModel.walletType,
+                transactionType: 'out',
+                targetAddress: targetAddress,
+                amount: amount,
+                transactionTime: currentTime
+            };
+
             this.setState({
-                showTransactionConfirmView:true
+                transactionDict: transactionDict
+            });
+
+            this.setState({
+                showTransactionConfirmView: true
             });
         }
     }
 
-    async _onPressConfirm(password) {
-        Alert.alert('get:'+password);
+    //press confirm in passworld view
+    async _onPressPasswordConfirm(password) {        
+
+        let localPincode = await WalletManager.getLocalPinCode();
+
+        if (password != localPincode) {
+            Alert.alert('the password is invalid');
+        } else {
+            this.setState({ loading: true });
+            let ret = await WalletManager.sendCoinWithTransactionModelDict(this.state.transactionDict);
+
+            this.setState({ loading: false });
+            this.setState({ showPasswordView: false });
+
+            if (ret == 'success') {
+                const { navigation } = this.props;
+                navigation.getParam('refreshCurrentWallet')();
+
+                setTimeout(() => {
+                    Alert.alert('coin sent success', '',
+                        [{
+                            text:'ok',
+                            onPress:()=>{
+                                navigation.goBack();            
+                            }
+                        }]);                    
+                }, 500);
+
+            } else {
+                setTimeout(() => {
+                    Alert.alert('failed to send coin', ret);
+                }, 500);
+            }
+        }
     }
 
     render() {
         const { navigation } = this.props;
         let walletModel = navigation.getParam('walletModel', {});
+        let balance = navigation.getParam('balance', '0');
         let walletType = walletModel.walletType;
         let walletUnit = 'samo';
 
@@ -86,34 +145,32 @@ export default class SendCoinView extends Component {
 
         return (
             <View style={style.container}>
-            <TransactionConfirmView
-            visible={this.state.showTransactionConfirmView}
-            onPressBack={
-                ()=>{
-                    this.setState({showTransactionConfirmView:false});
-                }
-            }
-            onPressConfirm={
-                ()=>{
-                    this.setState({
-                        showPasswordView:true,showTransactionConfirmView:false});
-                }
-            }
-            />
-            <InputPasswordView visible={this.state.showPasswordView}
-            onPressBack={
-                ()=>{
-                    this.setState({showPasswordView:false});
-                }
-            }
+                <LoadingView loading={this.state.loading} />
+                <TransactionConfirmView
+                    visible={this.state.showTransactionConfirmView}
+                    transactionDict={this.state.transactionDict}
+                    onPressBack={
+                        () => {
+                            this.setState({ showTransactionConfirmView: false });
+                        }
+                    }
+                    onPressConfirm={
+                        () => {
+                            this.setState({
+                                showPasswordView: true, showTransactionConfirmView: false
+                            });
+                        }
+                    }
+                />
+                <InputPasswordView visible={this.state.showPasswordView}
+                    onPressBack={
+                        () => {
+                            this.setState({ showPasswordView: false });
+                        }
+                    }
 
-            // onPressConfirm={this._onPressConfirm.bind(this)}
-            onPressConfirm={
-                (password)=>{
-                    Alert.alert('oh:'+password);
-                }
-            }
-            />
+                    onPressConfirm={this._onPressPasswordConfirm.bind(this)}
+                />
                 <View>
                     <Text style={style.walletName}>
                         Send To
@@ -138,7 +195,7 @@ export default class SendCoinView extends Component {
                         </Text>
                         <View style={style.balanceContainer}>
                             <Text style={style.balanceTag}>balance:</Text>
-                            <Text style={style.balance}>{walletModel.balance} {walletUnit}</Text>
+                            <Text style={style.balance}>{balance} {walletUnit}</Text>
                         </View>
                     </View>
                     <TextInput

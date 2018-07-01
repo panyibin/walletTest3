@@ -32,7 +32,7 @@ RCT_REMAP_METHOD(getSeed, getSeedWithResolver:(RCTPromiseResolveBlock)resolve re
   return seed;
 }
 
-RCT_REMAP_METHOD(getPinCode, getPinCodeWithResolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
+RCT_REMAP_METHOD(getLocalPinCode, getLocalPinCodeWithResolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
   NSString *pinCode = [[NSUserDefaults standardUserDefaults] stringForKey:kPinCode];
   resolve(pinCode);
 }
@@ -85,6 +85,10 @@ RCT_REMAP_METHOD(createNewWallet, createWallet:(NSString*)walletName seed:(NSStr
   NSString *samosWalletId = MobileNewWallet(kCoinTypeSamos, walletName, seed, password, &error);
   
   if(!error) {
+    //create 4 extra addresses,
+    MobileNewAddress(skyWalletId, 4, password, &error);
+    MobileNewAddress(samosWalletId, 4, password, &error);
+    
     WalletModel *skyWM = [[WalletModel alloc] init];
     skyWM.walletName = walletName;
     skyWM.walletId = skyWalletId;
@@ -146,14 +150,29 @@ RCT_REMAP_METHOD(getCurrentWalletDict, getCurrentWalletDictWithResolver:(RCTProm
   }
 }
 
-RCT_EXPORT_METHOD(createNewAddressWithWalletId:(NSString*)walletId num:(NSInteger)num) {
+RCT_REMAP_METHOD(createNewAddressWithWalletId, createNewAddressWithWalletId:(NSString*)walletId num:(NSInteger)num resolver:(RCTPromiseResolveBlock)resolve rejector:(RCTPromiseRejectBlock)reject){
   NSError *error;
   NSString *pinCode = [[NSUserDefaults standardUserDefaults] stringForKey:kPinCode];
   NSString *password = [self passwordWithPinCode:pinCode];
   MobileNewAddress(walletId, num, password, &error);
+
+  if (!error) {
+    resolve(@"success");
+  } else {
+    resolve(@"failed");
+  }
   
   [[NSNotificationCenter defaultCenter] postNotificationName:kNewAddressCreatedNotification object:nil];
 }
+
+//RCT_EXPORT_METHOD(createNewAddressWithWalletId:(NSString*)walletId num:(NSInteger)num) {
+//  NSError *error;
+//  NSString *pinCode = [[NSUserDefaults standardUserDefaults] stringForKey:kPinCode];
+//  NSString *password = [self passwordWithPinCode:pinCode];
+//  MobileNewAddress(walletId, num, password, &error);
+//
+//  [[NSNotificationCenter defaultCenter] postNotificationName:kNewAddressCreatedNotification object:nil];
+//}
 
 RCT_REMAP_METHOD(sendSkyCoinWithWalletId, sendSkyCoinWithWalletId:(NSString*)walletId toAddress:(NSString*)toAddr amount:(NSString*)amount resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
   NSError *error;
@@ -179,6 +198,47 @@ RCT_REMAP_METHOD(sendCoinWithWalletType, sendCoinWithWalletType:(NSString*)walle
     [[NSNotificationCenter defaultCenter] postNotificationName:kCoinSentNotification object:nil];
   } else {
     resolve([error.userInfo getStringForKey:@"NSLocalizedDescription"]);
+  }
+}
+
+//-(void) getAddressDictArray {
+//  NSError *error;
+//  NSString *addressJsonStr = MobileGetAddresses(self.walletModel.walletId, &error);
+//  NSDictionary *addressDict = [SWUtils dictionaryFromJsonString:addressJsonStr];
+//  self.addressArray = [addressDict getArrayForKey:@"addresses"];
+//
+//  if(self.addressArray) {
+//    NSMutableArray *mutableAddressArray = [[NSMutableArray alloc] init];
+//
+//    float totalCoinBalance = 0;
+//    float totalHourBalance = 0;
+//
+//    for (NSString *address in self.addressArray) {
+//      WalletBalanceModel *wbm = [[WalletManager sharedInstance] getBalanceOfAddress:address coinType:kCoinTypeSky];
+//      NSMutableDictionary *mutableAddressDict = [[NSMutableDictionary alloc] init];
+//      NSString *balanceToDisplay = [NSString stringWithFormat:@"%.3f", [wbm.balance floatValue]];
+//
+//      [mutableAddressDict setObject:address forKey:@"address"];
+//      [mutableAddressDict setObject:balanceToDisplay forKey:@"balance"];
+//
+//      [mutableAddressArray addObject:mutableAddressDict];
+//
+//      totalCoinBalance += [wbm.balance floatValue];
+//      totalHourBalance += [wbm.hours floatValue];
+//    }
+//
+//}
+
+RCT_REMAP_METHOD(getAddressDictArrayOfWalletId, getAddressDictArrayOfWalletId:(NSString*)walletId resolver:(RCTPromiseResolveBlock)resolve rejector:(RCTPromiseRejectBlock)reject) {
+    NSError *error;
+    NSString *addressJsonStr = MobileGetAddresses(walletId, &error);
+  if (!error) {
+    NSDictionary *addressDict = [SWUtils dictionaryFromJsonString:addressJsonStr];
+    NSArray* addressArray = [addressDict getArrayForKey:@"addresses"];
+    
+    resolve(addressArray?:@[]);
+  } else {
+    resolve(@[]);
   }
 }
 
@@ -388,6 +448,23 @@ RCT_EXPORT_METHOD(resetCurrentWalletId:(NSString*)currentWalletId) {
   }
 }
 
+//get latest walletModelDict
+RCT_REMAP_METHOD(getSubWalletModelDict, getSubWalletModelDict:(NSString*)walletId resolver:(RCTPromiseResolveBlock)resolve rejector:(RCTPromiseRejectBlock)reject) {
+  NSDictionary *subWalletModelDict = @{};
+  NSArray *localGeneralWalletArray = [self getLocalWalletArray];
+  for (GeneralWalletModel *gWM in localGeneralWalletArray) {
+    if (gWM && [gWM isKindOfClass:[GeneralWalletModel class]]) {
+      for (WalletModel *wm in gWM.subWalletArray) {
+        if (wm && [wm isKindOfClass:[WalletModel class]] && [wm.walletId isEqualToString:walletId]) {
+          subWalletModelDict = [wm getModelDictionary];
+          break;
+        }
+      }
+    }
+  }
+  
+  resolve(subWalletModelDict);
+}
 
 /**
  {
@@ -399,7 +476,7 @@ RCT_REMAP_METHOD(getBalanceDictOfWallet, getBalanceDictOfWallet:(NSString*)walle
   WalletBalanceModel *balanceModel = [self getBalanceOfWallet:walletId coinType:coinType];
   NSDictionary *balanceDict = [balanceModel getModelDictionary];
   
-  resolve(balanceDict);
+  resolve(balanceDict?:@{});
 }
 
 - (WalletBalanceModel*)getBalanceOfWallet:(NSString*)walletId coinType:(NSString*)coinType {
@@ -409,6 +486,13 @@ RCT_REMAP_METHOD(getBalanceDictOfWallet, getBalanceDictOfWallet:(NSString*)walle
   WalletBalanceModel *wbm = [[WalletBalanceModel alloc] initWithDictionary:balanceDict];
   
   return wbm;
+}
+
+RCT_REMAP_METHOD(getBalanceDictOfAddress, getBalanceDictOfAddress:(NSString*)address coinType:(NSString*)coinType resolver:(RCTPromiseResolveBlock)resolve rejector:(RCTPromiseRejectBlock)reject) {
+  WalletBalanceModel *balanceModel = [self getBalanceOfAddress:address coinType:coinType];
+  NSDictionary *balanceDict = [balanceModel getModelDictionary];
+  
+  resolve(balanceDict);
 }
 
 - (WalletBalanceModel*)getBalanceOfAddress:(NSString*)address coinType:(NSString*)coinType {

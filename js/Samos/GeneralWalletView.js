@@ -25,8 +25,8 @@ export default class GeneralWalletView extends Component<Props> {
         super(props);
         this.state = {
             loading: false,
-            wallet: { subWalletArray: [{}] },
-            subWalletArray: [{}],
+            wallet: { subWalletArray: [] },
+            subWalletArray: [],
             totalBalance: 0,
             refreshControlLoading: false,
             samosPriceUSD: 0.19,
@@ -111,6 +111,8 @@ export default class GeneralWalletView extends Component<Props> {
             refreshControlLoading: false
         });
 
+        console.log('General Wallet');
+        console.log(this.state.wallet);
     }
 
     render() {
