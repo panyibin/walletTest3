@@ -50,6 +50,7 @@
 		DF72841420DFE3310044647F /* GeneralWalletManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DF72841320DFE3310044647F /* GeneralWalletManagerViewController.m */; };
 		DF72841920DFE38A0044647F /* ReceiveCoinViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DF72841820DFE38A0044647F /* ReceiveCoinViewController.m */; };
 		DF72841C20DFE3980044647F /* SendCoinViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DF72841B20DFE3980044647F /* SendCoinViewController.m */; };
+		DF72842C20E880D90044647F /* TransactionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DF72842B20E880D90044647F /* TransactionModel.m */; };
 		DFA33CE5205983F200116E38 /* MainTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DFA33CE4205983F200116E38 /* MainTabBarViewController.m */; };
 		DFA33D1D2059844200116E38 /* MainNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DFA33D1C2059844200116E38 /* MainNavigationViewController.m */; };
 		DFA33D202059849F00116E38 /* BalanceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DFA33D1F2059849F00116E38 /* BalanceViewController.m */; };
@@ -411,6 +412,8 @@
 		DF72841820DFE38A0044647F /* ReceiveCoinViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReceiveCoinViewController.m; sourceTree = "<group>"; };
 		DF72841A20DFE3980044647F /* SendCoinViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SendCoinViewController.h; sourceTree = "<group>"; };
 		DF72841B20DFE3980044647F /* SendCoinViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SendCoinViewController.m; sourceTree = "<group>"; };
+		DF72842A20E880D90044647F /* TransactionModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TransactionModel.h; sourceTree = "<group>"; };
+		DF72842B20E880D90044647F /* TransactionModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TransactionModel.m; sourceTree = "<group>"; };
 		DFA33CE3205983F200116E38 /* MainTabBarViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainTabBarViewController.h; sourceTree = "<group>"; };
 		DFA33CE4205983F200116E38 /* MainTabBarViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainTabBarViewController.m; sourceTree = "<group>"; };
 		DFA33D1B2059844200116E38 /* MainNavigationViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainNavigationViewController.h; sourceTree = "<group>"; };
@@ -938,6 +941,8 @@
 				DF6DB4B1205E015700A9A0D9 /* WalletBalanceModel.m */,
 				DF72837C20DF66A80044647F /* GeneralWalletModel.h */,
 				DF72837D20DF66A80044647F /* GeneralWalletModel.m */,
+				DF72842A20E880D90044647F /* TransactionModel.h */,
+				DF72842B20E880D90044647F /* TransactionModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1522,6 +1527,7 @@
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 				DF6DB477205D64A400A9A0D9 /* SWUtils.m in Sources */,
 				DF7283F620DFDDC10044647F /* GeneralWalletViewController.m in Sources */,
+				DF72842C20E880D90044647F /* TransactionModel.m in Sources */,
 				DF72837E20DF66A80044647F /* GeneralWalletModel.m in Sources */,
 				DF6DB48A205DF90200A9A0D9 /* WalletDetailViewController.m in Sources */,
 				DF3E20BA206BF3840057E950 /* PinInputViewController.m in Sources */,

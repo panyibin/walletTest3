@@ -168,13 +168,86 @@ RCT_REMAP_METHOD(sendSkyCoinWithWalletId, sendSkyCoinWithWalletId:(NSString*)wal
   }
 }
 
+//used for samos
+RCT_REMAP_METHOD(sendCoinWithWalletType, sendCoinWithWalletType:(NSString*)walletType walletId:(NSString*)walletId toAddress:(NSString*)toAddr amount:(NSString*)amount resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
+  NSError *error;
+  NSString *pinCode = [[NSUserDefaults standardUserDefaults] stringForKey:kPinCode];
+  NSString *password = [self passwordWithPinCode:pinCode];
+  MobileSend(walletType, walletId, toAddr, amount, password, &error);
+  if(!error) {
+    resolve(@"success");
+    [[NSNotificationCenter defaultCenter] postNotificationName:kCoinSentNotification object:nil];
+  } else {
+    resolve([error.userInfo getStringForKey:@"NSLocalizedDescription"]);
+  }
+}
+
+RCT_REMAP_METHOD(sendCoinWithTransactionModelDict, sendCoinWithTransactionModelDict:(NSDictionary*)transactionModelDict resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
+  NSError *error;
+  NSString *pinCode = [[NSUserDefaults standardUserDefaults] stringForKey:kPinCode];
+  NSString *password = [self passwordWithPinCode:pinCode];
+
+  TransactionModel *transactionModel = [[TransactionModel alloc] initWithDictionary:transactionModelDict];
+  if (!transactionModel) {
+    resolve(@"transaction information is not valid");
+  } else {
+    MobileSend(transactionModel.walletType, transactionModel.walletId, transactionModel.targetAddress, transactionModel.amount, password, &error);
+    if(!error) {
+      [self addWalletTransactionLocally:transactionModel];
+      
+      resolve(@"success");
+      [[NSNotificationCenter defaultCenter] postNotificationName:kCoinSentNotification object:nil];
+    } else {
+      resolve([error.userInfo getStringForKey:@"NSLocalizedDescription"]);
+    }
+  }
+}
+
+RCT_REMAP_METHOD(isPinCodeValid, isPinCodeValid:(NSString*)pinCode resolver:(RCTPromiseResolveBlock)resolve rejector:(RCTPromiseRejectBlock)reject) {
+  NSString *localPinCode = [[NSUserDefaults standardUserDefaults] stringForKey:kPinCode];
+  if ([pinCode isEqualToString:localPinCode]) {
+    resolve(@(YES));
+  } else {
+    resolve(@(NO));
+  }
+}
+
+- (void)addWalletTransactionLocally:(TransactionModel*)tm {
+  NSArray *localWalletArray = [self getLocalWalletArray];
+  NSMutableArray *mutableLocalWalletArray = [NSMutableArray new];
+  
+  for (GeneralWalletModel* gWM in localWalletArray) {
+    if ([gWM isKindOfClass:[GeneralWalletModel class]]) {
+      NSArray *subWalletArray = gWM.subWalletArray;
+      for (WalletModel *wm in subWalletArray) {
+        if ([wm isKindOfClass:[WalletModel class]] && [wm.walletId isEqualToString:tm.walletId]) {
+          [wm addTransaction:tm];
+        }
+      }
+      
+      [mutableLocalWalletArray addObject:gWM];
+    }
+  }
+  
+  NSData *data = [NSKeyedArchiver archivedDataWithRootObject:mutableLocalWalletArray];
+  [[NSUserDefaults standardUserDefaults] setObject:data forKey:kLocalWalletArray];
+  
+}
+
+RCT_REMAP_METHOD(getCurrentTime, getCurrentTimeWithResolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
+  NSDate *currentDate = [NSDate date];
+  NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+  [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss zzz"];
+  NSString *dateString = [formatter stringFromDate:currentDate];
+  resolve(dateString);
+}
+
 RCT_REMAP_METHOD(removeWallet, removeWallet:(NSString*)walletId resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
   NSArray *localWalletArray = [self getLocalWalletArray];
   if (localWalletArray.count <= 1) {
     resolve(@"you should at least have 1 wallet");
 //    return;
   } else {
-  
   NSError *error;
   MobileRemove(walletId, &error);
   if (!error) {
@@ -183,6 +256,29 @@ RCT_REMAP_METHOD(removeWallet, removeWallet:(NSString*)walletId resolver:(RCTPro
   } else {
     resolve([error.userInfo getStringForKey:@"NSLocalizedDescription"]);
   }
+  }
+}
+
+RCT_REMAP_METHOD(removeGeneralWallet, removeGeneralWallet:(NSDictionary*)generalWalletModelDict resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
+  NSArray *localWalletArray = [self getLocalWalletArray];
+  if (localWalletArray.count <= 1) {
+    resolve(@"you should at least have 1 wallet");
+    //    return;
+  } else {
+    NSError *error;
+    GeneralWalletModel *gWM = [[GeneralWalletModel alloc] initWithDictionary:generalWalletModelDict];
+    for (WalletModel*wm in gWM.subWalletArray) {
+      if (wm.walletId) {
+        MobileRemove(wm.walletId, &error);
+      }
+    }
+    
+    if (!error) {
+      [self removeWalletLocally:gWM.walletId];
+      resolve(@"success");
+    } else {
+      resolve([error.userInfo getStringForKey:@"NSLocalizedDescription"]);
+    }
   }
 }
 
@@ -247,9 +343,9 @@ RCT_EXPORT_METHOD(resetCurrentWalletId:(NSString*)currentWalletId) {
   NSArray *localWalletArray = [self getLocalWalletArray];
   NSMutableArray *mutableLocalWalletArray = [NSMutableArray arrayWithArray:localWalletArray];
   
-  for (WalletModel *wm in localWalletArray) {
-    if ([wm.walletId isEqualToString:walletId]) {
-      [mutableLocalWalletArray removeObject:wm];
+  for (GeneralWalletModel *gWM in localWalletArray) {
+    if ([gWM.walletId isEqualToString:walletId]) {
+      [mutableLocalWalletArray removeObject:gWM];
       break;
     }
   }

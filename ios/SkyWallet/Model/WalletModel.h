@@ -15,8 +15,11 @@
 @property(nonatomic, strong) NSString *pinCode;
 @property(nonatomic, strong) NSString *seed;
 @property(nonatomic, strong) NSString *walletType;
+@property(nonatomic, strong) NSArray *transctionArray;
 
 - (instancetype)initWithDictionary:(NSDictionary*)dict;
 - (NSDictionary*)convertToDictionary;
+
+- (void)addTransaction:(TransactionModel*)transactionModel;
 
 @end

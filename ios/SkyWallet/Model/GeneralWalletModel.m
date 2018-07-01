@@ -10,6 +10,31 @@
 
 @implementation GeneralWalletModel
 
+- (instancetype)initWithDictionary:(NSDictionary*)dict {
+  self = [super init];
+  if (self) {
+    _walletName = [dict getStringForKey:@"walletName"];
+    _walletId = [dict getStringForKey:@"walletId"];
+    _seed = [dict getStringForKey:@"seed"];
+    _pinCode = [dict getStringForKey:@"pinCode"];
+    
+    NSArray *subWalletDictArray = [dict getArrayForKey:@"subWalletArray"];
+    NSMutableArray *mutableSubWalletArray = [NSMutableArray new];
+    for (NSDictionary *subWalletDict in subWalletDictArray) {
+      if ([subWalletDict isKindOfClass:[NSDictionary class]]) {
+        WalletModel *wm = [[WalletModel alloc] initWithDictionary:subWalletDict];
+        if (wm) {
+          [mutableSubWalletArray addObject:wm];
+        }
+      }
+    }
+    
+    _subWalletArray = mutableSubWalletArray;
+  }
+  
+  return self;
+}
+
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
   self = [super init];
   if(self) {

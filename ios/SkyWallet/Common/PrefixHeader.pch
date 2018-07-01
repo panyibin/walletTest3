@@ -22,6 +22,7 @@
 #import "RNManager.h"
 #import <Mobile/Mobile.objc.h>
 #import "Constants.h"
+#import "TransactionModel.h"
 #import "WalletModel.h"
 #import "GeneralWalletModel.h"
 #import "WalletManager.h"

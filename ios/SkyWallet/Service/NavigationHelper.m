@@ -217,6 +217,8 @@ RCT_EXPORT_METHOD(popToRootViewControllerAnimated:(BOOL)animated) {
   sideMenuController.leftViewController = sideMenuVC;
   sideMenuController.leftViewWidth = 300;
   sideMenuController.leftViewPresentationStyle = LGSideMenuPresentationStyleSlideAbove;
+//  sideMenuController.leftViewSwipeGestureRange = LGSideMenuSwipeGestureAreaFull;
+  sideMenuController.swipeGestureArea = LGSideMenuSwipeGestureAreaFull;
   
   [self rootNavigationController].viewControllers = @[sideMenuController];
 }
