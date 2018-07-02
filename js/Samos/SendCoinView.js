@@ -6,14 +6,19 @@ import {
     StyleSheet,
     TouchableOpacity,
     Alert,
-    TextInput
+    TextInput,
+    Image,
+    NativeEventEmitter
 } from 'react-native';
 
 import InputPasswordView from './InputPasswordView'
 import TransactionConfirmView from './TransactionConfirmView'
 import LoadingView from './loading'
+import Wallet from '../Wallet';
 
-const { WalletManager } = NativeModules;
+const { WalletManager, NavigationHelper, WalletEventEmitter } = NativeModules;
+const WalletManagerEmitter = new NativeEventEmitter(WalletEventEmitter);
+var subscription;
 
 export default class SendCoinView extends Component {
     constructor(props) {
@@ -42,6 +47,21 @@ export default class SendCoinView extends Component {
         return (
             {
                 title: title,
+                headerRight:(<TouchableOpacity 
+                    onPress={
+                        ()=>{
+                            NavigationHelper.showQRReaderViewControllerAnimated(true);
+                        }
+                    }
+                    >
+                    <Image
+                    style={{
+                        marginRight:10,
+                        height:30,
+                        width:30,
+                    }}
+                    source={require('./images/侧导航-扫码.png')}></Image>
+                </TouchableOpacity>)
             }
         );
     };
@@ -50,7 +70,12 @@ export default class SendCoinView extends Component {
         const { navigation } = this.props;
         let walletModel = navigation.getParam('walletModel', {});
         this.setState({ walletModel: walletModel });
-        // this.showPasswordViewIfNeeded();
+        
+        subscription = WalletManagerEmitter.addListener(WalletEventEmitter.getAddressFromQRCodeNotification,(reminder)=>{
+            this.setState({targetAddress:reminder.targetAddress});
+            // Alert.alert(typeof(reminder.targetAddress));
+
+        });
     }
 
     async tapNextButton() {
@@ -183,7 +208,7 @@ export default class SendCoinView extends Component {
                             text => {
                                 this.setState({ targetAddress: text });
                             }
-                        }></TextInput>
+                        }>{this.state.targetAddress}</TextInput>
                     <View style={style.seperator} />
                 </View>
                 <View>

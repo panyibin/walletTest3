@@ -535,14 +535,19 @@ RCT_REMAP_METHOD(getBalanceDictOfAddress, getBalanceDictOfAddress:(NSString*)add
 RCT_EXPORT_MODULE()
 
 - (NSArray<NSString *> *)supportedEvents {
-  return @[kRNStopLoadingAnimationNotification, kRNCurrentWalletDidChangedNotification, kRNGeneralWalletListDidChangedNotification];
+  return @[kRNStopLoadingAnimationNotification,
+           kRNCurrentWalletDidChangedNotification,
+           kRNGeneralWalletListDidChangedNotification,
+           kRNGetAddressFromQRCodeNotification
+           ];
 }
 
 - (NSDictionary *)constantsToExport {
   return @{
            @"stopLoadingAnimationNotification":kRNStopLoadingAnimationNotification,
            @"currentWalletDidChangedNotification":kRNCurrentWalletDidChangedNotification,
-           @"generalWalletListDidChangedNotification":kRNGeneralWalletListDidChangedNotification
+           @"generalWalletListDidChangedNotification":kRNGeneralWalletListDidChangedNotification,
+           @"getAddressFromQRCodeNotification":kRNGetAddressFromQRCodeNotification
            };
 }
 
@@ -552,6 +557,7 @@ RCT_EXPORT_MODULE()
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveStopLoadingAnimationNotification:) name:kStopLoadingAnimationNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveCurrentWalletChangedNotification:) name:kCurrentWalletDidChangedNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveGeneralWalletListDidChangedNotification:) name:kGeneralWalletListDidChangedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveGetAddressFromQRCodeNotification:) name:kGetAddressFromQRCodeNotification object:nil];
   }
   
   return self;
@@ -568,6 +574,12 @@ RCT_EXPORT_MODULE()
 
 - (void)didReceiveGeneralWalletListDidChangedNotification:(NSNotification*)notification {
   [self sendEventWithName:kRNGeneralWalletListDidChangedNotification body:nil];
+}
+
+- (void)didReceiveGetAddressFromQRCodeNotification:(NSNotification*)notification {
+  NSString *targetAddress = [notification.userInfo getStringForKey:kUserInfoTargetAddress];
+  
+  [self sendEventWithName:kRNGetAddressFromQRCodeNotification body:@{@"targetAddress":targetAddress}];
 }
 
 @end

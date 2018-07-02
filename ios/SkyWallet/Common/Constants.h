@@ -41,5 +41,6 @@
 #define kRNStopLoadingAnimationNotification @"kRNStopLoadingAnimationNotification"
 #define kRNCurrentWalletDidChangedNotification @"kRNCurrentWalletDidChangedNotification"
 #define kRNGeneralWalletListDidChangedNotification @"kRNGeneralWalletListDidChangedNotification"
+#define kRNGetAddressFromQRCodeNotification @"kRNGetAddressFromQRCodeNotification"
 
 #endif /* Constants_h */
