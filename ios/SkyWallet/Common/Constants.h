@@ -35,9 +35,11 @@
 //cooperate with RN Notification
 #define kStopLoadingAnimationNotification @"kStopLoadingAnimationNotification"
 #define kCurrentWalletDidChangedNotification @"kCurrentWalletDidChangedNotification"
+#define kGeneralWalletListDidChangedNotification @"kGeneralWalletListDidChangedNotification"
 
 //RN Notification
 #define kRNStopLoadingAnimationNotification @"kRNStopLoadingAnimationNotification"
 #define kRNCurrentWalletDidChangedNotification @"kRNCurrentWalletDidChangedNotification"
+#define kRNGeneralWalletListDidChangedNotification @"kRNGeneralWalletListDidChangedNotification"
 
 #endif /* Constants_h */

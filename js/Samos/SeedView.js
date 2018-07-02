@@ -5,12 +5,12 @@ import {
     Text,
     StyleSheet,
     TouchableOpacity,
-    Alert
+    Alert,
+    EventEmitter
 } from 'react-native';
 import LoadingView from './loading';
 
-const { WalletManager } = NativeModules;
-const { NavigationHelper } = NativeModules;
+const { WalletManager, NavigationHelper} = NativeModules;
 
 export default class SeedView extends Component {
     constructor(props) {
@@ -109,17 +109,6 @@ export default class SeedView extends Component {
                     </Text>
                 </TouchableOpacity>
                 </View>
-                {/* <TouchableOpacity onPress={
-                    () => {
-                        // Alert.alert('Import wallet');
-                        // NavigationHelper.rn_resetToMainPage();
-                        this.createWallet();
-                    }
-                }>
-                    <Text>
-                        Create
-                    </Text>
-                </TouchableOpacity> */}
             </View>
         );
     }

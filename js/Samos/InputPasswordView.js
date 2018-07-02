@@ -9,9 +9,11 @@ import {
     StyleSheet,
     NativeModules
 } from 'react-native';
+import Wallet from '../Wallet';
 
 const { WalletManager } = NativeModules;
 
+//callback 'success' if the password is right
 export default class InputPasswordView extends Component {
     constructor(props) {
         super(props);
@@ -25,6 +27,16 @@ export default class InputPasswordView extends Component {
         onPressBack: () => { },
         visible: false
     };
+
+    async tapConfirmButton() {
+        let localPassword = await WalletManager.getLocalPinCode();
+        if(this.state.password == localPassword) {
+            this.props.onPressConfirm('success');
+        } else {
+            this.props.onPressConfirm('fail');
+        }
+    }
+
     render() {
         return (
             <Modal visible={this.props.visible} transparent={true}>
@@ -72,7 +84,8 @@ export default class InputPasswordView extends Component {
                             style={style.button}
                             onPress={
                                 () => {
-                                    this.props.onPressConfirm(this.state.password);
+                                    // this.props.onPressConfirm(this.state.password);
+                                    this.tapConfirmButton();
                                 }
                             }
                         >

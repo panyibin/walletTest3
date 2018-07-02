@@ -7,11 +7,14 @@ import {
     TouchableOpacity,
     Alert,
     Image,
-    FlatList
+    FlatList,
+    NativeEventEmitter
 } from 'react-native';
 import Wallet from '../Wallet';
 
-const { WalletManager, NavigationHelper } = NativeModules;
+const { WalletManager, NavigationHelper, WalletEventEmitter } = NativeModules;
+const walletManagerEmitter = new NativeEventEmitter(WalletEventEmitter);
+var subscription;
 
 export default class SideMenuView extends Component {
     constructor(props) {
@@ -21,12 +24,15 @@ export default class SideMenuView extends Component {
         };
     }
 
-    componentDidMount() {
-        // this.showPasswordViewIfNeeded();
-        this.getLocalWalletArray();
+    componentDidMount() {        
+        this.refreshLocalWalletArray();
+
+        subscription = walletManagerEmitter.addListener(WalletEventEmitter.generalWalletListDidChangedNotification, (reminder)=>{
+            this.refreshLocalWalletArray();
+        });
     }
 
-    async getLocalWalletArray() {
+    async refreshLocalWalletArray() {
         var localWalletArray = await WalletManager.getLocalWalletDictArray();
         this.setState({ walletArray: localWalletArray });
     }

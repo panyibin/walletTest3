@@ -130,7 +130,7 @@ RCT_REMAP_METHOD(getCurrentWalletDict, getCurrentWalletDictWithResolver:(RCTProm
   GeneralWalletModel *currentWalletModel = [self getCurrentWalletModel];
   NSDictionary *currentWalletModelDict = [currentWalletModel getModelDictionary];
   
-  resolve(currentWalletModelDict);
+  resolve(currentWalletModelDict ? : @{});
 }
 
 - (GeneralWalletModel*)getCurrentWalletModel {
@@ -308,8 +308,15 @@ RCT_REMAP_METHOD(removeWallet, removeWallet:(NSString*)walletId resolver:(RCTPro
     resolve(@"you should at least have 1 wallet");
 //    return;
   } else {
-  NSError *error;
-  MobileRemove(walletId, &error);
+    NSError *error;
+    for (GeneralWalletModel *gVM in localWalletArray) {
+      if ([gVM.walletId isEqualToString:walletId]) {
+        for (WalletModel *wm in gVM.subWalletArray) {
+          MobileRemove(wm.walletId, &error);
+        }
+      }
+    }
+  
   if (!error) {
     [self removeWalletLocally:walletId];
     resolve(@"success");
@@ -410,8 +417,19 @@ RCT_EXPORT_METHOD(resetCurrentWalletId:(NSString*)currentWalletId) {
     }
   }
   
+  //if the wallet to remove is equal to the current wallet, then we should reset the currentWalletId
+  NSString *currentWalletId = [[NSUserDefaults standardUserDefaults] stringForKey:kCurrentWalletId];
+  if ([currentWalletId isEqualToString:walletId]) {
+    GeneralWalletModel *firstGWM = [mutableLocalWalletArray firstObject];
+    if (firstGWM) {
+      [self resetCurrentWalletId:firstGWM.walletId];
+    } else {}
+  }
+  
   NSData *data = [NSKeyedArchiver archivedDataWithRootObject:mutableLocalWalletArray];
   [[NSUserDefaults standardUserDefaults] setObject:data forKey:kLocalWalletArray];
+  
+  [[NSNotificationCenter defaultCenter] postNotificationName:kGeneralWalletListDidChangedNotification object:nil];
 }
 
 - (NSString*)getWalletDir {
@@ -517,13 +535,14 @@ RCT_REMAP_METHOD(getBalanceDictOfAddress, getBalanceDictOfAddress:(NSString*)add
 RCT_EXPORT_MODULE()
 
 - (NSArray<NSString *> *)supportedEvents {
-  return @[kRNStopLoadingAnimationNotification, kRNCurrentWalletDidChangedNotification];
+  return @[kRNStopLoadingAnimationNotification, kRNCurrentWalletDidChangedNotification, kRNGeneralWalletListDidChangedNotification];
 }
 
 - (NSDictionary *)constantsToExport {
   return @{
            @"stopLoadingAnimationNotification":kRNStopLoadingAnimationNotification,
-           @"currentWalletDidChangedNotification":kRNCurrentWalletDidChangedNotification
+           @"currentWalletDidChangedNotification":kRNCurrentWalletDidChangedNotification,
+           @"generalWalletListDidChangedNotification":kRNGeneralWalletListDidChangedNotification
            };
 }
 
@@ -532,6 +551,7 @@ RCT_EXPORT_MODULE()
   if (self) {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveStopLoadingAnimationNotification:) name:kStopLoadingAnimationNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveCurrentWalletChangedNotification:) name:kCurrentWalletDidChangedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveGeneralWalletListDidChangedNotification:) name:kGeneralWalletListDidChangedNotification object:nil];
   }
   
   return self;
@@ -544,6 +564,10 @@ RCT_EXPORT_MODULE()
 
 - (void)didReceiveCurrentWalletChangedNotification:(NSNotification*)notification {
   [self sendEventWithName:kRNCurrentWalletDidChangedNotification body:nil];
+}
+
+- (void)didReceiveGeneralWalletListDidChangedNotification:(NSNotification*)notification {
+  [self sendEventWithName:kRNGeneralWalletListDidChangedNotification body:nil];
 }
 
 @end

@@ -26,15 +26,18 @@ export default class NameWalletView extends Component {
         let previousView = navigation.getParam('previousView', '');
         let action = navigation.getParam('action', 'create');
         let rightText = '';
+        let title = '';
         if (action == 'create') {
+            title = 'New Wallet';
             rightText = 'next';
         } else {
             rightText = 'import';
+            title = 'Import Wallet';
         };
 
         return (
             {
-                title: 'New Wallet',
+                title: title,
                 headerLeft: (
                     <TouchableOpacity
                         onPress={

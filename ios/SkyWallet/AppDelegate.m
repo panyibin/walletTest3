@@ -28,7 +28,6 @@
   MainNavigationViewController *navigationVC = [[MainNavigationViewController alloc] init];
 //  MainViewController *mainVC = [[MainViewController alloc] initWithNibName:@"MainViewController" bundle:nil];
 //  navigationVC.viewControllers = @[mainVC];
-
   
   self.window.rootViewController = navigationVC;
   

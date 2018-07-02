@@ -95,18 +95,16 @@ export default class SendCoinView extends Component {
     }
 
     //press confirm in passworld view
-    async _onPressPasswordConfirm(password) {        
+    async _onPressPasswordConfirm(state) {        
 
-        let localPincode = await WalletManager.getLocalPinCode();
-
-        if (password != localPincode) {
+        if (state != 'success') {
             Alert.alert('the password is invalid');
         } else {
+            this.setState({ showPasswordView: false });
             this.setState({ loading: true });
             let ret = await WalletManager.sendCoinWithTransactionModelDict(this.state.transactionDict);
 
-            this.setState({ loading: false });
-            this.setState({ showPasswordView: false });
+            this.setState({ loading: false });            
 
             if (ret == 'success') {
                 const { navigation } = this.props;
@@ -128,7 +126,7 @@ export default class SendCoinView extends Component {
                 }, 500);
             }
         }
-    }
+    }    
 
     render() {
         const { navigation } = this.props;

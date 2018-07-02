@@ -7,10 +7,13 @@ import {
     TouchableOpacity,
     Alert,
     Image,
-    FlatList
+    FlatList,
+    NativeEventEmitter
 } from 'react-native';
 
-const { WalletManager, NavigationHelper } = NativeModules;
+const { WalletManager, NavigationHelper, WalletEventEmitter } = NativeModules;
+const WalletManagerEmitter = new NativeEventEmitter(WalletEventEmitter);
+var subscription;
 
 export default class GeneralWalletManagerView extends Component {
     constructor(props) {
@@ -41,11 +44,14 @@ export default class GeneralWalletManagerView extends Component {
     };
     
     componentDidMount() {
-        // this.showPasswordViewIfNeeded();
-        this.getLocalWalletArray();
+        this.refreshWalletList();
+
+        subscription = WalletManagerEmitter.addListener(WalletEventEmitter.generalWalletListDidChangedNotification, (remider)=>{
+            this.refreshWalletList();
+        });
     }
 
-    async getLocalWalletArray() {
+    async refreshWalletList() {
         var localWalletArray = await WalletManager.getLocalWalletDictArray();
         this.setState({ walletArray: localWalletArray });
     }
@@ -63,9 +69,10 @@ export default class GeneralWalletManagerView extends Component {
                                 <View>
                                 <TouchableOpacity onPress={
                                     () => {
-                                        // Alert.alert(item.walletId);
-                                        // NavigationHelper.rn_hideSideMenu();
-                                        // WalletManager.resetCurrentWalletId(item.walletId);
+                                        navigation.push('GeneralWalletManagerDetailView',{
+                                            walletModel:item,
+                                            refreshWalletList:this.refreshWalletList.bind(this)
+                                        });
                                     }
                                 }>
                                     <View style={style.walletItem}>
