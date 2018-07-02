@@ -42,7 +42,8 @@ export default class NameWalletView extends Component {
                     <TouchableOpacity
                         onPress={
                             () => {
-                                if (previousView == 'GeneralWalletManagerView') {
+                                //Alert.alert(typeof(previousView));
+                                if (previousView == 'GeneralWalletManagerView' || previousView == 'WelcomeView') {
                                     navigation.goBack();
                                 } else {
                                     NavigationHelper.popViewControllerAnimated(true);

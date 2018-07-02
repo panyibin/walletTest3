@@ -51,7 +51,7 @@ export default class SeedConfirmView extends Component {
         this.setState({ loading: true });
         var walletName = this.props.navigation.getParam('walletName');
         var seed = this.state.seedConfirm;
-        var pinCode = await WalletManager.getPinCode();
+        var pinCode = await WalletManager.getLocalPinCode();
 
         var success = await WalletManager.createNewWallet(walletName, seed, pinCode);
 

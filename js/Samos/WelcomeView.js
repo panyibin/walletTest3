@@ -21,6 +21,14 @@ export default class WelcomeView extends Component {
         };
     }
 
+    static navigationOptions = ({ navigation }) => {
+        return ({
+            // headerMode:'none'
+            header:null,
+            // headerVisible:false
+        });
+    };
+
     componentDidMount() {
         this.showPasswordViewIfNeeded();
     }
@@ -61,7 +69,10 @@ export default class WelcomeView extends Component {
                         onPress={
                             () => {
                                 // Alert.alert('New wallet');
-                                navigation.navigate('NameWalletView');
+                                navigation.push('NameWalletView',{
+                                    action:'create',
+                                    previousView:'WelcomeView'
+                                });
                             }
                         }>
                         <Text style={style.buttonText}>
@@ -72,7 +83,10 @@ export default class WelcomeView extends Component {
                         style={style.button}
                         onPress={
                             () => {
-                                Alert.alert('Import wallet');
+                                navigation.push('NameWalletView',{
+                                    action:'import',
+                                    previousView:'WelcomeView'
+                                });
                             }
                         }>
                         <Text style={style.buttonText}>
@@ -113,9 +127,9 @@ const style = StyleSheet.create(
             color: '#efeeda',
             textAlign: 'center',
             marginBottom: 30,
-            marginLeft:25,
-            marginRight:25,
-            lineHeight:20
+            marginLeft: 25,
+            marginRight: 25,
+            lineHeight: 20
         },
         button: {
             marginTop: 22,
@@ -133,10 +147,10 @@ const style = StyleSheet.create(
             textAlign: 'center'
         },
         copyright: {
-            fontSize:10,
-            marginTop:80,
-            textAlign:'center',
-            color:'#939598'
+            fontSize: 10,
+            marginTop: 80,
+            textAlign: 'center',
+            color: '#939598'
         }
     }
 );

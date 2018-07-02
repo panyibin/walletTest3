@@ -2,14 +2,21 @@ import { createStackNavigator } from 'react-navigation';
 import WelcomeView from './WelcomeView';
 import NameWalletView from './NameWalletView';
 import SeedView from './SeedView';
+import SeedConfirmView from './SeedConfirmView'
 
 export default WelcomeProcess = createStackNavigator(
     {
         Home: WelcomeView,
         NameWalletView:NameWalletView,
-        SeedView:SeedView
+        SeedView:SeedView,
+        SeedConfirmView:SeedConfirmView
     },
     {
-        // headerMode:'none'
+        navigationOptions:{            
+            headerTintColor:'black',
+            headerStyle:{
+                backgroundColor:'#efeedb'
+            }
+        }
     }
 );

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { createStackNavigator } from 'react-navigation';
-import WalletDetailView from './SubWalletView';
+import SubWalletView from './SubWalletView';
 import NameWalletView from './NameWalletView';
 import SeedView from './SeedView';
 import SendCoinView from './SendCoinView';
@@ -10,7 +10,7 @@ import ReceiveCoinDetailView from './ReceiveCoinDetailView'
 const SubWalletNavigator = (props) => {
     let Navigator = createStackNavigator(
         {
-            Home: WalletDetailView,
+            Home: SubWalletView,
             NameWalletView: NameWalletView,
             SeedView: SeedView,
             SendCoinView:SendCoinView,

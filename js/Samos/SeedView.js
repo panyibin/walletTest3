@@ -65,7 +65,7 @@ export default class SeedView extends Component {
     }
 
     tapNavigationRightButton() {
-        // Alert.alert('tap right button');
+        //  Alert.alert('tap right button');
         const {navigation} = this.props;
         let name = navigation.getParam('walletName','');
         // Alert.alert(name);

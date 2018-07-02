@@ -107,7 +107,7 @@ export default class GeneralWalletManagerDetailView
                             }
                         }>
                         <Text style={style.buttonText}>
-                            Backup Seeds
+                            Backup Seed
                     </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
