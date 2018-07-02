@@ -92,8 +92,13 @@ export default class ReceiveCoinView extends Component {
                         <View style={style.listItem}>
                         <TouchableOpacity onPress={
                             ()=>{
-                                Clipboard.setString(item.address);
-                                Alert.alert('address copied');
+                                // Clipboard.setString(item.address);
+                                // Alert.alert('address copied');
+                                // Alert.alert(item.address);
+                                navigation.push('ReceiveCoinDetailView', {
+                                    targetAddress:item.address,
+                                    walletModel:this.state.walletModel
+                                });
                             }
                         }>
                             <View style={style.addressContainer}>

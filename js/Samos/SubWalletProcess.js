@@ -5,6 +5,7 @@ import NameWalletView from './NameWalletView';
 import SeedView from './SeedView';
 import SendCoinView from './SendCoinView';
 import ReceiveCoinView from './ReceiveCoinView';
+import ReceiveCoinDetailView from './ReceiveCoinDetailView'
 
 const SubWalletNavigator = (props) => {
     let Navigator = createStackNavigator(
@@ -13,7 +14,8 @@ const SubWalletNavigator = (props) => {
             NameWalletView: NameWalletView,
             SeedView: SeedView,
             SendCoinView:SendCoinView,
-            ReceiveCoinView:ReceiveCoinView
+            ReceiveCoinView:ReceiveCoinView,
+            ReceiveCoinDetailView:ReceiveCoinDetailView
         },
         {
             // headerMode:'none'
