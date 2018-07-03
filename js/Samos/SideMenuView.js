@@ -20,21 +20,25 @@ export default class SideMenuView extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            walletArray: []
+            walletArray: [],
+            currentWalletModel:{}
         };
     }
 
-    componentDidMount() {        
+    componentDidMount() {
         this.refreshLocalWalletArray();
 
-        subscription = walletManagerEmitter.addListener(WalletEventEmitter.generalWalletListDidChangedNotification, (reminder)=>{
+        subscription = walletManagerEmitter.addListener(WalletEventEmitter.generalWalletListDidChangedNotification, (reminder) => {
             this.refreshLocalWalletArray();
         });
     }
 
     async refreshLocalWalletArray() {
         var localWalletArray = await WalletManager.getLocalWalletDictArray();
-        this.setState({ walletArray: localWalletArray });
+        var currentWalletModel = await WalletManager.getCurrentWalletDict();
+        this.setState({ 
+            walletArray: localWalletArray, 
+            currentWalletModel:currentWalletModel });
     }
 
     async showPasswordViewIfNeeded() {
@@ -86,14 +90,32 @@ export default class SideMenuView extends Component {
                     data={this.state.walletArray}
                     renderItem={
                         ({ item }) => {
-                            return (
-                                <TouchableOpacity onPress={
-                                    () => {
-                                        // Alert.alert(item.walletId);
-                                        NavigationHelper.rn_hideSideMenu();
-                                        WalletManager.resetCurrentWalletId(item.walletId);
+                            let itemBackgroundColor;
+                            if (item.walletId == this.state.currentWalletModel.walletId) {
+                                itemBackgroundColor = '#ecebdb';
+                            } else {
+                                itemBackgroundColor = 'transparent';
+                            }
+
+                            let backgroundStyle = StyleSheet.create(
+                                {
+                                    background: {
+                                        backgroundColor: itemBackgroundColor
                                     }
-                                }>
+                                }
+                            );
+
+                            return (
+                                <TouchableOpacity
+                                    style={backgroundStyle.background}
+                                    onPress={
+                                        () => {
+                                            // Alert.alert(item.walletId);
+                                            NavigationHelper.rn_hideSideMenu();
+                                            WalletManager.resetCurrentWalletId(item.walletId);
+                                            this.refreshLocalWalletArray();
+                                        }
+                                    }>
                                     <View style={style.walletItem}>
                                         <Image
                                             source={require('./images/侧导航-钱包.png')}
@@ -135,7 +157,7 @@ const style = StyleSheet.create(
         },
         itemText: {
             marginLeft: 20,
-            color:'#414042'
+            color: '#414042'
         },
         itemSeperator: {
             marginTop: 10,
@@ -150,7 +172,8 @@ const style = StyleSheet.create(
         },
         walletItem: {
             flexDirection: 'row',
-            marginTop: 15,
+            marginTop: 7,
+            marginBottom:7,
             alignItems: 'center'
         },
         walletImage: {
@@ -161,7 +184,7 @@ const style = StyleSheet.create(
         walletName: {
             marginLeft: 20,
             fontSize: 15,
-            color:'#414042'
+            color: '#414042'
             // backgroundColor:'red'
         }
     }
