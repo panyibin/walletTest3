@@ -51,7 +51,13 @@ export default class SubWalletView extends Component {
         return ({
             title: barTitle,
             headerLeft: (
-                <TouchableOpacity style={{ height: 20, width: 50 }}
+                <TouchableOpacity
+                    style={
+                        {
+                            height: 20,
+                            width: 70
+                        }
+                    }
                     onPress={
                         () => {
                             NavigationHelper.popViewControllerAnimated(true);
@@ -165,7 +171,7 @@ export default class SubWalletView extends Component {
                                 <View style={style.transactionListItem}>
                                     <View style={style.transactionAddressContainer}>
                                         <Text style={style.transactionAddress}
-                                        numberOfLines={1}
+                                            numberOfLines={1}
                                         >{item.targetAddress}
                                         </Text>
                                         <Text style={style.transactionAmount}>-{item.amount}</Text>
@@ -270,8 +276,8 @@ const style = StyleSheet.create(
         },
         transactionListItem: {
             marginLeft: 25,
-            marginRight:25,
-            marginTop:25
+            marginRight: 25,
+            marginTop: 25
         },
         transactionAddressContainer: {
             flexDirection: 'row',
@@ -287,7 +293,7 @@ const style = StyleSheet.create(
             color: '#414042'
         },
         transactionTimeContainer: {
-            marginTop:10,
+            marginTop: 10,
             flexDirection: 'row',
             justifyContent: 'space-between'
         },
@@ -300,7 +306,7 @@ const style = StyleSheet.create(
             color: '#aaaaaa'
         },
         seperator: {
-            marginTop:15,
+            marginTop: 15,
             height: 0.5,
             backgroundColor: '#414042'
         },

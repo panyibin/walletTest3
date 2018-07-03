@@ -40,6 +40,12 @@ export default class NameWalletView extends Component {
                 title: title,
                 headerLeft: (
                     <TouchableOpacity
+                        style={
+                            {
+                                width: 70,
+                                height: 15
+                            }
+                        }
                         onPress={
                             () => {
                                 //Alert.alert(typeof(previousView));
@@ -185,7 +191,7 @@ const style = StyleSheet.create(
         walletNameInput: {
             marginTop: 20,
             marginLeft: 25,
-            marginRight:25,
+            marginRight: 25,
             color: '#efeeda'
         },
         seperator: {

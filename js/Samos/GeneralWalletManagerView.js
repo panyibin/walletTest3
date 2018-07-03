@@ -29,6 +29,12 @@ export default class GeneralWalletManagerView extends Component {
                 title: 'Wallets Management',
                 headerLeft: (
                     <TouchableOpacity
+                        style={
+                            {
+                                width: 70,
+                                height: 15
+                            }
+                        }
                         onPress={
                             () => {
                                 NavigationHelper.popViewControllerAnimated(true);
@@ -38,15 +44,15 @@ export default class GeneralWalletManagerView extends Component {
                             style={{ width: 15, height: 20, marginLeft: 10 }}
                             source={require('./images/返回.png')}
                         /></TouchableOpacity>
-                ),                
+                ),
             }
         );
     };
-    
+
     componentDidMount() {
         this.refreshWalletList();
 
-        subscription = WalletManagerEmitter.addListener(WalletEventEmitter.generalWalletListDidChangedNotification, (remider)=>{
+        subscription = WalletManagerEmitter.addListener(WalletEventEmitter.generalWalletListDidChangedNotification, (remider) => {
             this.refreshWalletList();
         });
     }
@@ -57,71 +63,71 @@ export default class GeneralWalletManagerView extends Component {
     }
 
     render() {
-        const {navigation} = this.props;
+        const { navigation } = this.props;
         return (
             <View style={style.container}>
-            <View style={style.walletListContainer}>       
-                <FlatList
-                    data={this.state.walletArray}
-                    renderItem={
-                        ({ item }) => {
-                            return (
-                                <View>
-                                <TouchableOpacity onPress={
-                                    () => {
-                                        navigation.push('GeneralWalletManagerDetailView',{
-                                            walletModel:item,
-                                            refreshWalletList:this.refreshWalletList.bind(this)
-                                        });
-                                    }
-                                }>
-                                    <View style={style.walletItem}>
-                                        <Image
-                                            source={require('./images/侧导航-钱包.png')}
-                                            style={style.walletImage}
-                                        />
-                                        <Text style={style.walletName}>{item.walletName}</Text>
+                <View style={style.walletListContainer}>
+                    <FlatList
+                        data={this.state.walletArray}
+                        renderItem={
+                            ({ item }) => {
+                                return (
+                                    <View>
+                                        <TouchableOpacity onPress={
+                                            () => {
+                                                navigation.push('GeneralWalletManagerDetailView', {
+                                                    walletModel: item,
+                                                    refreshWalletList: this.refreshWalletList.bind(this)
+                                                });
+                                            }
+                                        }>
+                                            <View style={style.walletItem}>
+                                                <Image
+                                                    source={require('./images/侧导航-钱包.png')}
+                                                    style={style.walletImage}
+                                                />
+                                                <Text style={style.walletName}>{item.walletName}</Text>
+                                            </View>
+                                        </TouchableOpacity>
+                                        <View style={style.walletSeperator} />
                                     </View>
-                                </TouchableOpacity>
-                                <View style={style.walletSeperator}/>
-                                </View>
-                            );
+                                );
+                            }
                         }
-                    }
 
-                    keyExtractor={item => item.walletId}
-                />
+                        keyExtractor={item => item.walletId}
+                    />
                 </View>
                 <View style={style.bottomButtonsContainer}>
-                <TouchableOpacity 
-                style={style.button}
-                onPress={
-                    () => {
-                        // Alert.alert('New wallet');
-                        navigation.push('NameWalletView',{
-                            previousView:'GeneralWalletManagerView',
-                            action:'create'
-                        });
-                    }
-                }>
-                    <Text style={style.buttonText}>
-                        New Wallet
+                    <TouchableOpacity
+                        style={style.button}
+                        onPress={
+                            () => {
+                                // Alert.alert('New wallet');
+                                navigation.push('NameWalletView', {
+                                    previousView: 'GeneralWalletManagerView',
+                                    action: 'create'
+                                });
+                            }
+                        }>
+                        <Text style={style.buttonText}>
+                            New Wallet
                     </Text>
-                </TouchableOpacity>
-                <TouchableOpacity 
-                style={style.button}
-                onPress={
-                    () => {
-                        navigation.push('NameWalletView',{
-                            previousView:'GeneralWalletManagerView',
-                            action:'import'
-                        });
-                    }
-                }>
-                    <Text style={style.buttonText}>
-                        Import Wallet
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={style.button}
+                        onPress={
+                            () => {
+                                navigation.push('NameWalletView', {
+                                    previousView: 'GeneralWalletManagerView',
+                                    action: 'import'
+                                });
+                            }
+                        }>
+                        <Text style={style.buttonText}>
+                            Import Wallet
                     </Text>
-                </TouchableOpacity>
+                    </TouchableOpacity>
                 </View>
             </View>
         );
@@ -139,8 +145,8 @@ const style = StyleSheet.create(
         walletListTopSpace: {
             marginTop: 30
         },
-        walletListContainer:{
-            height:'70%'
+        walletListContainer: {
+            height: '70%'
         },
         walletItem: {
             flexDirection: 'row',
@@ -155,19 +161,19 @@ const style = StyleSheet.create(
         walletName: {
             marginLeft: 20,
             fontSize: 15,
-            color:'#414042'
+            color: '#414042'
             // backgroundColor:'red'
         },
         walletSeperator: {
-            marginTop:10,
+            marginTop: 10,
             marginLeft: 25,
             marginRight: 25,
             height: 0.5,
             backgroundColor: '#6d6f71'
         },
         //bottom buttons
-        bottomButtonsContainer:{
-            marginBottom:20
+        bottomButtonsContainer: {
+            marginBottom: 20
         },
         button: {
             marginTop: 22,

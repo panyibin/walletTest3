@@ -202,6 +202,11 @@ RCT_EXPORT_METHOD(popToRootViewControllerAnimated:(BOOL)animated) {
   }
 }
 
+//swipe back gesture
+RCT_EXPORT_METHOD(setSwipeBackGestureEnabled:(BOOL)enabled) {
+  [self rootNavigationController].interactivePopGestureRecognizer.enabled = enabled;
+}
+
 //welcome page
 - (void)resetToWelcomePage {
   WelcomeViewController *welcomeVC = [WelcomeViewController new];
