@@ -22,7 +22,7 @@ export default class GeneralWalletManagerDetailView
             backupSeedPasswordViewVisible: false,//used to show the password view for seed
             deleteWalletPasswordViewVisible: false,//used to show the password view for deleteWallet
             loading: false,
-            walletId:{},
+            walletId: {},
         };
     }
 
@@ -35,7 +35,7 @@ export default class GeneralWalletManagerDetailView
 
     componentDidMount() {
         let walletModel = this.props.navigation.getParam('walletModel', {});
-        this.setState({walletModel:walletModel});
+        this.setState({ walletModel: walletModel });
     }
 
     async tapBackupSeedsButton() {
@@ -44,17 +44,26 @@ export default class GeneralWalletManagerDetailView
 
     async tapDeleteWalletButton() {
         // let generalWalletArray = await WalletManager.getLocalWalletDictArray();
-        
+
         // Alert.alert(generalWalletArray.count);
-        this.setState({ deleteWalletPasswordViewVisible: true });
+        Alert.alert('Do you want to delete the wallet?', '', [
+            {
+                text: 'OK', onPress:() => {
+                    this.setState({ deleteWalletPasswordViewVisible: true });
+                }
+            },
+            {
+                text: 'Cancel', onPress:() => { }
+            }
+        ]);
     }
 
     async _onPressBackupSeedPasswordConfirm(state) {
         const { navigation } = this.props;
 
-        if(state == 'success') {
+        if (state == 'success') {
             this.setState({ backupSeedPasswordViewVisible: false });
-            navigation.push('BackupSeedView',{seed:this.state.walletModel.seed});
+            navigation.push('BackupSeedView', { seed: this.state.walletModel.seed });
         } else {
             Alert.alert('the password is not valid');
         }
@@ -62,11 +71,15 @@ export default class GeneralWalletManagerDetailView
 
     async _onPressDeleteWalletPasswordConfirm(state) {
         const { navigation } = this.props;
-        if(state == 'success') {            
+        if (state == 'success') {
             this.setState({ deleteWalletPasswordViewVisible: false });
-            await WalletManager.removeWallet(this.state.walletModel.walletId);
-            // navigation.getParam('refreshWalletList')();
-            navigation.goBack();
+            let ret = await WalletManager.removeWallet(this.state.walletModel.walletId);
+            if(ret == 'success') {
+                navigation.goBack();
+            } else {
+                Alert.alert('Fail to delete wallet', ret);
+            }
+            
         } else {
             Alert.alert('the password is not valid');
         }
