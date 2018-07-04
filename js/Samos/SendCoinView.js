@@ -135,9 +135,9 @@ export default class SendCoinView extends Component {
 
                 if (ret == 'success') {
                     const { navigation } = this.props;
-                    navigation.getParam('refreshCurrentWallet')();
-
+                    
                     setTimeout(() => {
+                        navigation.getParam('refreshCurrentWallet')();
                         Alert.alert('coin sent success', '',
                             [{
                                 text: 'ok',

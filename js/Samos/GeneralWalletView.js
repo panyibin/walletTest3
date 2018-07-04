@@ -37,7 +37,7 @@ export default class GeneralWalletView extends Component<Props> {
     componentDidMount() {
         this.refreshCurrentWallet();
 
-        subscription = wallManagerEmitter.addListener(WalletEventEmitter.currentWalletDidChangedNotification, (reminder) => {
+        subscription = wallManagerEmitter.addListener(WalletEventEmitter.generalWalletRefreshNotification, (reminder) => {
             this.refreshCurrentWallet();
         })
             ;

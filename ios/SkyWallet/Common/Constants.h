@@ -34,12 +34,12 @@
 
 //cooperate with RN Notification
 #define kStopLoadingAnimationNotification @"kStopLoadingAnimationNotification"
-#define kCurrentWalletDidChangedNotification @"kCurrentWalletDidChangedNotification"
+#define kGeneralWalletNeedRefreshNotification @"kGeneralWalletNeedRefreshNotification"
 #define kGeneralWalletListDidChangedNotification @"kGeneralWalletListDidChangedNotification"
 
 //RN Notification
 #define kRNStopLoadingAnimationNotification @"kRNStopLoadingAnimationNotification"
-#define kRNCurrentWalletDidChangedNotification @"kRNCurrentWalletDidChangedNotification"
+#define kRNGeneralWalletNeedRefreshNotification @"kRNGeneralWalletNeedRefreshNotification"
 #define kRNGeneralWalletListDidChangedNotification @"kRNGeneralWalletListDidChangedNotification"
 #define kRNGetAddressFromQRCodeNotification @"kRNGetAddressFromQRCodeNotification"
 

@@ -386,7 +386,7 @@ RCT_REMAP_METHOD(getLocalWalletDictArray, getLocalWalletDictArrayWithResolver:(R
 RCT_EXPORT_METHOD(resetCurrentWalletId:(NSString*)currentWalletId) {
   if(currentWalletId && currentWalletId.length > 0) {
     [[NSUserDefaults standardUserDefaults] setObject:currentWalletId forKey:kCurrentWalletId];
-    [[NSNotificationCenter defaultCenter] postNotificationName:kCurrentWalletDidChangedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kGeneralWalletNeedRefreshNotification object:nil];
   }
 }
 
@@ -536,7 +536,7 @@ RCT_EXPORT_MODULE()
 
 - (NSArray<NSString *> *)supportedEvents {
   return @[kRNStopLoadingAnimationNotification,
-           kRNCurrentWalletDidChangedNotification,
+           kRNGeneralWalletNeedRefreshNotification,
            kRNGeneralWalletListDidChangedNotification,
            kRNGetAddressFromQRCodeNotification
            ];
@@ -545,7 +545,7 @@ RCT_EXPORT_MODULE()
 - (NSDictionary *)constantsToExport {
   return @{
            @"stopLoadingAnimationNotification":kRNStopLoadingAnimationNotification,
-           @"currentWalletDidChangedNotification":kRNCurrentWalletDidChangedNotification,
+           @"generalWalletRefreshNotification":kRNGeneralWalletNeedRefreshNotification,
            @"generalWalletListDidChangedNotification":kRNGeneralWalletListDidChangedNotification,
            @"getAddressFromQRCodeNotification":kRNGetAddressFromQRCodeNotification
            };
@@ -555,7 +555,7 @@ RCT_EXPORT_MODULE()
   self = [super init];
   if (self) {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveStopLoadingAnimationNotification:) name:kStopLoadingAnimationNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveCurrentWalletChangedNotification:) name:kCurrentWalletDidChangedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveGeneralWalletNeedRefreshNotification:) name:kGeneralWalletNeedRefreshNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveGeneralWalletListDidChangedNotification:) name:kGeneralWalletListDidChangedNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveGetAddressFromQRCodeNotification:) name:kGetAddressFromQRCodeNotification object:nil];
   }
@@ -568,8 +568,8 @@ RCT_EXPORT_MODULE()
     [self sendEventWithName:kRNStopLoadingAnimationNotification body:nil];
 }
 
-- (void)didReceiveCurrentWalletChangedNotification:(NSNotification*)notification {
-  [self sendEventWithName:kRNCurrentWalletDidChangedNotification body:nil];
+- (void)didReceiveGeneralWalletNeedRefreshNotification:(NSNotification*)notification {
+  [self sendEventWithName:kRNGeneralWalletNeedRefreshNotification body:nil];
 }
 
 - (void)didReceiveGeneralWalletListDidChangedNotification:(NSNotification*)notification {
