@@ -90,12 +90,12 @@ export default class SeedConfirmView extends Component {
                     Confirm your wallet mnemonic
                 </Text>
                 <Text style={style.description}>
-                    Please input the mnenonic your just wrote down.
+                    Please input the mnemonic your just wrote down.
                 </Text>
                 <View style={style.seedContainer}>
                     <TextInput
                         multiline={true}
-                        placeholder={'input the mnenonic again'}
+                        placeholder={'input the mnemonic again'}
                         placeholderTextColor={'#6d6f71'}
                         style={style.seedInput}
                         onChangeText={(text) => {

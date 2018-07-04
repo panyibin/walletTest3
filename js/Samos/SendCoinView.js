@@ -47,20 +47,20 @@ export default class SendCoinView extends Component {
         return (
             {
                 title: title,
-                headerRight:(<TouchableOpacity 
+                headerRight: (<TouchableOpacity
                     onPress={
-                        ()=>{
+                        () => {
                             NavigationHelper.showQRReaderViewControllerAnimated(true);
                         }
                     }
-                    >
+                >
                     <Image
-                    style={{
-                        marginRight:10,
-                        height:30,
-                        width:30,
-                    }}
-                    source={require('./images/侧导航-扫码.png')}></Image>
+                        style={{
+                            marginRight: 10,
+                            height: 30,
+                            width: 30,
+                        }}
+                        source={require('./images/侧导航-扫码.png')}></Image>
                 </TouchableOpacity>)
             }
         );
@@ -70,9 +70,9 @@ export default class SendCoinView extends Component {
         const { navigation } = this.props;
         let walletModel = navigation.getParam('walletModel', {});
         this.setState({ walletModel: walletModel });
-        
-        subscription = WalletManagerEmitter.addListener(WalletEventEmitter.getAddressFromQRCodeNotification,(reminder)=>{
-            this.setState({targetAddress:reminder.targetAddress});
+
+        subscription = WalletManagerEmitter.addListener(WalletEventEmitter.getAddressFromQRCodeNotification, (reminder) => {
+            this.setState({ targetAddress: reminder.targetAddress });
             // Alert.alert(typeof(reminder.targetAddress));
 
         });
@@ -120,38 +120,41 @@ export default class SendCoinView extends Component {
     }
 
     //press confirm in passworld view
-    async _onPressPasswordConfirm(state) {        
+    async _onPressPasswordConfirm(state) {
 
         if (state != 'success') {
             Alert.alert('the password is invalid');
         } else {
-            this.setState({ showPasswordView: false });
-            this.setState({ loading: true });
+            this.setState({ showPasswordView: false, loading: true });
+            // this.setState({ loading: true });
             let ret = await WalletManager.sendCoinWithTransactionModelDict(this.state.transactionDict);
 
-            this.setState({ loading: false });            
+            //here we use timer to avoid 'Modal View UI hang' problem
+            setTimeout(() => {
+                this.setState({ loading: false });
 
-            if (ret == 'success') {
-                const { navigation } = this.props;
-                navigation.getParam('refreshCurrentWallet')();
+                if (ret == 'success') {
+                    const { navigation } = this.props;
+                    navigation.getParam('refreshCurrentWallet')();
 
-                setTimeout(() => {
-                    Alert.alert('coin sent success', '',
-                        [{
-                            text:'ok',
-                            onPress:()=>{
-                                navigation.goBack();            
-                            }
-                        }]);                    
-                }, 500);
+                    setTimeout(() => {
+                        Alert.alert('coin sent success', '',
+                            [{
+                                text: 'ok',
+                                onPress: () => {
+                                    navigation.goBack();
+                                }
+                            }]);
+                    }, 500);
 
-            } else {
-                setTimeout(() => {
-                    Alert.alert('failed to send coin', ret);
-                }, 500);
-            }
+                } else {
+                    setTimeout(() => {
+                        Alert.alert('failed to send coin', ret);
+                    }, 500);
+                }
+            }, 500);
         }
-    }    
+    }
 
     render() {
         const { navigation } = this.props;
