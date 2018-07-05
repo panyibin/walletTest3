@@ -528,6 +528,45 @@ RCT_REMAP_METHOD(getBalanceDictOfAddress, getBalanceDictOfAddress:(NSString*)add
   return walletsCount;
 }
 
+- (TransactionModel*)parseTransactionUrl:(NSString*)transactionUrl {
+  NSString *targetAdress = @"";
+  NSString *amount = @"";
+  NSString *walletId = @"";
+  NSString *walletType = @"";
+  NSString *transactionType = @"out";
+  
+  GeneralWalletModel *currentWalletModel = [self getCurrentWalletModel];
+  NSURLComponents *urlComponents = [[NSURLComponents alloc] initWithString:transactionUrl];
+  targetAdress = urlComponents.path;//wierd
+  
+  for (NSURLQueryItem *queryItem in urlComponents.queryItems) {
+    if ([queryItem.name isEqualToString:@"token"]) {
+      walletType = queryItem.value;
+    } else if ([queryItem.name isEqualToString:@"amount"]) {
+      amount = queryItem.value;
+    }
+  }
+  
+  for (WalletModel *wm in currentWalletModel.subWalletArray) {
+    if ([wm.walletType isEqualToString:walletType]) {
+      walletId = wm.walletId;
+      break;
+    }
+  }
+  
+  NSDictionary *transactionDict = @{
+                                    @"targetAddress":targetAdress ? : @"",
+                                    @"walletId":walletId ? : @"",
+                                    @"walletType":walletType ? : @"",
+                                    @"amount":amount ? : @"",
+                                    @"transactionType":transactionType ? : @""
+                                    };
+  TransactionModel *transactionModel = [[TransactionModel alloc] initWithDictionary:transactionDict];
+  
+  return transactionModel;
+  
+}
+
 @end
 
 @implementation WalletEventEmitter

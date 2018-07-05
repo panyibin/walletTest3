@@ -52,7 +52,24 @@ export default class SideMenuView extends Component {
         const { navigation } = this.props;
         return (
             <View style={style.container}>
-                <View style={style.topSpace} />
+                <View style={style.topSpace} />                
+                <TouchableOpacity onPress={
+                    () => {
+                        // Alert.alert('New wallet');
+                        // navigation.navigate('NameWalletView');
+                        NavigationHelper.showQRReaderViewControllerFromSideMenuAnimated(true);
+                    }
+                }>
+                    <View>
+                        <View style={style.item}>
+                            <Image source={require('./images/侧导航-扫码.png')} style={style.itemImage}></Image>
+                            <Text style={style.itemText}>
+                                Scan QR Code
+                        </Text>
+                        </View>
+                    </View>
+                </TouchableOpacity>
+                <View style={style.itemSeperator} />
                 <TouchableOpacity onPress={
                     () => {
                         // Alert.alert('New wallet');

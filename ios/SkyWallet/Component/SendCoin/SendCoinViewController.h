@@ -10,4 +10,8 @@
 
 @interface SendCoinViewController : UIViewController
 
+@property (nonatomic, strong) TransactionModel *transactionModel;
+
+- (instancetype)initWithTransactionModel:(TransactionModel*)transactionModel;
+
 @end

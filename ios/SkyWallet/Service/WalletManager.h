@@ -19,6 +19,8 @@
 - (NSArray*)getLocalWalletArray;
 - (void)addWalletLocally:(GeneralWalletModel*)walletModel;
 - (NSInteger)getWalletsCount;
+- (GeneralWalletModel*)getCurrentWalletModel;
+- (TransactionModel*)parseTransactionUrl:(NSString*)transactionUrl;
 
 - (WalletBalanceModel*)getBalanceOfWallet:(NSString*)walletId coinType:(NSString*)coinType;
 - (WalletBalanceModel*)getBalanceOfAddress:(NSString*)address coinType:(NSString*)coinType;

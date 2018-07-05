@@ -31,6 +31,7 @@ export default class SendCoinView extends Component {
             showTransactionConfirmView: false,
             transactionDict: {},
             loading: false,
+            balance: 0
         };
     }
 
@@ -69,13 +70,25 @@ export default class SendCoinView extends Component {
     componentDidMount() {
         const { navigation } = this.props;
         let walletModel = navigation.getParam('walletModel', {});
-        this.setState({ walletModel: walletModel });
+        let transactionDict = navigation.getParam('transactionDict', {});
+
+        this.setState({
+            walletModel: walletModel,
+            transactionDict: transactionDict,
+            // targetAddress:transactionDict.targetAddress
+        });
 
         subscription = WalletManagerEmitter.addListener(WalletEventEmitter.getAddressFromQRCodeNotification, (reminder) => {
             this.setState({ targetAddress: reminder.targetAddress });
             // Alert.alert(typeof(reminder.targetAddress));
 
         });
+    }
+
+    async getWalletBalance() {
+        let balanceDict = await WalletManager.getBalanceDictOfWallet(this.state.walletModel.walletId, this.state.walletType);
+
+        this.setState({ balance: balanceDict.balance });
     }
 
     async tapNextButton() {
@@ -135,7 +148,7 @@ export default class SendCoinView extends Component {
 
                 if (ret == 'success') {
                     const { navigation } = this.props;
-                    
+
                     setTimeout(() => {
                         navigation.getParam('refreshCurrentWallet')();
                         Alert.alert('coin sent success', '',
@@ -159,8 +172,12 @@ export default class SendCoinView extends Component {
     render() {
         const { navigation } = this.props;
         let walletModel = navigation.getParam('walletModel', {});
-        let balance = navigation.getParam('balance', '0');
+        let balance = this.state.balance;
         let walletType = walletModel.walletType;
+
+        // let targetAddress = transactionDict.targetAddress;
+        let amount = this.state.transactionDict.amount;
+
         let walletUnit = 'samo';
 
         if (walletType == 'samos') {
