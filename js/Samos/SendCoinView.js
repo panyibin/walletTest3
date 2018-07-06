@@ -37,6 +37,7 @@ export default class SendCoinView extends Component {
 
     static navigationOptions = ({ navigation }) => {
         let walletModel = navigation.getParam('walletModel', {});
+        let previousView = navigation.getParam('previousView','');
         let walletType = walletModel.walletType;
         let title = '';
         if (walletType == 'samos') {
@@ -48,6 +49,29 @@ export default class SendCoinView extends Component {
         return (
             {
                 title: title,
+                headerLeft: (
+                    <TouchableOpacity
+                        style={
+                            {
+                                width: 70,
+                                height: 15
+                            }
+                        }
+                        onPress={
+                            () => {
+                                //Alert.alert(typeof(previousView));
+                                if (previousView == 'SubWalletView') {
+                                    navigation.goBack();
+                                } else {
+                                    NavigationHelper.popViewControllerAnimated(true);
+                                }
+                            }
+                        }>
+                        <Image
+                            style={{ width: 15, height: 20, marginLeft: 10 }}
+                            source={require('./images/返回.png')}
+                        /></TouchableOpacity>
+                ),
                 headerRight: (<TouchableOpacity
                     onPress={
                         () => {
@@ -72,11 +96,29 @@ export default class SendCoinView extends Component {
         let walletModel = navigation.getParam('walletModel', {});
         let transactionDict = navigation.getParam('transactionDict', {});
 
+        let targetAddress = '';
+        let amount = '';
+        if (typeof(transactionDict.targetAddress) != 'undefined') {
+            targetAddress = transactionDict.targetAddress;
+        }
+
+        if (typeof(transactionDict.amount) != 'undefined') {
+            amount = transactionDict.amount;
+        }
+        console.log('send coin view');
+        console.log(targetAddress);
+        console.log(amount);
+        console.log(typeof(transactionDict.targetAddress));
+
         this.setState({
             walletModel: walletModel,
             transactionDict: transactionDict,
             // targetAddress:transactionDict.targetAddress
+            targetAddress: targetAddress,
+            amount: amount
         });
+
+        this.getWalletBalance();
 
         subscription = WalletManagerEmitter.addListener(WalletEventEmitter.getAddressFromQRCodeNotification, (reminder) => {
             this.setState({ targetAddress: reminder.targetAddress });
@@ -86,9 +128,12 @@ export default class SendCoinView extends Component {
     }
 
     async getWalletBalance() {
-        let balanceDict = await WalletManager.getBalanceDictOfWallet(this.state.walletModel.walletId, this.state.walletType);
+        let walletModel = this.props.navigation.getParam('walletModel', {});
+        let balanceDict = await WalletManager.getBalanceDictOfWallet(walletModel.walletId, walletModel.walletType);
+        
+        let balance = parseFloat(balanceDict.balance).toFixed(2);
 
-        this.setState({ balance: balanceDict.balance });
+        this.setState({ balance: balance });
     }
 
     async tapNextButton() {
@@ -175,7 +220,7 @@ export default class SendCoinView extends Component {
         let balance = this.state.balance;
         let walletType = walletModel.walletType;
 
-        // let targetAddress = transactionDict.targetAddress;
+        // let targetAddress = this.props.transactionDict.targetAddress;
         let amount = this.state.transactionDict.amount;
 
         let walletUnit = 'samo';
@@ -252,7 +297,7 @@ export default class SendCoinView extends Component {
                             text => {
                                 this.setState({ amount: text });
                             }
-                        }></TextInput>
+                        }>{this.state.amount}</TextInput>
                     <View style={style.seperator} />
                 </View>
                 <View>

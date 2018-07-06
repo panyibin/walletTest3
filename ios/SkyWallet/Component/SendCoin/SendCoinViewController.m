@@ -11,6 +11,7 @@
 @interface SendCoinViewController ()
 
 @property (nonatomic, strong) RCTRootView *rctView;
+@property (nonatomic, strong) WalletModel *subWalletModel;
 
 @end
 
@@ -20,6 +21,13 @@
   self = [super init];
   if (self) {
     _transactionModel = transactionModel;
+    GeneralWalletModel *currentWalletModel = [WalletSharedManager getCurrentWalletModel];
+    for (WalletModel *wm in currentWalletModel.subWalletArray) {
+      if ([wm.walletType isEqualToString:transactionModel.walletType]) {
+        _subWalletModel = wm;
+        break;
+      }
+    }
   }
   
   return self;
@@ -28,8 +36,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
   NSDictionary *transactionModelDict = self.transactionModel ? [self.transactionModel getModelDictionary] : nil;
+  NSDictionary *subWalletModel = self.subWalletModel ? [self.subWalletModel getModelDictionary] : nil;
   NSDictionary *initialProperties = @{
-                                      @"transactionDict":transactionModelDict ? : @{}
+                                      @"transactionDict":transactionModelDict ? : @{},
+                                      @"walletModel":subWalletModel ? : @{}                                      
                                       };
   self.rctView = [RNManager viewWithModuleName:@"SendCoinProcess" initialProperties:initialProperties];
   

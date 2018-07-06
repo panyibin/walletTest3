@@ -19,7 +19,8 @@ const CustomNavigator = (props) => {
                 }
             },
             initialRouteParams:{
-                transactionDict:props.initialProperties,
+                transactionDict:props.transactionDict,
+                walletModel:props.walletModel
             }
         }
     );
@@ -29,6 +30,6 @@ const CustomNavigator = (props) => {
 
 export default class SendCoinProcess extends Component {
     render(){
-        return <CustomNavigator initialProperties={this.props.transactionDict}/>
+        return <CustomNavigator transactionDict={this.props.transactionDict} walletModel={this.props.walletModel}/>
     }
 }

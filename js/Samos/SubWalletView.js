@@ -199,7 +199,8 @@ export default class SubWalletView extends Component {
                                 navigation.push('SendCoinView', {
                                     walletModel: this.state.walletModel,
                                     balance: this.state.balance,
-                                    refreshCurrentWallet: this.refreshCurrentWallet.bind(this)
+                                    refreshCurrentWallet: this.refreshCurrentWallet.bind(this),
+                                    previousView:'SubWalletView'
                                 });
                             }
                         }>
