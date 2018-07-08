@@ -6,7 +6,8 @@ import {
     StyleSheet,
     TouchableOpacity,
     Alert,
-    Clipboard
+    Clipboard,
+    TextInput
 } from 'react-native';
 
 import QRCodeView from './QRCodeView'
@@ -18,7 +19,9 @@ export default class ReceiveCoinDetailView extends Component {
         super(props);
         this.state = {
             targetAddress: '',
-            walletModel: {}
+            walletModel: {},
+            qrCodeString:'',
+            amount:''
         };
     }
 
@@ -34,9 +37,11 @@ export default class ReceiveCoinDetailView extends Component {
         const { navigation } = this.props;
         let targetAddress = navigation.getParam('targetAddress', '');
         let walletModel = navigation.getParam('walletModel', {});
+        let qrCodeString = 'address:' + targetAddress + '?amount='+ '&token=' + walletModel.walletType;
         this.setState({
             targetAddress: targetAddress,
-            walletModel: walletModel
+            walletModel: walletModel,
+            qrCodeString:qrCodeString
         });
     }
 
@@ -47,8 +52,19 @@ export default class ReceiveCoinDetailView extends Component {
                 <Text style={style.targetAddress}>
                     {this.state.targetAddress}
                 </Text>
+                <View style={style.inputContainer}>
+                    <TextInput placeholder={'amount to receive'} style={style.input}
+                    onChangeText={(text)=>{
+                        this.setState({amount:text});
+                        let qrCodeString = 'address:'+this.state.targetAddress+'?amount='+ text + '&token=' + this.state.walletModel.walletType;
+
+                        this.setState({qrCodeString:qrCodeString});
+                    }}
+                    ></TextInput>
+                </View>
+                <View style={style.seperator} />
                 <View style={style.qrCodeViewContainer} >
-                <QRCodeView style={style.qrCodeView} qrCodeString={this.state.targetAddress} />
+                    <QRCodeView style={style.qrCodeView} qrCodeString={this.state.qrCodeString} />
                 </View>
                 <TouchableOpacity
                     style={style.button}
@@ -73,13 +89,30 @@ const style = StyleSheet.create(
             // alignItems:'center',            
         },
         targetAddress: {
-            marginTop:30,
+            marginTop: 30,
             fontSize: 15,
             color: '#414042',
-            textAlign:'center'
+            textAlign: 'center'
         },
-        qrCodeViewContainer:{
-            alignItems:'center'
+        inputContainer: {
+            // alignItems: 'center',
+        },
+        input: {
+            marginTop:5,
+            marginLeft: 25,
+            marginRight: 25,
+            height: 30,
+            textAlign: 'center'
+        },
+        seperator: {
+            marginLeft: 100,
+            marginRight: 100,
+            marginTop: 3,
+            height: 0.5,
+            backgroundColor: '#414042'
+        },
+        qrCodeViewContainer: {
+            alignItems: 'center'
         },
         qrCodeView: {
             width: 250,
