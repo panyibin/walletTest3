@@ -94,7 +94,7 @@ export default class WelcomeView extends Component {
                     </Text>
                     </TouchableOpacity>
                     <Text style={style.copyright}>
-                        SPO 2018 all rights reserved
+                        Samos 2018 all rights reserved
                 </Text>
                 </ImageBackground>
             </View>
