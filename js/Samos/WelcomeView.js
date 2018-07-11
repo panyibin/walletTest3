@@ -62,7 +62,7 @@ export default class WelcomeView extends Component {
                         />
                     </View>
                     <Text style={style.description}>
-                        Welcome to SPO Wallet. If it's the first time you use it, please create a wallet first. If you already have one, plese import it with your seed.
+                        Welcome to Samos Wallet. If it's the first time you use it, please create a wallet first. If you already have one, plese import it with your seed.
                 </Text>
                     <TouchableOpacity
                         style={style.button}
@@ -117,8 +117,8 @@ const style = StyleSheet.create(
             alignItems: 'center'
         },
         logo: {
-            width: 142,
-            height: 64,
+            width: 180,
+            height: 63,
             marginTop: 78,
         },
         description: {
