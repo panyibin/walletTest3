@@ -44,7 +44,7 @@
   _amount = [dict getStringForKey:@"amount"];
   _transactionTime = [dict getStringForKey:@"transactionTime"];
   
-  if (_walletId.length == 0 || _walletType.length == 0 || _transactionType.length == 0 || _amount.length == 0 || _targetAddress.length == 0) {
+  if (_walletId.length == 0 || _walletType.length == 0 || _targetAddress.length == 0) {
     return NO;
   }
   

@@ -121,7 +121,10 @@ export default class SendCoinView extends Component {
         this.getWalletBalance();
 
         subscription = WalletManagerEmitter.addListener(WalletEventEmitter.getAddressFromQRCodeNotification, (reminder) => {
-            this.setState({ targetAddress: reminder.targetAddress });
+            this.setState({ 
+                targetAddress: reminder.targetAddress,
+                amount: reminder.amount
+             });
             // Alert.alert(typeof(reminder.targetAddress));
 
         });

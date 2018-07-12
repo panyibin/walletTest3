@@ -37,7 +37,7 @@ export default class ReceiveCoinDetailView extends Component {
         const { navigation } = this.props;
         let targetAddress = navigation.getParam('targetAddress', '');
         let walletModel = navigation.getParam('walletModel', {});
-        let qrCodeString = 'address:' + targetAddress + '?amount='+ '&token=' + walletModel.walletType;
+        let qrCodeString = 'samos://pay?address=' + targetAddress + '&amount='+ '&token=' + walletModel.walletType;
         this.setState({
             targetAddress: targetAddress,
             walletModel: walletModel,
@@ -56,7 +56,7 @@ export default class ReceiveCoinDetailView extends Component {
                     <TextInput placeholder={'amount to receive'} style={style.input}
                     onChangeText={(text)=>{
                         this.setState({amount:text});
-                        let qrCodeString = 'address:'+this.state.targetAddress+'?amount='+ text + '&token=' + this.state.walletModel.walletType;
+                        let qrCodeString = 'samos://pay?address='+this.state.targetAddress+'&amount='+ text + '&token=' + this.state.walletModel.walletType;
 
                         this.setState({qrCodeString:qrCodeString});
                     }}

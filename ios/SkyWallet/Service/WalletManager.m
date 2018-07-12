@@ -537,10 +537,12 @@ RCT_REMAP_METHOD(getBalanceDictOfAddress, getBalanceDictOfAddress:(NSString*)add
   
   GeneralWalletModel *currentWalletModel = [self getCurrentWalletModel];
   NSURLComponents *urlComponents = [[NSURLComponents alloc] initWithString:transactionUrl];
-  targetAdress = urlComponents.path;//wierd
+//  targetAdress = urlComponents.path;//wierd
   
   for (NSURLQueryItem *queryItem in urlComponents.queryItems) {
-    if ([queryItem.name isEqualToString:@"token"]) {
+    if ([queryItem.name isEqualToString:@"address"]) {
+      targetAdress = queryItem.value;
+    } else if ([queryItem.name isEqualToString:@"token"]) {
       walletType = queryItem.value;
     } else if ([queryItem.name isEqualToString:@"amount"]) {
       amount = queryItem.value;
@@ -616,9 +618,13 @@ RCT_EXPORT_MODULE()
 }
 
 - (void)didReceiveGetAddressFromQRCodeNotification:(NSNotification*)notification {
-  NSString *targetAddress = [notification.userInfo getStringForKey:kUserInfoTargetAddress];
+  NSString *transactionUrl = [notification.userInfo getStringForKey:kUserInfoTargetAddress];
   
-  [self sendEventWithName:kRNGetAddressFromQRCodeNotification body:@{@"targetAddress":targetAddress}];
+  TransactionModel *transactionModel = [WalletSharedManager parseTransactionUrl:transactionUrl];
+  
+  if (transactionModel.targetAddress && transactionModel.amount) {
+    [self sendEventWithName:kRNGetAddressFromQRCodeNotification body:@{@"targetAddress":transactionModel.targetAddress, @"amount":transactionModel.amount}];
+  }
 }
 
 @end
