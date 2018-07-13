@@ -10,6 +10,8 @@ import {
     TextInput
 } from 'react-native';
 
+import { strings } from './i18n';
+
 const { WalletManager } = NativeModules;
 
 export default class CreatePasswordView extends Component {
@@ -30,9 +32,9 @@ export default class CreatePasswordView extends Component {
         var pinCode = this.state.pinCode;
         var pinCodeConfirm = this.state.pinCodeConfirm;
         if (pinCode.length != 6) {
-            Alert.alert("pin code must be 6 digits");
+            Alert.alert(strings("CreatePasswordView.pinCodeError6Digits"));
         } else if (pinCode != pinCodeConfirm) {
-            Alert.alert("the pin codes you input aren't the same");
+            Alert.alert(strings("CreatePasswordView.pinCodeNotSame"));
         } else {
             console.log('create wallet');
             var success = await WalletManager.createPinCode(pinCode);
@@ -44,7 +46,7 @@ export default class CreatePasswordView extends Component {
                 }
 
             } else {
-                Alert.alert('fail to create pin code');
+                Alert.alert(strings("CreatePasswordView.pinCodeFail"));
             }
         }
     }
@@ -54,9 +56,9 @@ export default class CreatePasswordView extends Component {
             <Modal visible={this.props.modalVisible} transparent={true}>
                 <View style={style.background}>
                     <View style={style.container}>
-                    <Text style={style.title}>Wallet password</Text>
-                    <Text style={style.description}>Please create a password for your wallet, the password will be used for transaction and removing wallet.</Text>
-                        <Text style={style.passwordTitle}>Enter password(6 digits)</Text>
+                    <Text style={style.title}>{strings("CreatePasswordView.title")}</Text>
+                    <Text style={style.description}>{strings("CreatePasswordView.description")}</Text>
+                        <Text style={style.passwordTitle}>{strings("CreatePasswordView.passwordTitle")}</Text>
                         <TextInput 
                         style={style.passwordInput}
                         secureTextEntry={true}
@@ -65,31 +67,31 @@ export default class CreatePasswordView extends Component {
                                 this.setState({ pinCode: text });
                             }
                         }
-                        placeholder={'Please input password'}
+                        placeholder={strings("CreatePasswordView.passwordPlaceHolder")}
                         ></TextInput>
                         <View style={style.seperator}/>
-                        <Text style={style.passwordTitle}>Confirm password</Text>
+                        <Text style={style.passwordTitle}>{strings("CreatePasswordView.confirmPassword")}</Text>
                         <TextInput
                         style={style.passwordInput} 
                         secureTextEntry={true}
-                        placeholder={'Please confirm password'}
+                        placeholder={strings("CreatePasswordView.confirmPasswordPlaceHolder")}
                         onChangeText={
                             text => {
                                 this.setState({ pinCodeConfirm: text });
                             }
                         }></TextInput>
                         <View style={style.seperator}/>
-                        <Text style={style.passwordTitle}>Hint(optional)</Text>
+                        <Text style={style.passwordTitle}>{strings("CreatePasswordView.hint")}</Text>
                         <TextInput 
                         style={style.passwordInput}
-                        placeholder={'Please input hint'}
+                        placeholder={strings("CreatePasswordView.hintPlaceHolder")}
                         onChangeText={
                             text => {
                                 this.setState({ pinCodeHint: text });
                             }
                         }></TextInput>
                         <View style={style.seperator}/>
-                        <Text style={style.passwordHintDescription}>We won't store your password, you can't find your password if you forget it. You can set a hint in case you forget your password.</Text>
+                        <Text style={style.passwordHintDescription}>{strings("CreatePasswordView.hintDescription")}</Text>
                         <TouchableOpacity 
                         style={style.createButton}
                         onPress={
@@ -98,7 +100,7 @@ export default class CreatePasswordView extends Component {
                             }
                         }>
                             <Text style={style.createButtonText}>
-                                create
+                            {strings("CreatePasswordView.create")}
                                 </Text>
                         </TouchableOpacity>
                     </View>

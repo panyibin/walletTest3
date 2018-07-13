@@ -10,6 +10,8 @@ import {
     NativeModules
 } from 'react-native';
 
+import { strings } from './i18n';
+
 const { WalletManager } = NativeModules;
 
 export default class TransactionConfirmView extends Component {
@@ -41,10 +43,10 @@ transaction example
     render() {
         let transactionDict = this.props.transactionDict;
 
-        let transactionType = ' roll out ' + transactionDict.walletType;
-        let targetAddress = ' '+transactionDict.targetAddress;
-        let amount = ' '+ transactionDict.amount;
-        let transactionTime = ' '+ transactionDict.transactionTime;
+        let transactionType = strings('TransactionConfirmView.RollOut') + transactionDict.walletType;
+        let targetAddress = ' ' + transactionDict.targetAddress;
+        let amount = ' ' + transactionDict.amount;
+        let transactionTime = ' ' + transactionDict.transactionTime;
 
         return (
             <Modal visible={this.props.visible} transparent={true}>
@@ -72,24 +74,24 @@ transaction example
                                 </TouchableOpacity>
                             </View>
                             <View style={style.titlePlaceHolder}>
-                                <Text style={style.title}>Transaction Information</Text>
+                                <Text style={style.title}>{strings('TransactionConfirmView.TransactionInfomation')}</Text>
                             </View>
                             <View style={style.titleSidePlaceHolder} />
                         </View>
                         <View style={style.itemContainer}>
-                            <Text style={style.itemLeft}>Transaction Type: </Text>
+                            <Text style={style.itemLeft}>{strings('TransactionConfirmView.TransactionType')}</Text>
                             <Text style={style.itemRight}>{transactionType}</Text>
                         </View>
                         <View style={style.itemContainer}>
-                            <Text style={style.itemLeft}>To Address: </Text>
+                            <Text style={style.itemLeft}>{strings('TransactionConfirmView.ToAddress')}</Text>
                             <Text style={style.itemRight}>{targetAddress}</Text>
                         </View>
                         <View style={style.itemContainer}>
-                            <Text style={style.itemLeft}>Amount: </Text>
+                            <Text style={style.itemLeft}>{strings('TransactionConfirmView.Amount')}</Text>
                             <Text style={style.itemRight}>{amount}</Text>
                         </View>
                         <View style={style.itemContainer}>
-                            <Text style={style.itemLeft}>Transaction time: </Text>
+                            <Text style={style.itemLeft}>{strings('TransactionConfirmView.TransactionTime')}</Text>
                             <Text style={style.itemRight}>{transactionTime}</Text>
                         </View>
                         <TouchableOpacity
@@ -100,7 +102,7 @@ transaction example
                                 }
                             }
                         >
-                            <Text style={style.buttonText}>Confirm</Text>
+                            <Text style={style.buttonText}>{strings('TransactionConfirmView.Confirm')}</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -125,7 +127,7 @@ const style = StyleSheet.create(
         },
         titleContainer: {
             marginTop: 16,
-            marginBottom:20,
+            marginBottom: 20,
             flexDirection: 'row',
             alignItems: 'center'
         },
@@ -146,20 +148,20 @@ const style = StyleSheet.create(
             textAlign: 'center'
         },
         //item
-        itemContainer:{
-            flexDirection:'row',
-            marginTop:15
+        itemContainer: {
+            flexDirection: 'row',
+            marginTop: 15
         },
-        itemLeft:{
-            flex:1,
-            textAlign:'right',
-            fontSize:11,
-            color:'#414042'
+        itemLeft: {
+            flex: 1,
+            textAlign: 'right',
+            fontSize: 11,
+            color: '#414042'
         },
-        itemRight:{
-            flex:2,
-            fontSize:11,
-            color:'#aaaaaa'
+        itemRight: {
+            flex: 2,
+            fontSize: 11,
+            color: '#aaaaaa'
         },
         button: {
             marginTop: 40,

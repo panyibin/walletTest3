@@ -11,6 +11,8 @@ import {
     NativeEventEmitter
 } from 'react-native';
 
+import { strings } from './i18n';
+
 const { WalletManager, NavigationHelper, WalletEventEmitter } = NativeModules;
 const WalletManagerEmitter = new NativeEventEmitter(WalletEventEmitter);
 var subscription;
@@ -26,7 +28,7 @@ export default class GeneralWalletManagerView extends Component {
     static navigationOptions = ({ navigation }) => {
         return (
             {
-                title: 'Wallets Management',
+                title: strings('GeneralWalletManagerView.title'),
                 headerLeft: (
                     <TouchableOpacity
                         style={
@@ -111,7 +113,7 @@ export default class GeneralWalletManagerView extends Component {
                             }
                         }>
                         <Text style={style.buttonText}>
-                            New Wallet
+                            {strings('GeneralWalletManagerView.newWallet')}
                     </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
@@ -125,7 +127,7 @@ export default class GeneralWalletManagerView extends Component {
                             }
                         }>
                         <Text style={style.buttonText}>
-                            Import Wallet
+                        {strings('GeneralWalletManagerView.importWallet')}
                     </Text>
                     </TouchableOpacity>
                 </View>

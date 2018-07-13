@@ -10,6 +10,7 @@ import {
     Image
 } from 'react-native';
 import LoadingView from './loading';
+import { strings } from './i18n';
 const { WalletManager, NavigationHelper } = NativeModules;
 
 export default class NameWalletView extends Component {
@@ -28,11 +29,11 @@ export default class NameWalletView extends Component {
         let rightText = '';
         let title = '';
         if (action == 'create') {
-            title = 'New Wallet';
-            rightText = 'next';
+            title = strings("NameWalletView.newWallet");
+            rightText = strings("NameWalletView.nextText");
         } else {
-            rightText = 'import';
-            title = 'Import Wallet';
+            rightText = strings("NameWalletView.importText");
+            title = strings("NameWalletView.importWallet");
         };
 
         return (
@@ -82,7 +83,7 @@ export default class NameWalletView extends Component {
         const { navigation } = this.props;
 
         if (currentWalletName.length == 0) {
-            Alert.alert('wallet name cannot be empty');
+            Alert.alert(strings("NameWalletView.walletNameCannotEmpty"));
             return;
         }
 
@@ -91,7 +92,7 @@ export default class NameWalletView extends Component {
         } else if (action == 'import') {
             var seed = this.state.seed;
             if (seed.length == 0) {
-                Alert.alert("seed can't be empty");
+                Alert.alert(strings("NameWalletView.seedCannotEmpty"));
                 return;
             }
 
@@ -108,7 +109,7 @@ export default class NameWalletView extends Component {
                 this.setState({ loading: false });
                 //avoid conflicts with modal loading
                 setTimeout(() => {
-                    Alert.alert('fail to create wallet');
+                    Alert.alert(strings("NameWalletView.failToCreateWallet"));
                 }, 500);
             }
         } else {
@@ -131,11 +132,11 @@ export default class NameWalletView extends Component {
                 {bShouldShowSeedInput &&
                     <View>
                         <Text style={style.walletName}>
-                            Please input seed
+                        {strings("NameWalletView.inputSeed")}
                 </Text>
                         <TextInput
                             multiline={true}
-                            placeholder={"Please input seed"}
+                            placeholder={strings("NameWalletView.inputSeedPlaceHolder")}
                             placeholderTextColor={'#6d6f71'}
                             // color={'blue'}
                             style={style.walletNameInput}
@@ -150,11 +151,11 @@ export default class NameWalletView extends Component {
                 }
                 <View>
                     <Text style={style.walletName}>
-                        Wallet's Name
+                    {strings("NameWalletView.walletName")}
                 </Text>
                     <TextInput
                         multiline={true}
-                        placeholder={"please input wallet's name"}
+                        placeholder={strings("NameWalletView.inputWalletName")}
                         placeholderTextColor={'#6d6f71'}
                         // color={'blue'}
                         style={style.walletNameInput}
@@ -166,7 +167,7 @@ export default class NameWalletView extends Component {
                         }></TextInput>
                     <View style={style.seperator} />
                 </View>
-                <Text style={style.walletName} >Wallet's Avatar</Text>
+                <Text style={style.walletName} >{strings("NameWalletView.walletAvatar")}</Text>
                 <Image
                     style={style.walletImage}
                     source={require('./images/钱包0.png')} />

@@ -9,6 +9,7 @@ import {
     EventEmitter
 } from 'react-native';
 import LoadingView from './loading';
+import {strings} from './i18n';
 
 const { WalletManager, NavigationHelper} = NativeModules;
 
@@ -41,10 +42,10 @@ export default class BackSeedView extends Component {
             <View style={style.container}>
                 <LoadingView loading={this.state.loading}></LoadingView>
                 <Text style={style.title} >
-                    Write down your wallet mnemonic
+                    {strings('BackupSeedView.title')}
                 </Text>
                 <Text style={style.description}>
-                    The mnemonic is used to restore your wallet, please write it down accurately on a piece of paper, and put it safely. The wallet cannot be restored if you forget it. Please don't put the mnemonic on the web for your wallet's safety.
+                {strings('BackupSeedView.description')}
                 </Text>
                 <View style={style.seedContainer}>
                     <Text style={style.seed}>

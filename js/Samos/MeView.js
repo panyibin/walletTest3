@@ -10,10 +10,12 @@ import {
     Image,
     FlatList,
     RefreshControl,
-    ScrollView
+    ScrollView,
+    ActionSheetIOS
 } from 'react-native';
 import { getStatusBarHeight, getScreenWidth } from '../utils';
 import LoadingView from './loading';
+import {strings, setLanguage} from './i18n'
 
 const { WalletManager, NavigationHelper, WalletEventEmitter } = NativeModules;
 const wallManagerEmitter = new NativeEventEmitter(WalletEventEmitter);
@@ -31,11 +33,48 @@ export default class MeView extends Component<Props> {
             refreshControlLoading: false,
             samosPriceUSD: 0.19,
             skyPriceUSD: 5.82,
+            displayLanguage: 'en'
         };
     }
 
     componentDidMount() {
+        this.getCurrentLanguage();
+    }
 
+    async getCurrentLanguage() {
+        let currentLanguage = await WalletManager.getCurrentLanguage();
+        let displayLanguage = 'English';
+        if(currentLanguage == 'zh') {
+            displayLanguage = '中文';
+        } else {
+            displayLanguage = 'English';
+        }
+
+        this.setState({ displayLanguage: displayLanguage });
+        setLanguage(currentLanguage);
+    }
+
+    async selectLanguage() {
+        let buttons = ['English', '中文', 'Cancel'];
+        ActionSheetIOS.showActionSheetWithOptions(
+            {
+                options:buttons,
+                cancelButtonIndex:buttons.length - 1,
+            },
+            (buttonIndex)=>{
+                if(buttonIndex == 0) {                    
+                    setLanguage('en');
+                    this.setState({displayLanguage:'English'});
+                    WalletManager.setCurrentLanguage('en');
+                    NavigationHelper.rn_resetToMainPage();
+                } else if(buttonIndex == 1) {                    
+                    setLanguage('zh');
+                    this.setState({displayLanguage:'中文'});
+                    WalletManager.setCurrentLanguage('zh');
+                    NavigationHelper.rn_resetToMainPage();
+                }
+            }
+        );
     }
 
     render() {
@@ -48,22 +87,34 @@ export default class MeView extends Component<Props> {
                         <View style={style.topBarPlaceholder}>
                         </View>
                         <View style={style.topBarPlaceholder}>
-                            <Text style={style.generalWalletTitle}>Me</Text>
+                            <Text style={style.generalWalletTitle}>{strings('Me.me')}</Text>
                         </View>
                         <View style={style.topBarPlaceholder} />
                     </View>
                     <View style={style.generalWalletImageContainer} >
                         <Image style={style.generalWalletImage} source={require('./images/钱包设置.png')} />
-                        <Text style={style.totalAssets}>Wallet Management</Text>
+                        <Text style={style.totalAssets}>{strings('Me.walletManagement')}</Text>
                     </View>
                 </View>
                 <View>
-                    <TouchableOpacity onPress={()=>{
-                        Alert.alert('Samos v1.0','Samos is a safe digital assets management app. Easy to use.');
+                    <TouchableOpacity onPress={() => {
+                        Alert.alert(strings('Me.introTitle'),strings('Me.intro'));
                     }}>
-                    <Text style={style.aboutUS} >About us</Text>
+                        <Text style={style.aboutUS} >{strings('Me.aboutUS')}</Text>
                     </TouchableOpacity>
-                    <View style={style.seperator}/>
+                    <View style={style.seperator} />
+                </View>
+                <View>
+                    <TouchableOpacity onPress={() => {
+                        // Alert.alert('Language');
+                        this.selectLanguage();
+                    }}>
+                    <View style={style.languageContainer}>
+                        <Text style={style.aboutUS} >{strings('Me.language')}</Text>
+                        <Text style={style.currentLanguage}>{this.state.displayLanguage}</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <View style={style.seperator} />
                 </View>
             </View>
         );
@@ -121,18 +172,28 @@ const style = StyleSheet.create(
             marginTop: 32,
             marginBottom: 30
         },
-        aboutUS:{
-            marginTop:20,
-            fontSize:15,
+        aboutUS: {
+            marginTop: 20,
+            fontSize: 15,
             marginLeft: 20,
-            color:'#414042'
+            color: '#414042'
         },
-        seperator:{
-            marginTop:10,
+        seperator: {
+            marginTop: 10,
             marginLeft: 20,
             marginRight: 20,
             height: 0.5,
             backgroundColor: '#414042'
+        },
+        languageContainer:{
+            flexDirection:'row',
+            justifyContent:'space-between'
+        },
+        currentLanguage:{
+            marginTop: 20,
+            fontSize: 15,
+            marginRight: 25,
+            color: '#414042'
         }
     }
 );

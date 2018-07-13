@@ -10,6 +10,7 @@ import {
     ImageBackground
 } from 'react-native';
 import CreatePasswordView from './CreatePasswordView'
+import { strings } from './i18n'
 
 const { WalletManager } = NativeModules;
 
@@ -24,7 +25,7 @@ export default class WelcomeView extends Component {
     static navigationOptions = ({ navigation }) => {
         return ({
             // headerMode:'none'
-            header:null,
+            header: null,
             // headerVisible:false
         });
     };
@@ -62,36 +63,36 @@ export default class WelcomeView extends Component {
                         />
                     </View>
                     <Text style={style.description}>
-                        Welcome to Samos Wallet. If it's the first time you use it, please create a wallet first. If you already have one, plese import it with your seed.
-                </Text>
+                        {strings('WelcomeView.description')}
+                    </Text>
                     <TouchableOpacity
                         style={style.button}
                         onPress={
                             () => {
                                 // Alert.alert('New wallet');
-                                navigation.push('NameWalletView',{
-                                    action:'create',
-                                    previousView:'WelcomeView'
+                                navigation.push('NameWalletView', {
+                                    action: 'create',
+                                    previousView: 'WelcomeView'
                                 });
                             }
                         }>
                         <Text style={style.buttonText}>
-                            Create a Wallet
-                    </Text>
+                            {strings('WelcomeView.createWallet')}
+                        </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={style.button}
                         onPress={
                             () => {
-                                navigation.push('NameWalletView',{
-                                    action:'import',
-                                    previousView:'WelcomeView'
+                                navigation.push('NameWalletView', {
+                                    action: 'import',
+                                    previousView: 'WelcomeView'
                                 });
                             }
                         }>
                         <Text style={style.buttonText}>
-                            Import Existed Wallet
-                    </Text>
+                            {strings('WelcomeView.importWallet')}
+                        </Text>
                     </TouchableOpacity>
                     <Text style={style.copyright}>
                         Samos 2018 all rights reserved

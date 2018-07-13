@@ -10,6 +10,7 @@ import {
     NativeModules
 } from 'react-native';
 import Wallet from '../Wallet';
+import { strings } from './i18n';
 
 const { WalletManager } = NativeModules;
 
@@ -30,7 +31,7 @@ export default class InputPasswordView extends Component {
 
     async tapConfirmButton() {
         let localPassword = await WalletManager.getLocalPinCode();
-        if(this.state.password == localPassword) {
+        if (this.state.password == localPassword) {
             this.props.onPressConfirm('success');
         } else {
             this.props.onPressConfirm('fail');
@@ -68,11 +69,11 @@ export default class InputPasswordView extends Component {
                             </View>
                             <View style={style.titleSidePlaceHolder} />
                         </View>
-                        <Text style={style.password}>Password</Text>
+                        <Text style={style.password}>{strings('InputPasswordView.password')}</Text>
                         <TextInput
                             style={style.textInput}
                             secureTextEntry={true}
-                            placeholder={'Please input the password'}
+                            placeholder={strings('InputPasswordView.placeholder')}
                             placeholderTextColor={'#aaaaaa'}
                             onChangeText={
                                 (text) => {
@@ -89,9 +90,9 @@ export default class InputPasswordView extends Component {
                                 }
                             }
                         >
-                            <Text style={style.buttonText}>Confirm</Text>
+                            <Text style={style.buttonText}>{strings('InputPasswordView.confirm')}</Text>
                         </TouchableOpacity>
-                        <Text style={style.description}>Hint: Please reinstall the app if your forget your password</Text>
+                        <Text style={style.description}>{strings('InputPasswordView.hint')}</Text>
                     </View>
                 </View>
             </Modal>
@@ -106,8 +107,8 @@ const style = StyleSheet.create(
             backgroundColor: 'rgba(0,0,0,0.5)',
             justifyContent: 'flex-end'
         },
-        dark:{//the dark part
-            flex:1
+        dark: {//the dark part
+            flex: 1
         },
         container: {
             height: 300,

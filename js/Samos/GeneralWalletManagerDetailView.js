@@ -11,6 +11,7 @@ import {
 
 import InputPasswordView from './InputPasswordView';
 import LoadingView from './loading';
+import {strings} from './i18n';
 
 const { WalletManager } = NativeModules;
 
@@ -46,7 +47,7 @@ export default class GeneralWalletManagerDetailView
         // let generalWalletArray = await WalletManager.getLocalWalletDictArray();
 
         // Alert.alert(generalWalletArray.count);
-        Alert.alert('Do you want to delete the wallet?', '', [
+        Alert.alert(strings("GeneralWalletManagerDetailView.doYouWantToDeleteWallet"), '', [
             {
                 text: 'OK', onPress:() => {
                     this.setState({ deleteWalletPasswordViewVisible: true });
@@ -65,7 +66,7 @@ export default class GeneralWalletManagerDetailView
             this.setState({ backupSeedPasswordViewVisible: false });
             navigation.push('BackupSeedView', { seed: this.state.walletModel.seed });
         } else {
-            Alert.alert('the password is not valid');
+            Alert.alert(strings("GeneralWalletManagerDetailView.passwordInvalid"));
         }
     }
 
@@ -77,11 +78,11 @@ export default class GeneralWalletManagerDetailView
             if(ret == 'success') {
                 navigation.goBack();
             } else {
-                Alert.alert('Fail to delete wallet', ret);
+                Alert.alert(strings("GeneralWalletManagerDetailView.Fail to delete wallet"), ret);
             }
             
         } else {
-            Alert.alert('the password is not valid');
+            Alert.alert(strings("GeneralWalletManagerDetailView.passwordInvalid"));
         }
     }
 
@@ -120,7 +121,7 @@ export default class GeneralWalletManagerDetailView
                             }
                         }>
                         <Text style={style.buttonText}>
-                            Backup Seed
+                            {strings('GeneralWalletManagerDetailView.backupSeed')}
                     </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
@@ -131,7 +132,7 @@ export default class GeneralWalletManagerDetailView
                             }
                         }>
                         <Text style={style.buttonText}>
-                            Delete wallet
+                        {strings('GeneralWalletManagerDetailView.deleteWallet')}
                     </Text>
                     </TouchableOpacity>
                 </View>

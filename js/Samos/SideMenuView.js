@@ -11,6 +11,7 @@ import {
     NativeEventEmitter
 } from 'react-native';
 import Wallet from '../Wallet';
+import { strings } from './i18n';
 
 const { WalletManager, NavigationHelper, WalletEventEmitter } = NativeModules;
 const walletManagerEmitter = new NativeEventEmitter(WalletEventEmitter);
@@ -21,7 +22,7 @@ export default class SideMenuView extends Component {
         super(props);
         this.state = {
             walletArray: [],
-            currentWalletModel:{}
+            currentWalletModel: {}
         };
     }
 
@@ -36,9 +37,10 @@ export default class SideMenuView extends Component {
     async refreshLocalWalletArray() {
         var localWalletArray = await WalletManager.getLocalWalletDictArray();
         var currentWalletModel = await WalletManager.getCurrentWalletDict();
-        this.setState({ 
-            walletArray: localWalletArray, 
-            currentWalletModel:currentWalletModel });
+        this.setState({
+            walletArray: localWalletArray,
+            currentWalletModel: currentWalletModel
+        });
     }
 
     async showPasswordViewIfNeeded() {
@@ -52,7 +54,7 @@ export default class SideMenuView extends Component {
         const { navigation } = this.props;
         return (
             <View style={style.container}>
-                <View style={style.topSpace} />                
+                <View style={style.topSpace} />
                 <TouchableOpacity onPress={
                     () => {
                         // Alert.alert('New wallet');
@@ -64,8 +66,8 @@ export default class SideMenuView extends Component {
                         <View style={style.item}>
                             <Image source={require('./images/侧导航-扫码.png')} style={style.itemImage}></Image>
                             <Text style={style.itemText}>
-                                Scan QR Code
-                        </Text>
+                                {strings("SideMenuView.ScanQRCode")}
+                            </Text>
                         </View>
                     </View>
                 </TouchableOpacity>
@@ -81,8 +83,8 @@ export default class SideMenuView extends Component {
                         <View style={style.item}>
                             <Image source={require('./images/侧导航-添加钱包.png')} style={style.itemImage}></Image>
                             <Text style={style.itemText}>
-                                Create Wallet
-                        </Text>
+                                {strings("SideMenuView.CreateWallet")}
+                            </Text>
                         </View>
                     </View>
                 </TouchableOpacity>
@@ -96,8 +98,8 @@ export default class SideMenuView extends Component {
                         <View style={style.item}>
                             <Image source={require('./images/侧导航-管理钱包.png')} style={style.itemImage}></Image>
                             <Text style={style.itemText}>
-                                Manage Wallet
-                        </Text>
+                                {strings("SideMenuView.ManageWallet")}
+                            </Text>
                         </View>
                     </View>
                 </TouchableOpacity>
@@ -190,7 +192,7 @@ const style = StyleSheet.create(
         walletItem: {
             flexDirection: 'row',
             marginTop: 7,
-            marginBottom:7,
+            marginBottom: 7,
             alignItems: 'center'
         },
         walletImage: {

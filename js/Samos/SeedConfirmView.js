@@ -9,6 +9,7 @@ import {
     TextInput
 } from 'react-native';
 import LoadingView from './loading';
+import { strings } from './i18n';
 
 const { WalletManager } = NativeModules;
 const { NavigationHelper } = NativeModules;
@@ -25,12 +26,12 @@ export default class SeedConfirmView extends Component {
     static navigationOptions = ({ navigation }) => {
         return (
             {
-                title: 'Confirm mnonomic',
+                title: strings("SeedConfirmView.title"),
                 headerRight: (
                     <Text
                         onPress={navigation.getParam('tapNavigationRightButton')}
                         style={{ marginRight: 20, fontSize: 20 }}
-                    >Confirm</Text>)
+                    >{strings("SeedConfirmView.confirm")}</Text>)
             }
         );
     };
@@ -62,7 +63,7 @@ export default class SeedConfirmView extends Component {
         } else {
             this.setState({ loading: false });
             setTimeout(() => {
-                Alert.alert('fail to create wallet');
+                Alert.alert(strings("SeedConfirmView.failToCreateWallet"));
             }, 500);
         }
     }
@@ -76,10 +77,10 @@ export default class SeedConfirmView extends Component {
         if (seed.length > 0 && seed == seedConfirm) {
             this.createWallet();
         } else {
-            Alert.alert('the seeds are not the same, please confirm');
+            Alert.alert(strings("SeedConfirmView.seedsNotSame"));
         }
     }
-    
+
     render() {
         const { navigation } = this.props;
 
@@ -87,15 +88,15 @@ export default class SeedConfirmView extends Component {
             <View style={style.container}>
                 <LoadingView loading={this.state.loading}></LoadingView>
                 <Text style={style.title} >
-                    Confirm your wallet mnemonic
+                    {strings("SeedConfirmView.confirmSeed")}
                 </Text>
                 <Text style={style.description}>
-                    Please input the mnemonic your just wrote down.
+                    {strings("SeedConfirmView.inputSeed")}
                 </Text>
                 <View style={style.seedContainer}>
                     <TextInput
                         multiline={true}
-                        placeholder={'input the mnemonic again'}
+                        placeholder={strings("SeedConfirmView.placeholder")}
                         placeholderTextColor={'#6d6f71'}
                         style={style.seedInput}
                         onChangeText={(text) => {

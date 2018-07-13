@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import LoadingView from './loading';
 import Wallet from '../Wallet';
+import { strings } from './i18n';
 
 const { WalletManager, NavigationHelper } = NativeModules;
 
@@ -148,7 +149,7 @@ export default class SubWalletView extends Component {
                     </View>
                 </View>
                 <View style={style.transactionTitleContainer}>
-                    <Text style={style.transactionTitle}>Recent transaction records</Text>
+                    <Text style={style.transactionTitle}>{strings("SubWalletView.RecentRecords")}</Text>
                 </View>
                 <View style={style.transactionList}>
                     <FlatList
@@ -177,7 +178,7 @@ export default class SubWalletView extends Component {
                                         <Text style={style.transactionAmount}>-{item.amount}</Text>
                                     </View>
                                     <View style={style.transactionTimeContainer}>
-                                        <Text style={style.transactionType}>send{' ' + item.walletType}</Text>
+                                        <Text style={style.transactionType}>{strings("SubWalletView.Send") + ' ' + item.walletType}</Text>
                                         <Text style={style.transactionTime}>{item.transactionTime}</Text>
                                     </View>
                                     <View style={style.seperator} />
@@ -200,13 +201,13 @@ export default class SubWalletView extends Component {
                                     walletModel: this.state.walletModel,
                                     balance: this.state.balance,
                                     refreshCurrentWallet: this.refreshCurrentWallet.bind(this),
-                                    previousView:'SubWalletView'
+                                    previousView: 'SubWalletView'
                                 });
                             }
                         }>
                         <Text style={style.buttonText}>
-                            Roll out
-                    </Text>
+                            {strings("SubWalletView.RollOut")}
+                        </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={style.button}
@@ -221,8 +222,8 @@ export default class SubWalletView extends Component {
                             }
                         }>
                         <Text style={style.buttonText}>
-                            Into
-                    </Text>
+                            {strings("SubWalletView.Receive")}
+                        </Text>
                     </TouchableOpacity>
                 </View>
             </View>

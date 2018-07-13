@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 
 import QRCodeView from './QRCodeView'
+import { strings } from './i18n';
 
 const { WalletManager } = NativeModules;
 
@@ -20,14 +21,14 @@ export default class ReceiveCoinDetailView extends Component {
         this.state = {
             targetAddress: '',
             walletModel: {},
-            qrCodeString:'',
-            amount:''
+            qrCodeString: '',
+            amount: ''
         };
     }
 
     static navigationOptions = ({ navigation }) => {
         let walletModel = navigation.getParam('walletModel', {});
-        let title = 'Receive ' + walletModel.walletType;
+        let title = strings("ReceiveCoinDetailView.Receive") + ' ' + walletModel.walletType;
         return ({
             title: title,
         });
@@ -37,11 +38,11 @@ export default class ReceiveCoinDetailView extends Component {
         const { navigation } = this.props;
         let targetAddress = navigation.getParam('targetAddress', '');
         let walletModel = navigation.getParam('walletModel', {});
-        let qrCodeString = 'samos://pay?address=' + targetAddress + '&amount='+ '&token=' + walletModel.walletType;
+        let qrCodeString = 'samos://pay?address=' + targetAddress + '&amount=' + '&token=' + walletModel.walletType;
         this.setState({
             targetAddress: targetAddress,
             walletModel: walletModel,
-            qrCodeString:qrCodeString
+            qrCodeString: qrCodeString
         });
     }
 
@@ -53,13 +54,13 @@ export default class ReceiveCoinDetailView extends Component {
                     {this.state.targetAddress}
                 </Text>
                 <View style={style.inputContainer}>
-                    <TextInput placeholder={'amount to receive'} style={style.input}
-                    onChangeText={(text)=>{
-                        this.setState({amount:text});
-                        let qrCodeString = 'samos://pay?address='+this.state.targetAddress+'&amount='+ text + '&token=' + this.state.walletModel.walletType;
+                    <TextInput placeholder={strings("ReceiveCoinDetailView.AountToReceive")} style={style.input}
+                        onChangeText={(text) => {
+                            this.setState({ amount: text });
+                            let qrCodeString = 'samos://pay?address=' + this.state.targetAddress + '&amount=' + text + '&token=' + this.state.walletModel.walletType;
 
-                        this.setState({qrCodeString:qrCodeString});
-                    }}
+                            this.setState({ qrCodeString: qrCodeString });
+                        }}
                     ></TextInput>
                 </View>
                 <View style={style.seperator} />
@@ -74,7 +75,7 @@ export default class ReceiveCoinDetailView extends Component {
                             Alert.alert('address copied');
                         }
                     }>
-                    <Text style={style.buttonText}>Copy Address</Text>
+                    <Text style={style.buttonText}>{strings("ReceiveCoinDetailView.copyAddress")}</Text>
                 </TouchableOpacity>
             </View>
         );
@@ -98,7 +99,7 @@ const style = StyleSheet.create(
             // alignItems: 'center',
         },
         input: {
-            marginTop:5,
+            marginTop: 5,
             marginLeft: 25,
             marginRight: 25,
             height: 30,

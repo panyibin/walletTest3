@@ -569,6 +569,21 @@ RCT_REMAP_METHOD(getBalanceDictOfAddress, getBalanceDictOfAddress:(NSString*)add
   
 }
 
+RCT_REMAP_METHOD(getCurrentLanguage, getCurrentLanguageWithResolver:(RCTPromiseResolveBlock)resolve rejector:(RCTPromiseRejectBlock)reject) {
+  NSString *currentLanguage = [[NSUserDefaults standardUserDefaults] stringForKey:kCurrentLanguage];
+  if (!currentLanguage || currentLanguage.length == 0) {
+    resolve(@"en");
+  } else {
+    resolve(currentLanguage);
+  }
+}
+
+RCT_EXPORT_METHOD(setCurrentLanguage:(NSString*)language) {
+  if (language) {
+    [[NSUserDefaults standardUserDefaults] setObject:language forKey:kCurrentLanguage];
+  }
+}
+
 @end
 
 @implementation WalletEventEmitter

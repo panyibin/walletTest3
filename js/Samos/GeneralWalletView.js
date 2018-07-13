@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 import { getStatusBarHeight, getScreenWidth } from '../utils';
 import LoadingView from './loading';
+import { strings } from './i18n';
 
 const { WalletManager, NavigationHelper, WalletEventEmitter } = NativeModules;
 const wallManagerEmitter = new NativeEventEmitter(WalletEventEmitter);
@@ -139,7 +140,7 @@ export default class GeneralWalletView extends Component<Props> {
                     <View style={style.generalWalletImageContainer} >
                         <Image style={style.generalWalletImage} source={require('./images/钱包0.png')} />
                         <Text style={style.totalBalance}>{this.state.totalBalance}</Text>
-                        <Text style={style.totalAssets}>Total Assets($)</Text>
+                        <Text style={style.totalAssets}>{strings('GeneralWalletView.totalAssets')} ($)</Text>
                     </View>
                 </View>
                 <View>
@@ -283,8 +284,8 @@ const style = StyleSheet.create(
             justifyContent: 'space-between',
             // height: 50
         },
-        subWalletImageAndTitleContainer:{
-            flexDirection:'row',
+        subWalletImageAndTitleContainer: {
+            flexDirection: 'row',
             marginLeft: 25,
         },
         subWalletImage: {

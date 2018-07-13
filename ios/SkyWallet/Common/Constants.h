@@ -22,6 +22,8 @@
 #define kLastPinCodeFailureTime @"kLastPinCodeFailureTime"
 #define kLastSuccessfulSessionTime @"kLastSuccessfulSessionTime"
 
+#define kCurrentLanguage @"kCurrentLanguage"
+
 //Notification
 #define kNewAddressCreatedNotification @"kNewAddressCreatedNotification"
 #define kNewWalletCreatedNotification @"kNewWalletCreatedNotification"

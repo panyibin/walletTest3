@@ -15,6 +15,7 @@ import InputPasswordView from './InputPasswordView'
 import TransactionConfirmView from './TransactionConfirmView'
 import LoadingView from './loading'
 import Wallet from '../Wallet';
+import { strings } from './i18n';
 
 const { WalletManager, NavigationHelper, WalletEventEmitter } = NativeModules;
 const WalletManagerEmitter = new NativeEventEmitter(WalletEventEmitter);
@@ -37,13 +38,13 @@ export default class SendCoinView extends Component {
 
     static navigationOptions = ({ navigation }) => {
         let walletModel = navigation.getParam('walletModel', {});
-        let previousView = navigation.getParam('previousView','');
+        let previousView = navigation.getParam('previousView', '');
         let walletType = walletModel.walletType;
         let title = '';
         if (walletType == 'samos') {
-            title = 'Roll out samo';
+            title = strings('SendCoinView.sendSamo');
         } else if (walletType == 'skycoin') {
-            title = 'Roll out sky';
+            title = strings('SendCoinView.sendSky');
         }
 
         return (
@@ -98,17 +99,17 @@ export default class SendCoinView extends Component {
 
         let targetAddress = '';
         let amount = '';
-        if (typeof(transactionDict.targetAddress) != 'undefined') {
+        if (typeof (transactionDict.targetAddress) != 'undefined') {
             targetAddress = transactionDict.targetAddress;
         }
 
-        if (typeof(transactionDict.amount) != 'undefined') {
+        if (typeof (transactionDict.amount) != 'undefined') {
             amount = transactionDict.amount;
         }
         console.log('send coin view');
         console.log(targetAddress);
         console.log(amount);
-        console.log(typeof(transactionDict.targetAddress));
+        console.log(typeof (transactionDict.targetAddress));
 
         this.setState({
             walletModel: walletModel,
@@ -121,10 +122,10 @@ export default class SendCoinView extends Component {
         this.getWalletBalance();
 
         subscription = WalletManagerEmitter.addListener(WalletEventEmitter.getAddressFromQRCodeNotification, (reminder) => {
-            this.setState({ 
+            this.setState({
                 targetAddress: reminder.targetAddress,
                 amount: reminder.amount
-             });
+            });
             // Alert.alert(typeof(reminder.targetAddress));
 
         });
@@ -133,7 +134,7 @@ export default class SendCoinView extends Component {
     async getWalletBalance() {
         let walletModel = this.props.navigation.getParam('walletModel', {});
         let balanceDict = await WalletManager.getBalanceDictOfWallet(walletModel.walletId, walletModel.walletType);
-        
+
         let balance = parseFloat(balanceDict.balance).toFixed(2);
 
         this.setState({ balance: balance });
@@ -145,9 +146,9 @@ export default class SendCoinView extends Component {
         let walletModel = this.state.walletModel;
 
         if (targetAddress.length == 0) {
-            Alert.alert("address is invalid");
+            Alert.alert(strings('SendCoinView.addressInvalid'));
         } else if (amount.length == 0) {
-            Alert.alert("amount is invalid");
+            Alert.alert(strings('SendCoinView.amountInvalid'));
         } else {
             /**
             transaction example
@@ -184,7 +185,7 @@ export default class SendCoinView extends Component {
     async _onPressPasswordConfirm(state) {
 
         if (state != 'success') {
-            Alert.alert('the password is invalid');
+            Alert.alert(strings('SendCoinView.passwordInvalid'));
         } else {
             this.setState({ showPasswordView: false, loading: true });
             // this.setState({ loading: true });
@@ -199,7 +200,7 @@ export default class SendCoinView extends Component {
 
                     setTimeout(() => {
                         navigation.getParam('refreshCurrentWallet')();
-                        Alert.alert('coin sent success', '',
+                        Alert.alert(strings("SendCoinView.sendSuccess"), '',
                             [{
                                 text: 'ok',
                                 onPress: () => {
@@ -210,7 +211,7 @@ export default class SendCoinView extends Component {
 
                 } else {
                     setTimeout(() => {
-                        Alert.alert('failed to send coin', ret);
+                        Alert.alert(strings("SendCoinView.sendFail"), ret);
                     }, 500);
                 }
             }, 500);
@@ -264,11 +265,11 @@ export default class SendCoinView extends Component {
                 />
                 <View>
                     <Text style={style.walletName}>
-                        Send To
+                        {strings("SendCoinView.sendTo")}
                 </Text>
                     <TextInput
                         multiline={true}
-                        placeholder={"Input the address you want to send"}
+                        placeholder={strings("SendCoinView.inputAddress")}
                         placeholderTextColor={'#6d6f71'}
                         // color={'blue'}
                         style={style.walletNameInput}
@@ -282,17 +283,17 @@ export default class SendCoinView extends Component {
                 <View>
                     <View style={style.amountTitleContainer}>
                         <Text style={style.walletName}>
-                            Amount
+                        {strings("SendCoinView.amount")}
                         </Text>
                         <View style={style.balanceContainer}>
-                            <Text style={style.balanceTag}>balance:</Text>
+                            <Text style={style.balanceTag}>{strings("SendCoinView.balance")}</Text>
                             <Text style={style.balance}>{balance} {walletUnit}</Text>
                         </View>
                     </View>
                     <TextInput
                         keyboardType='numeric'
                         multiline={true}
-                        placeholder={"please input the amount"}
+                        placeholder={strings("SendCoinView.inputAmount")}
                         placeholderTextColor={'#6d6f71'}
                         // color={'blue'}
                         style={style.walletNameInput}
@@ -305,11 +306,11 @@ export default class SendCoinView extends Component {
                 </View>
                 <View>
                     <Text style={style.walletName}>
-                        Note(optional)
+                    {strings("SendCoinView.note")}
                 </Text>
                     <TextInput
                         multiline={true}
-                        placeholder={"note"}
+                        placeholder={strings("SendCoinView.notePlaceholder")}
                         placeholderTextColor={'#6d6f71'}
                         // color={'blue'}
                         style={style.walletNameInput}
@@ -330,7 +331,7 @@ export default class SendCoinView extends Component {
                             }
                         }>
                         <Text style={style.buttonText}>
-                            Next
+                        {strings("SendCoinView.next")}
                     </Text>
                     </TouchableOpacity>
                 </View>
