@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 import { getStatusBarHeight, getScreenWidth } from '../utils';
 import LoadingView from './loading';
-import { strings } from './i18n';
+import { strings, setLanguage } from './i18n';
 
 const { WalletManager, NavigationHelper, WalletEventEmitter } = NativeModules;
 const wallManagerEmitter = new NativeEventEmitter(WalletEventEmitter);
@@ -32,6 +32,7 @@ export default class GeneralWalletView extends Component<Props> {
             refreshControlLoading: false,
             samosPriceUSD: 0.19,
             skyPriceUSD: 5.82,
+            displayLanguage:""
         };
     }
 
@@ -123,6 +124,22 @@ export default class GeneralWalletView extends Component<Props> {
 
         console.log('General Wallet');
         console.log(this.state.wallet);
+
+        this.getCurrentLanguage();
+    }
+
+    async getCurrentLanguage() {
+        let currentLanguage = await WalletManager.getCurrentLanguage();
+        let displayLanguage = 'English';
+        if(currentLanguage == 'zh') {
+            displayLanguage = '中文';
+        } else {
+            displayLanguage = 'English';
+        }
+
+        setLanguage(currentLanguage);
+
+        this.setState({ displayLanguage: displayLanguage });        
     }
 
     render() {

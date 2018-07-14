@@ -157,7 +157,7 @@ const style = StyleSheet.create(
         },
         switch: {
             marginRight: 20,
-            marginTop: 20
+            marginTop: 25
         },
         seperator: {
             marginLeft: 20,

@@ -49,9 +49,8 @@ export default class MeView extends Component<Props> {
         } else {
             displayLanguage = 'English';
         }
-
-        this.setState({ displayLanguage: displayLanguage });
         setLanguage(currentLanguage);
+        this.setState({ displayLanguage: displayLanguage });        
     }
 
     async selectLanguage() {

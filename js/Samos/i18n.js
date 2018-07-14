@@ -9,8 +9,6 @@ I18n.translations = {
     zh
 };
 
-I18n.locale = 'en';
-
 export function strings(name, param={}) {
     return I18n.t(name, param);
 }

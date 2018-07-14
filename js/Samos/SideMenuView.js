@@ -11,7 +11,7 @@ import {
     NativeEventEmitter
 } from 'react-native';
 import Wallet from '../Wallet';
-import { strings } from './i18n';
+import { strings, setLanguage} from './i18n';
 
 const { WalletManager, NavigationHelper, WalletEventEmitter } = NativeModules;
 const walletManagerEmitter = new NativeEventEmitter(WalletEventEmitter);
@@ -22,7 +22,8 @@ export default class SideMenuView extends Component {
         super(props);
         this.state = {
             walletArray: [],
-            currentWalletModel: {}
+            currentWalletModel: {},
+            displayLanguage:""
         };
     }
 
@@ -41,6 +42,8 @@ export default class SideMenuView extends Component {
             walletArray: localWalletArray,
             currentWalletModel: currentWalletModel
         });
+
+        this.getCurrentLanguage();
     }
 
     async showPasswordViewIfNeeded() {
@@ -48,6 +51,20 @@ export default class SideMenuView extends Component {
         if (!bExist) {
             this.setState({ passwordViewVisible: true });
         }
+    }
+
+    async getCurrentLanguage() {
+        let currentLanguage = await WalletManager.getCurrentLanguage();
+        let displayLanguage = 'English';
+        if(currentLanguage == 'zh') {
+            displayLanguage = '中文';
+        } else {
+            displayLanguage = 'English';
+        }
+
+        setLanguage(currentLanguage);
+
+        this.setState({ displayLanguage: displayLanguage });        
     }
 
     render() {
