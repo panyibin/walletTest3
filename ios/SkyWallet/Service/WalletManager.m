@@ -110,7 +110,7 @@ RCT_REMAP_METHOD(createNewWallet, createWallet:(NSString*)walletName seed:(NSStr
     generalWM.pinCode = pinCode;
     
     generalWM.subWalletArray = [NSMutableArray arrayWithObjects:samosWM, skyWM, nil];
-    
+    generalWM.supportedWalletTypes = [NSMutableArray arrayWithObjects:kCoinTypeSamos, nil];
 //    generalWM.skycoinWalletModel = wm;
 //    generalWM.samosWalletModel = samosWM;
     
@@ -292,6 +292,25 @@ RCT_REMAP_METHOD(isPinCodeValid, isPinCodeValid:(NSString*)pinCode resolver:(RCT
   NSData *data = [NSKeyedArchiver archivedDataWithRootObject:mutableLocalWalletArray];
   [[NSUserDefaults standardUserDefaults] setObject:data forKey:kLocalWalletArray];
   
+}
+
+RCT_EXPORT_METHOD(updateSupportedWalletsArray:(NSString*)walletId supportedWalletsArray:(NSArray*)supportedWalletArray resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
+  NSLog(@"%@", supportedWalletArray);
+  NSArray *localWalletArray = [self getLocalWalletArray];
+  for (GeneralWalletModel *gWM in localWalletArray) {
+    if ([gWM isKindOfClass:[GeneralWalletModel class]] && [gWM.walletId isEqualToString:walletId]) {
+      gWM.supportedWalletTypes = [NSMutableArray arrayWithArray:supportedWalletArray];
+      
+      break;
+    }
+  }
+  
+  NSData *data = [NSKeyedArchiver archivedDataWithRootObject:localWalletArray];
+  [[NSUserDefaults standardUserDefaults] setObject:data forKey:kLocalWalletArray];
+  
+  [[NSNotificationCenter defaultCenter] postNotificationName:kGeneralWalletNeedRefreshNotification object:nil];
+  
+  resolve(@"success");
 }
 
 RCT_REMAP_METHOD(getCurrentTime, getCurrentTimeWithResolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
@@ -568,6 +587,7 @@ RCT_REMAP_METHOD(getBalanceDictOfAddress, getBalanceDictOfAddress:(NSString*)add
   return transactionModel;
   
 }
+
 
 RCT_REMAP_METHOD(getCurrentLanguage, getCurrentLanguageWithResolver:(RCTPromiseResolveBlock)resolve rejector:(RCTPromiseRejectBlock)reject) {
   NSString *currentLanguage = [[NSUserDefaults standardUserDefaults] stringForKey:kCurrentLanguage];

@@ -131,5 +131,8 @@ export default {
     	description:"Welcome to Samos Wallet. If it's the first time you use it, please create a wallet first. If you already have one, plese import it with your seed.",
     	createWallet:"Create a Wallet",
     	importWallet:"Import Existed Wallet"
+    },
+    SupportedWalletTypeManagerView:{
+        title:'new assets'
     }
 }

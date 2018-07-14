@@ -16,6 +16,7 @@ import MeView from './js/Samos/MeView';
 import GeneralWalletManagerProcess from './js/Samos/GeneralWalletManagerProcess';
 import SubWalletProcess from './js/Samos/SubWalletProcess';
 import SendCoinProcess from './js/Samos/SendCoinProcess';
+import SupportedWalletTypeManagerProcess from './js/Samos/SupportedWalletTypeManagerProcess'
 
 AppRegistry.registerComponent('WalletGenerator', () => WalletGenerator);
 AppRegistry.registerComponent('PinView', () => PinView);
@@ -33,3 +34,4 @@ AppRegistry.registerComponent('MeView', () => MeView);
 AppRegistry.registerComponent('GeneralWalletManagerProcess', () => GeneralWalletManagerProcess);
 AppRegistry.registerComponent('SubWalletProcess', () => SubWalletProcess);
 AppRegistry.registerComponent('SendCoinProcess', () => SendCoinProcess);
+AppRegistry.registerComponent('SupportedWalletTypeManagerProcess', () => SupportedWalletTypeManagerProcess);

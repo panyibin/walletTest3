@@ -19,6 +19,7 @@
 @property (nonatomic, strong) NSString *seed;
 @property (nonatomic, strong) NSString *pinCode;
 @property (nonatomic, strong) NSMutableArray *subWalletArray;//current contain 'samos', 'sky'
+@property (nonatomic, strong) NSMutableArray *supportedWalletTypes;
 
 - (instancetype)initWithDictionary:(NSDictionary*)dict;
 - (NSDictionary*)getModelDictionary;

@@ -26,6 +26,7 @@
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		D44CFD137BF9BAAD87212197 /* libPods-SkyWallet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A45536419274E5C17A077A89 /* libPods-SkyWallet.a */; };
+		DF1C8BCC20F985BC00D98472 /* SupportedWalletTypeManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DF1C8BCB20F985BC00D98472 /* SupportedWalletTypeManagerViewController.m */; };
 		DF295143205AC64F00150D7F /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DF295142205AC64F00150D7F /* MainViewController.xib */; };
 		DF3E1F8420663FBD0057E950 /* AddressQRCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DF3E1F8320663FBC0057E950 /* AddressQRCodeViewController.m */; };
 		DF3E1FAC2067E68B0057E950 /* QRCodeViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DF3E1FAB2067E68B0057E950 /* QRCodeViewManager.m */; };
@@ -365,6 +366,8 @@
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
 		BBD9B217FA3C0CBBDF29F41F /* Pods-SkyWallet.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SkyWallet.release.xcconfig"; path = "Pods/Target Support Files/Pods-SkyWallet/Pods-SkyWallet.release.xcconfig"; sourceTree = "<group>"; };
 		D58A57291BE7D4771783BD75 /* libPods-SkyWalletTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SkyWalletTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DF1C8BCA20F985BC00D98472 /* SupportedWalletTypeManagerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SupportedWalletTypeManagerViewController.h; sourceTree = "<group>"; };
+		DF1C8BCB20F985BC00D98472 /* SupportedWalletTypeManagerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SupportedWalletTypeManagerViewController.m; sourceTree = "<group>"; };
 		DF295142205AC64F00150D7F /* MainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainViewController.xib; sourceTree = "<group>"; };
 		DF3E1F8220663FBC0057E950 /* AddressQRCodeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AddressQRCodeViewController.h; sourceTree = "<group>"; };
 		DF3E1F8320663FBC0057E950 /* AddressQRCodeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AddressQRCodeViewController.m; sourceTree = "<group>"; };
@@ -672,6 +675,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		DF1C8BA420F9858F00D98472 /* WalletTypeManager */ = {
+			isa = PBXGroup;
+			children = (
+				DF1C8BCA20F985BC00D98472 /* SupportedWalletTypeManagerViewController.h */,
+				DF1C8BCB20F985BC00D98472 /* SupportedWalletTypeManagerViewController.m */,
+			);
+			path = WalletTypeManager;
+			sourceTree = "<group>";
+		};
 		DF295145205AC69900150D7F /* SkyWallet */ = {
 			isa = PBXGroup;
 			children = (
@@ -907,6 +919,7 @@
 				DF7283F720DFDDE00044647F /* Me */,
 				DF7283FB20DFDDF70044647F /* SideMenu */,
 				DF72841120DFE3150044647F /* GeneralWalletManager */,
+				DF1C8BA420F9858F00D98472 /* WalletTypeManager */,
 				DF72840A20DFE2C70044647F /* SeedGenerator */,
 				DF72840620DFE25D0044647F /* GeneralWalletGenerator */,
 				DF3E2046206BF04D0057E950 /* AddressQRCode */,
@@ -1508,6 +1521,7 @@
 				DFD9A520205CC14D002A256F /* NavigationHelper.m in Sources */,
 				DFA33CE5205983F200116E38 /* MainTabBarViewController.m in Sources */,
 				DFA33D202059849F00116E38 /* BalanceViewController.m in Sources */,
+				DF1C8BCC20F985BC00D98472 /* SupportedWalletTypeManagerViewController.m in Sources */,
 				DF72840520DFE20D0044647F /* SubWalletViewController.m in Sources */,
 				DF72841C20DFE3980044647F /* SendCoinViewController.m in Sources */,
 				DF6DB4B5205E376B00A9A0D9 /* PayCoinViewController.m in Sources */,

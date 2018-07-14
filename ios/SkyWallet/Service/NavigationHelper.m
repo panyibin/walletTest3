@@ -26,6 +26,7 @@
 #import "GeneralWalletManagerViewController.h"
 #import "SubWalletViewController.h"
 #import "SendCoinViewController.h"
+#import "SupportedWalletTypeManagerViewController.h"
 
 @implementation NavigationHelper
 
@@ -124,6 +125,15 @@ RCT_EXPORT_METHOD(showSubWalletViewController:(NSDictionary*)subWalletModelDict 
   dispatch_async(dispatch_get_main_queue(), ^{
     SubWalletViewController *vc = [SubWalletViewController new];
     vc.walletModelDict = subWalletModelDict;
+    
+    [[self rootNavigationController] pushViewController:vc animated:animated];
+  });
+}
+
+RCT_EXPORT_METHOD(showSupportedWalletTypeViewController:(NSDictionary*)generalWalletModelDict animated:(BOOL)animated) {
+  dispatch_async(dispatch_get_main_queue(), ^{
+    SupportedWalletTypeManagerViewController *vc = [SupportedWalletTypeManagerViewController new];
+    vc.generalWalletModelDict = generalWalletModelDict;
     
     [[self rootNavigationController] pushViewController:vc animated:animated];
   });

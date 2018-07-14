@@ -76,7 +76,16 @@ export default class GeneralWalletView extends Component<Props> {
 
         this.setState({ wallet: currentWallet });
 
-        var tempSubWalletArray = currentWallet.subWalletArray;
+        var tempSubWalletArray = [];
+
+        for (const subWallet of currentWallet.subWalletArray) {
+            for (const walletType of currentWallet.supportedWalletTypes) {
+                if(subWallet.walletType == walletType) {
+                    tempSubWalletArray.push(subWallet);
+                }
+            }            
+        }
+
         var total = 0;
         for (let i in tempSubWalletArray) {
             let wallet = tempSubWalletArray[i]
@@ -140,7 +149,22 @@ export default class GeneralWalletView extends Component<Props> {
                     <View style={style.generalWalletImageContainer} >
                         <Image style={style.generalWalletImage} source={require('./images/钱包0.png')} />
                         <Text style={style.totalBalance}>{this.state.totalBalance}</Text>
-                        <Text style={style.totalAssets}>{strings('GeneralWalletView.totalAssets')} ($)</Text>
+                        <View style={style.totalAssetsContainer}>
+                            <View style={style.totalAssetsPlaceholder} />
+                            <View style={style.totalAssetsPlaceholder}>
+                                <Text style={style.totalAssets}>{strings('GeneralWalletView.totalAssets')} ($)</Text>
+                            </View>
+                            <View style={style.totalAssetsPlaceholder}>
+                                <TouchableOpacity style={style.plusContainer} onPress={
+                                    () => {
+                                        // Alert.alert("add");
+                                        NavigationHelper.showSupportedWalletTypeViewController(this.state.wallet,true);
+                                    }
+                                }>
+                                    <Image style={style.plus} source={require('./images/添加.png')} />
+                                </TouchableOpacity>
+                            </View>
+                        </View>
                     </View>
                 </View>
                 <View>
@@ -271,7 +295,24 @@ const style = StyleSheet.create(
             color: '#efeeda',
             fontSize: 12,
             marginTop: 32,
-            marginBottom: 30
+            marginBottom: 30,
+            textAlign:'center'
+        },
+        totalAssetsContainer: {
+            flexDirection: 'row'
+        },
+        totalAssetsPlaceholder: {
+            flex: 1
+        },
+        plusContainer: {
+            flexDirection:'row',
+            justifyContent:'flex-end'
+        },
+        plus: {
+            marginTop:30,
+            marginRight:25,
+            width:20,
+            height:20,
         },
         //scrollView
         scrollView: {

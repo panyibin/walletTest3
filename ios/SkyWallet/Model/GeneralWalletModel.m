@@ -18,6 +18,13 @@
     _seed = [dict getStringForKey:@"seed"];
     _pinCode = [dict getStringForKey:@"pinCode"];
     
+    _supportedWalletTypes = [NSMutableArray new];
+    
+    NSArray *supportTypes = [dict getArrayForKey:@"supportedWalletTypes"];
+    for (NSString *walletType in supportTypes) {
+      [_supportedWalletTypes addObject:walletType];
+    }
+    
     NSArray *subWalletDictArray = [dict getArrayForKey:@"subWalletArray"];
     NSMutableArray *mutableSubWalletArray = [NSMutableArray new];
     for (NSDictionary *subWalletDict in subWalletDictArray) {
@@ -43,8 +50,8 @@
     _pinCode = [aDecoder decodeObjectForKey:@"pinCode"];
     _seed = [aDecoder decodeObjectForKey:@"seed"];
     _subWalletArray = [aDecoder decodeObjectForKey:@"subWalletArray"];
-//    _skycoinWalletModel = [aDecoder decodeObjectForKey:@"skycoinWalletModel"];
-//    _samosWalletModel = [aDecoder decodeObjectForKey:@"samosWalletModel"];
+    _supportedWalletTypes = [aDecoder decodeObjectForKey:@"supportedWalletTypes"];
+
   }
   
   return self;
@@ -56,8 +63,7 @@
   [aCoder encodeObject:_pinCode forKey:@"pinCode"];
   [aCoder encodeObject:_seed forKey:@"seed"];
   [aCoder encodeObject:_subWalletArray forKey:@"subWalletArray"];
-//  [aCoder encodeObject:_skycoinWalletModel forKey:@"skycoinWalletModel"];
-//  [aCoder encodeObject:_samosWalletModel forKey:@"samosWalletModel"];
+  [aCoder encodeObject:_supportedWalletTypes forKey:@"supportedWalletTypes"];
 }
 
 - (NSDictionary*)getModelDictionary {
@@ -74,6 +80,7 @@
   }
   
   [dict setObject:subWalletDictArray forKey:@"subWalletArray"];
+  [dict setObject:self.supportedWalletTypes ? : @[] forKey:@"supportedWalletTypes"];
 //  NSDictionary *skycoinDict = [self.skycoinWalletModel convertToDictionary];
 //  NSDictionary *samosDict = [self.samosWalletModel convertToDictionary];
 //  
