@@ -1,5 +1,6 @@
 export default {
     BackupSeedView:{
+        barTitle:"back up mnemonic",
     	title:"Write down your wallet mnemonic",
     	description:"The mnemonic is used to restore your wallet, please write it down accurately on a piece of paper, and put it safely. The wallet cannot be restored if you forget it. Please don't put the mnemonic on the web for your wallet's safety."
     },
