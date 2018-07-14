@@ -25,7 +25,7 @@ export default class BackSeedView extends Component {
     static navigationOptions = ({ navigation }) => {
         return (
             {
-                title: 'back up mnomonic',
+                title: strings('BackSeedView.barTitle'),
             }
         );
     };
