@@ -142,7 +142,7 @@ export default {
         title:'new assets'
     },
     AboutUsView:{
-        description:"samos is a good wallet",
+        description:"Samos is a safe mobile wallet app, easy to use. A digital asset management tool.",
         title:"about us"
     }
 }
