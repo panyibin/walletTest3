@@ -69,9 +69,11 @@ export default class SeedView extends Component {
         //  Alert.alert('tap right button');
         const { navigation } = this.props;
         let name = navigation.getParam('walletName', '');
+        let avatar = navigation.getParam('avatar', '');
         // Alert.alert(name);
         navigation.push('SeedConfirmView', {
             walletName: name,
+            avatar:avatar,
             seed: this.state.seed
         });
 

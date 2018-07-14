@@ -7,10 +7,12 @@ import {
     StyleSheet,
     TouchableOpacity,
     Alert,
-    Image
+    Image,
+    FlatList
 } from 'react-native';
 import LoadingView from './loading';
 import { strings } from './i18n';
+import LocalImage from './LocalImage'
 const { WalletManager, NavigationHelper } = NativeModules;
 
 export default class NameWalletView extends Component {
@@ -19,7 +21,12 @@ export default class NameWalletView extends Component {
         this.state = {
             walletName: "",
             seed: "",
-            loading: false
+            loading: false,
+            selectAvatar:'avatar1',
+            avatarArray:[
+            'avatar1','avatar2','avatar3','avatar4',
+            'avatar5','avatar6','avatar7','avatar8',
+            'avatar9','avatar10','avatar11','avatar12',]
         };
     }
 
@@ -74,6 +81,8 @@ export default class NameWalletView extends Component {
 
     componentDidMount() {
         this.props.navigation.setParams({ tapNavigationRightButton: this.tapNavigationRightButton.bind(this) });
+        console.log('LocalImage.avatar1');
+        console.log(LocalImage.avatar1);
     }
 
     async tapNavigationRightButton() {
@@ -88,7 +97,7 @@ export default class NameWalletView extends Component {
         }
 
         if (action == 'create') {
-            navigation.push('SeedView', { walletName: currentWalletName });
+            navigation.push('SeedView', { walletName: currentWalletName, avatar:this.state.selectAvatar });
         } else if (action == 'import') {
             var seed = this.state.seed;
             if (seed.length == 0) {
@@ -98,8 +107,9 @@ export default class NameWalletView extends Component {
 
             this.setState({ loading: true });
             var walletName = currentWalletName;
+            var avatar = this.state.selectAvatar;
             var pinCode = await WalletManager.getLocalPinCode();
-            var success = await WalletManager.createNewWallet(walletName, seed, pinCode);
+            var success = await WalletManager.createNewWallet(walletName, seed, pinCode, avatar);
 
             if (success) {
                 this.setState({ loading: false });
@@ -170,7 +180,24 @@ export default class NameWalletView extends Component {
                 <Text style={style.walletName} >{strings("NameWalletView.walletAvatar")}</Text>
                 <Image
                     style={style.walletImage}
-                    source={require('./images/钱包0.png')} />
+                    source={LocalImage[this.state.selectAvatar]} />
+                    <Text style={style.selectAvatarHint}>Select an avatar</Text>
+                    <FlatList 
+                    style={style.flatlist}
+                    numColumns = {4}
+                    data={this.state.avatarArray}
+                    renderItem={({item})=>{
+                        return(
+                            <View>
+                                <TouchableOpacity onPress={()=>{
+                                    this.setState({selectAvatar:item});
+                                }}>
+                                <Image style={style.avatar} source={LocalImage[item]}/>
+                                </TouchableOpacity>
+                            </View>
+                        );
+                    }}
+                    />
             </View>
         );
     }
@@ -204,9 +231,26 @@ const style = StyleSheet.create(
         },
         walletImage: {
             marginLeft: 25,
-            marginTop: 30,
-            width: 130,
-            height: 104
+            marginTop: 10,
+            width: 60,
+            height: 60
+        },
+        selectAvatarHint:{
+            fontSize: 13,
+            marginLeft: 25,
+            marginTop: 20,
+            color: '#efeeda'
+        },
+        flatlist:{
+            // marginTop:0,
+            marginLeft:25,
+            marginRight:25
+        },
+        avatar:{
+            marginRight:20,
+            marginTop:20,
+            width:60,
+            height:60
         }
     }
 );

@@ -15,6 +15,7 @@ import {
 import { getStatusBarHeight, getScreenWidth } from '../utils';
 import LoadingView from './loading';
 import { strings, setLanguage } from './i18n';
+import LocalImage from './LocalImage'
 
 const { WalletManager, NavigationHelper, WalletEventEmitter } = NativeModules;
 const wallManagerEmitter = new NativeEventEmitter(WalletEventEmitter);
@@ -164,7 +165,7 @@ export default class GeneralWalletView extends Component<Props> {
                         <View style={style.topBarPlaceholder} />
                     </View>
                     <View style={style.generalWalletImageContainer} >
-                        <Image style={style.generalWalletImage} source={require('./images/钱包0.png')} />
+                        <Image style={style.generalWalletImage} source={LocalImage[this.state.wallet.avatar]} />
                         <Text style={style.totalBalance}>{this.state.totalBalance}</Text>
                         <View style={style.totalAssetsContainer}>
                             <View style={style.totalAssetsPlaceholder} />
@@ -300,8 +301,8 @@ const style = StyleSheet.create(
         },
         generalWalletImage: {
             marginTop: 20,
-            width: 100,
-            height: 82
+            width: 80,
+            height: 80
         },
         totalBalance: {
             color: '#efeeda',

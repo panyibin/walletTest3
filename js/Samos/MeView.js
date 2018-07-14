@@ -97,14 +97,6 @@ export default class MeView extends Component<Props> {
                 </View>
                 <View>
                     <TouchableOpacity onPress={() => {
-                        Alert.alert(strings('Me.introTitle'),strings('Me.intro'));
-                    }}>
-                        <Text style={style.aboutUS} >{strings('Me.aboutUS')}</Text>
-                    </TouchableOpacity>
-                    <View style={style.seperator} />
-                </View>
-                <View>
-                    <TouchableOpacity onPress={() => {
                         // Alert.alert('Language');
                         this.selectLanguage();
                     }}>
@@ -112,6 +104,14 @@ export default class MeView extends Component<Props> {
                         <Text style={style.aboutUS} >{strings('Me.language')}</Text>
                         <Text style={style.currentLanguage}>{this.state.displayLanguage}</Text>
                         </View>
+                    </TouchableOpacity>
+                    <View style={style.seperator} />
+                </View>
+                <View>
+                    <TouchableOpacity onPress={() => {
+                        Alert.alert(strings('Me.introTitle'),strings('Me.intro'));
+                    }}>
+                        <Text style={style.aboutUS} >{strings('Me.aboutUS')}</Text>
                     </TouchableOpacity>
                     <View style={style.seperator} />
                 </View>

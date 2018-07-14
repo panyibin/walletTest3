@@ -17,6 +17,7 @@
     _walletId = [dict getStringForKey:@"walletId"];
     _seed = [dict getStringForKey:@"seed"];
     _pinCode = [dict getStringForKey:@"pinCode"];
+    _avatar = [dict getStringForKey:@"avatar"];
     
     _supportedWalletTypes = [NSMutableArray new];
     
@@ -49,6 +50,7 @@
     _walletId = [aDecoder decodeObjectForKey:@"walletId"];
     _pinCode = [aDecoder decodeObjectForKey:@"pinCode"];
     _seed = [aDecoder decodeObjectForKey:@"seed"];
+    _avatar = [aDecoder decodeObjectForKey:@"avatar"];
     _subWalletArray = [aDecoder decodeObjectForKey:@"subWalletArray"];
     _supportedWalletTypes = [aDecoder decodeObjectForKey:@"supportedWalletTypes"];
 
@@ -62,6 +64,7 @@
   [aCoder encodeObject:_walletId forKey:@"walletId"];
   [aCoder encodeObject:_pinCode forKey:@"pinCode"];
   [aCoder encodeObject:_seed forKey:@"seed"];
+  [aCoder encodeObject:_avatar forKey:@"avatar"];
   [aCoder encodeObject:_subWalletArray forKey:@"subWalletArray"];
   [aCoder encodeObject:_supportedWalletTypes forKey:@"supportedWalletTypes"];
 }
@@ -72,6 +75,7 @@
   [dict setObject:self.walletId forKey:@"walletId"];
   [dict setObject:self.pinCode forKey:@"pinCode"];
   [dict setObject:self.seed forKey:@"seed"];
+  [dict setObject:self.avatar?:@"" forKey:@"avatar"];
   
   NSMutableArray *subWalletDictArray = [NSMutableArray new];
   for (WalletModel *wm in self.subWalletArray) {

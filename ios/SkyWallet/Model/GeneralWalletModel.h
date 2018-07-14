@@ -18,6 +18,7 @@
 @property (nonatomic, strong) NSString *walletId;
 @property (nonatomic, strong) NSString *seed;
 @property (nonatomic, strong) NSString *pinCode;
+@property (nonatomic, strong) NSString *avatar;
 @property (nonatomic, strong) NSMutableArray *subWalletArray;//current contain 'samos', 'sky'
 @property (nonatomic, strong) NSMutableArray *supportedWalletTypes;
 

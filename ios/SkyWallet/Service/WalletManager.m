@@ -55,8 +55,8 @@ RCT_REMAP_METHOD(createPinCode, createPinCode:(NSString*)pinCode resolver:(RCTPr
   }
 }
 
-RCT_REMAP_METHOD(createNewWallet, createWallet:(NSString*)walletName seed:(NSString*)seed pinCode:(NSString*)pinCode resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
-  BOOL success = [self createWallet:walletName seed:seed pinCode:pinCode];
+RCT_REMAP_METHOD(createNewWallet, createWallet:(NSString*)walletName seed:(NSString*)seed pinCode:(NSString*)pinCode avatar:(NSString*)avatar resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
+  BOOL success = [self createWallet:walletName seed:seed pinCode:pinCode avatar:avatar];
   
   resolve(@(success));
 }
@@ -68,7 +68,7 @@ RCT_REMAP_METHOD(createNewWallet, createWallet:(NSString*)walletName seed:(NSStr
 //  resolve(@(success));
 //}
 
-- (BOOL)createWallet:(NSString*)walletName seed:(NSString*)seed pinCode:(NSString*)pinCode {
+- (BOOL)createWallet:(NSString*)walletName seed:(NSString*)seed pinCode:(NSString*)pinCode avatar:(NSString*)avatar {
   if(!walletName || !seed || !pinCode) {
     return NO;
   }
@@ -108,6 +108,12 @@ RCT_REMAP_METHOD(createNewWallet, createWallet:(NSString*)walletName seed:(NSStr
     generalWM.walletName = walletName;
     generalWM.seed = seed;
     generalWM.pinCode = pinCode;
+    
+    if (avatar) {
+      generalWM.avatar = avatar;
+    } else {
+      generalWM.avatar = @"avatar1";
+    }
     
     generalWM.subWalletArray = [NSMutableArray arrayWithObjects:samosWM, skyWM, nil];
     generalWM.supportedWalletTypes = [NSMutableArray arrayWithObjects:kCoinTypeSamos, nil];
@@ -312,6 +318,38 @@ RCT_EXPORT_METHOD(updateSupportedWalletsArray:(NSString*)walletId supportedWalle
   
   resolve(@"success");
 }
+
+RCT_EXPORT_METHOD(updateGeneralWalletName:(NSString*)walletId walletName:(NSString*)walletName hint:(NSString*)hint resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
+  NSArray *localWalletArray = [self getLocalWalletArray];
+  for (GeneralWalletModel *gWM in localWalletArray) {
+    if ([gWM isKindOfClass:[GeneralWalletModel class]] && [gWM.walletId isEqualToString:walletId]) {
+      gWM.walletName = walletName;
+      break;
+    }
+  }
+  
+  NSData *data = [NSKeyedArchiver archivedDataWithRootObject:localWalletArray];
+  [[NSUserDefaults standardUserDefaults] setObject:data forKey:kLocalWalletArray];
+  
+  if (hint) {
+    [[NSUserDefaults standardUserDefaults] setObject:hint forKey:kPinCodeHint];
+  }
+  
+  [[NSNotificationCenter defaultCenter] postNotificationName:kGeneralWalletNeedRefreshNotification object:nil];
+  
+  resolve(@"success");
+}
+
+RCT_REMAP_METHOD(getPinCodeHint, getPinCodeHintWithResolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
+
+  NSString *pinCodeHint = [[NSUserDefaults standardUserDefaults] stringForKey:kPinCodeHint];
+  if(pinCodeHint) {
+    resolve(pinCodeHint);
+  } else {
+    resolve(@"");
+  }
+}
+
 
 RCT_REMAP_METHOD(getCurrentTime, getCurrentTimeWithResolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
   NSDate *currentDate = [NSDate date];

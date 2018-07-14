@@ -23,6 +23,7 @@
 #define kLastSuccessfulSessionTime @"kLastSuccessfulSessionTime"
 
 #define kCurrentLanguage @"kCurrentLanguage"
+#define kPinCodeHint @"kPinCodeHint"
 
 //Notification
 #define kNewAddressCreatedNotification @"kNewAddressCreatedNotification"
