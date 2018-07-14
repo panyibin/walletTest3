@@ -38,8 +38,8 @@ export default {
     	password:"密码",
     	placeholder:"输入密码",
     	confirm:"确认",
-    	hint:"提示：如果忘记密码，请重装应用"
-
+    	hint:"提示：如果忘记密码，请重装应用",
+        passwordHint:"密码提示:"
     },
     Me:{
     	me:"我",

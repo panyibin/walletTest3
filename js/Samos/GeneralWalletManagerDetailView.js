@@ -6,12 +6,15 @@ import {
     StyleSheet,
     TouchableOpacity,
     Alert,
-    Image
+    Image,
+    TextInput
 } from 'react-native';
 
 import InputPasswordView from './InputPasswordView';
 import LoadingView from './loading';
 import {strings} from './i18n';
+import LocalImage from './LocalImage'
+import Wallet from '../Wallet';
 
 const { WalletManager } = NativeModules;
 
@@ -23,7 +26,10 @@ export default class GeneralWalletManagerDetailView
             backupSeedPasswordViewVisible: false,//used to show the password view for seed
             deleteWalletPasswordViewVisible: false,//used to show the password view for deleteWallet
             loading: false,
-            walletId: {},
+            walletId: "",
+            walletModel:{},
+            newWalletName:"",
+            pinCodeHint:"",
         };
     }
 
@@ -31,12 +37,34 @@ export default class GeneralWalletManagerDetailView
         let walletModel = navigation.getParam('walletModel', {});
         return ({
             title: walletModel.walletName,
+            headerRight:(
+            <View>
+                <Text
+                style={{ marginRight: 20, fontSize: 20 }}
+                onPress={navigation.getParam('tapNavigationRightButton')}>Save</Text>
+            </View>),
         });
     };
 
     componentDidMount() {
+        this.refreshWallet();
+        this.props.navigation.setParams({'tapNavigationRightButton':this.tapNavigationRightButton.bind(this)});
+    }
+
+    async refreshWallet(){
         let walletModel = this.props.navigation.getParam('walletModel', {});
         this.setState({ walletModel: walletModel });
+
+        let pinCodeHint = await WalletManager.getPinCodeHint();
+        this.setState({
+            walletName:walletModel.walletName,
+            pinCodeHint:pinCodeHint
+        });
+    }
+
+    async tapNavigationRightButton(){
+        WalletManager.updateGeneralWalletName(this.state.walletModel.walletId, this.state.walletName, this.state.pinCodeHint);
+        this.props.navigation.goBack();
     }
 
     async tapBackupSeedsButton() {
@@ -110,8 +138,30 @@ export default class GeneralWalletManagerDetailView
                 <View style={style.topContainer}>
                     <Image
                         style={style.generalWalletImage}
-                        source={require('./images/钱包0.png')} />
+                        source={LocalImage[this.state.walletModel.avatar]} />
                 </View>
+                <Text style={style.title}>Wallet's Name</Text>
+                <TextInput style={style.input}
+                onChangeText={text=>{
+                    this.setState({walletName:text});
+                    navigation.setParams({walletName:text});
+                }}
+                >
+                {this.state.walletName}
+                </TextInput>
+                <View style={style.seperator}/>
+                <Text style={style.title}>Hint(optional)</Text>
+                <TextInput style={style.input}
+                onChangeText={
+                    text=>{
+                        this.setState({pinCodeHint:text});
+                        navigation.setParams({pinCodeHint:text});
+                    }
+                }
+                >
+                {this.state.pinCodeHint}
+                </TextInput>
+                <View style={style.seperator}/>
                 <View style={style.bottomButtonsContainer}>
                     <TouchableOpacity
                         style={style.button}
@@ -157,8 +207,25 @@ const style = StyleSheet.create(
         generalWalletImage: {
             // marginTop: 30,
             // marginBottom:30,
-            width: 100,
-            height: 82
+            width: 80,
+            height: 80
+        },
+        title:{
+            marginLeft:25,
+            marginTop:20,
+            color: '#414042',
+        },
+        input:{
+            marginLeft:25,
+            marginTop:20,
+            color: '#414042',
+        },
+        seperator:{
+            marginLeft:25,
+            marginRight:25,
+            marginTop:10,
+            height:0.5,
+            backgroundColor:"#414042"
         },
         //bottom buttons
         bottomButtonsContainer: {

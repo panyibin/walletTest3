@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import Wallet from '../Wallet';
 import { strings, setLanguage} from './i18n';
+import LocalImage from './LocalImage';
 
 const { WalletManager, NavigationHelper, WalletEventEmitter } = NativeModules;
 const walletManagerEmitter = new NativeEventEmitter(WalletEventEmitter);
@@ -154,7 +155,7 @@ export default class SideMenuView extends Component {
                                     }>
                                     <View style={style.walletItem}>
                                         <Image
-                                            source={require('./images/侧导航-钱包.png')}
+                                            source={LocalImage[item.avatar]}
                                             style={style.walletImage}
                                         />
                                         <Text style={style.walletName}>{item.walletName}</Text>

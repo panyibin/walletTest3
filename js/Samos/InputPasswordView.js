@@ -19,7 +19,8 @@ export default class InputPasswordView extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            password: ""
+            password: "",
+            pinCodeHint:""
         };
     }
 
@@ -36,6 +37,15 @@ export default class InputPasswordView extends Component {
         } else {
             this.props.onPressConfirm('fail');
         }
+    }
+
+    componentDidMount() {
+        this.getPinCodeHint();
+    }
+
+    async getPinCodeHint(){
+        let pinCodeHint = await WalletManager.getPinCodeHint();
+        this.setState({pinCodeHint:pinCodeHint});
     }
 
     render() {
@@ -81,6 +91,7 @@ export default class InputPasswordView extends Component {
                                 }
                             } />
                         <View style={style.seperator} />
+                        <Text style={style.pinCodeHint}>{strings('InputPasswordView.passwordHint')}{this.state.pinCodeHint}</Text>
                         <TouchableOpacity
                             style={style.button}
                             onPress={
@@ -152,6 +163,12 @@ const style = StyleSheet.create(
             marginTop: 14,
             backgroundColor: '#414042',
             height: 0.5
+        },
+        pinCodeHint:{
+            marginTop:10,
+            marginLeft:25,
+            color: '#6d6f71',
+            fontSize:13,
         },
         button: {
             marginTop: 40,

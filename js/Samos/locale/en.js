@@ -38,8 +38,8 @@ export default {
     	password:"Password",
     	placeholder:"Please input the password",
     	confirm:"Confirm",
-    	hint:"Hint: Please reinstall the app if your forget your password"
-
+        hint:"Hint: Please reinstall the app if your forget your password",
+        passwordHint:"password hint:"
     },
     Me:{
     	me:"Me",

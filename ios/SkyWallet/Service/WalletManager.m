@@ -336,6 +336,7 @@ RCT_EXPORT_METHOD(updateGeneralWalletName:(NSString*)walletId walletName:(NSStri
   }
   
   [[NSNotificationCenter defaultCenter] postNotificationName:kGeneralWalletNeedRefreshNotification object:nil];
+  [[NSNotificationCenter defaultCenter] postNotificationName:kGeneralWalletListDidChangedNotification object:nil];
   
   resolve(@"success");
 }
