@@ -63,7 +63,7 @@ export default class GeneralWalletManagerDetailView
     }
 
     async tapNavigationRightButton(){
-        WalletManager.updateGeneralWalletName(this.state.walletModel.walletId, this.state.walletName, this.state.pinCodeHint);
+        await WalletManager.updateGeneralWalletName(this.state.walletModel.walletId, this.state.walletName, this.state.pinCodeHint);
         this.props.navigation.goBack();
     }
 

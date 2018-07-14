@@ -9,9 +9,9 @@ import {
     EventEmitter
 } from 'react-native';
 import LoadingView from './loading';
-import {strings} from './i18n';
+import { strings } from './i18n';
 
-const { WalletManager, NavigationHelper} = NativeModules;
+const { WalletManager, NavigationHelper } = NativeModules;
 
 export default class BackSeedView extends Component {
     constructor(props) {
@@ -32,7 +32,7 @@ export default class BackSeedView extends Component {
 
     componentDidMount() {
         let seed = this.props.navigation.getParam('seed');
-        this.setState({seed:seed});        
+        this.setState({ seed: seed });
     }
 
     render() {
@@ -45,7 +45,7 @@ export default class BackSeedView extends Component {
                     {strings('BackupSeedView.title')}
                 </Text>
                 <Text style={style.description}>
-                {strings('BackupSeedView.description')}
+                    {strings('BackupSeedView.description')}
                 </Text>
                 <View style={style.seedContainer}>
                     <Text style={style.seed}>
@@ -63,34 +63,34 @@ const style = StyleSheet.create(
             flex: 1,
             backgroundColor: '#2f3239'
         },
-        title:{
-            marginTop:50,
-            fontSize:17,
-            textAlign:'center',
-            color:'#efeeda'
+        title: {
+            marginTop: 50,
+            fontSize: 17,
+            textAlign: 'center',
+            color: '#efeeda'
         },
-        description:{
-            marginTop:26,
-            marginLeft:25,
-            marginRight:25,
-            fontSize:12,
-            textAlign:'center',
-            color:'#efeeda'
+        description: {
+            marginTop: 26,
+            marginLeft: 25,
+            marginRight: 25,
+            fontSize: 12,
+            textAlign: 'center',
+            color: '#efeeda'
         },
-        seedContainer:{
-            marginTop:26,
-            marginLeft:25,
-            marginRight:25,
-            borderWidth:0.5,
-            borderColor:'#efeeda'
+        seedContainer: {
+            marginTop: 26,
+            marginLeft: 25,
+            marginRight: 25,
+            borderWidth: 0.5,
+            borderColor: '#efeeda'
         },
-        seed:{
-            fontSize:17,
-            color:'#efeeda',
-            marginLeft:25,
-            marginTop:38,
-            marginRight:25,
-            marginBottom:38
+        seed: {
+            fontSize: 17,
+            color: '#efeeda',
+            marginLeft: 25,
+            marginTop: 38,
+            marginRight: 25,
+            marginBottom: 38
         }
     }
 );

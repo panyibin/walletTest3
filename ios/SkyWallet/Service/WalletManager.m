@@ -300,7 +300,7 @@ RCT_REMAP_METHOD(isPinCodeValid, isPinCodeValid:(NSString*)pinCode resolver:(RCT
   
 }
 
-RCT_EXPORT_METHOD(updateSupportedWalletsArray:(NSString*)walletId supportedWalletsArray:(NSArray*)supportedWalletArray resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
+RCT_REMAP_METHOD(updateSupportedWalletsArray, updateSupportedWalletsArray:(NSString*)walletId supportedWalletsArray:(NSArray*)supportedWalletArray resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
   NSLog(@"%@", supportedWalletArray);
   NSArray *localWalletArray = [self getLocalWalletArray];
   for (GeneralWalletModel *gWM in localWalletArray) {
@@ -319,7 +319,7 @@ RCT_EXPORT_METHOD(updateSupportedWalletsArray:(NSString*)walletId supportedWalle
   resolve(@"success");
 }
 
-RCT_EXPORT_METHOD(updateGeneralWalletName:(NSString*)walletId walletName:(NSString*)walletName hint:(NSString*)hint resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
+RCT_REMAP_METHOD(updateGeneralWalletName, updateGeneralWalletName:(NSString*)walletId walletName:(NSString*)walletName hint:(NSString*)hint resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
   NSArray *localWalletArray = [self getLocalWalletArray];
   for (GeneralWalletModel *gWM in localWalletArray) {
     if ([gWM isKindOfClass:[GeneralWalletModel class]] && [gWM.walletId isEqualToString:walletId]) {
@@ -337,6 +337,15 @@ RCT_EXPORT_METHOD(updateGeneralWalletName:(NSString*)walletId walletName:(NSStri
   
   [[NSNotificationCenter defaultCenter] postNotificationName:kGeneralWalletNeedRefreshNotification object:nil];
   [[NSNotificationCenter defaultCenter] postNotificationName:kGeneralWalletListDidChangedNotification object:nil];
+  
+  resolve(@"success");
+}
+
+RCT_REMAP_METHOD(updatePinCodeHint, updatePinCodeHint:(NSString*)hint resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
+  
+  if (hint) {
+    [[NSUserDefaults standardUserDefaults] setObject:hint forKey:kPinCodeHint];
+  }
   
   resolve(@"success");
 }
@@ -640,6 +649,23 @@ RCT_REMAP_METHOD(getCurrentLanguage, getCurrentLanguageWithResolver:(RCTPromiseR
 RCT_EXPORT_METHOD(setCurrentLanguage:(NSString*)language) {
   if (language) {
     [[NSUserDefaults standardUserDefaults] setObject:language forKey:kCurrentLanguage];
+  }
+}
+
+RCT_REMAP_METHOD(getCurrentCurrencyUnit, getCurrentCurrencyUnitWithResolver:(RCTPromiseResolveBlock)resolve rejector:(RCTPromiseRejectBlock)reject) {
+  NSString *currentCurrencyUnit = [[NSUserDefaults standardUserDefaults] stringForKey:kCurrentCurrencyUnit];
+  if (!currentCurrencyUnit || currentCurrencyUnit.length == 0) {
+    resolve(@"USD");
+  } else {
+    resolve(currentCurrencyUnit);
+  }
+}
+
+RCT_EXPORT_METHOD(setCurrentCurrencyUnit:(NSString*)currencyUnit) {
+  if (currencyUnit) {
+    [[NSUserDefaults standardUserDefaults] setObject:currencyUnit forKey:kCurrentCurrencyUnit];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:kGeneralWalletNeedRefreshNotification object:nil];
   }
 }
 

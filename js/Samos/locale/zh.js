@@ -48,6 +48,7 @@ export default {
         language:"语言",
         introTitle:"Samos v1.0", 
         intro:"Samos是一个安全的钱包",
+        currencyUnit:"货币单位"
     },
     NameWalletView:{
     	nextText:"下一步",

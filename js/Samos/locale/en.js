@@ -48,6 +48,7 @@ export default {
         language:"Language",
         introTitle:"Samos v1.0", 
         intro:"Samos is a safe digital assets management app. Easy to use.",
+        currencyUnit:"Unit"
     },
     NameWalletView:{
     	nextText:"Next",

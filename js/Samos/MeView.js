@@ -15,7 +15,7 @@ import {
 } from 'react-native';
 import { getStatusBarHeight, getScreenWidth } from '../utils';
 import LoadingView from './loading';
-import {strings, setLanguage} from './i18n'
+import { strings, setLanguage } from './i18n'
 
 const { WalletManager, NavigationHelper, WalletEventEmitter } = NativeModules;
 const wallManagerEmitter = new NativeEventEmitter(WalletEventEmitter);
@@ -33,44 +33,73 @@ export default class MeView extends Component<Props> {
             refreshControlLoading: false,
             samosPriceUSD: 0.19,
             skyPriceUSD: 5.82,
-            displayLanguage: 'en'
+            displayLanguage: 'English',
+            currencyUnit:'USD'
         };
     }
 
     componentDidMount() {
         this.getCurrentLanguage();
+        this.getCurrentCurrencyUnit();
     }
 
     async getCurrentLanguage() {
         let currentLanguage = await WalletManager.getCurrentLanguage();
         let displayLanguage = 'English';
-        if(currentLanguage == 'zh') {
+        if (currentLanguage == 'zh') {
             displayLanguage = '中文';
         } else {
             displayLanguage = 'English';
         }
         setLanguage(currentLanguage);
-        this.setState({ displayLanguage: displayLanguage });        
+        this.setState({ displayLanguage: displayLanguage });
+    }
+
+    async getCurrentCurrencyUnit() {
+        let currencyUnit = await WalletManager.getCurrentCurrencyUnit();
+        this.setState({currencyUnit:currencyUnit});
     }
 
     async selectLanguage() {
         let buttons = ['English', '中文', 'Cancel'];
         ActionSheetIOS.showActionSheetWithOptions(
             {
-                options:buttons,
-                cancelButtonIndex:buttons.length - 1,
+                options: buttons,
+                cancelButtonIndex: buttons.length - 1,
             },
-            (buttonIndex)=>{
-                if(buttonIndex == 0) {                    
+            (buttonIndex) => {
+                if (buttonIndex == 0) {
                     setLanguage('en');
-                    this.setState({displayLanguage:'English'});
+                    this.setState({ displayLanguage: 'English' });
                     WalletManager.setCurrentLanguage('en');
                     NavigationHelper.rn_resetToMainPage();
-                } else if(buttonIndex == 1) {                    
+                } else if (buttonIndex == 1) {
                     setLanguage('zh');
-                    this.setState({displayLanguage:'中文'});
+                    this.setState({ displayLanguage: '中文' });
                     WalletManager.setCurrentLanguage('zh');
                     NavigationHelper.rn_resetToMainPage();
+                }
+            }
+        );
+    }
+
+    async selectCurrencyUnit() {
+        let buttons = ['USD', 'CNY', 'Cancel'];
+        ActionSheetIOS.showActionSheetWithOptions(
+            {
+                options: buttons,
+                cancelButtonIndex: buttons.length - 1,
+            },
+            (buttonIndex) => {
+                if (buttonIndex == 0) {
+                    
+                    this.setState({ currencyUnit: 'USD' });
+                    WalletManager.setCurrentCurrencyUnit('USD');
+                    // NavigationHelper.rn_resetToMainPage();
+                } else if (buttonIndex == 1) {                    
+                    this.setState({ currencyUnit: 'CNY' });
+                    WalletManager.setCurrentCurrencyUnit('CNY');
+                    // NavigationHelper.rn_resetToMainPage();
                 }
             }
         );
@@ -100,16 +129,28 @@ export default class MeView extends Component<Props> {
                         // Alert.alert('Language');
                         this.selectLanguage();
                     }}>
-                    <View style={style.languageContainer}>
-                        <Text style={style.aboutUS} >{strings('Me.language')}</Text>
-                        <Text style={style.currentLanguage}>{this.state.displayLanguage}</Text>
+                        <View style={style.languageContainer}>
+                            <Text style={style.aboutUS} >{strings('Me.language')}</Text>
+                            <Text style={style.currentLanguage}>{this.state.displayLanguage}</Text>
                         </View>
                     </TouchableOpacity>
                     <View style={style.seperator} />
                 </View>
                 <View>
                     <TouchableOpacity onPress={() => {
-                        Alert.alert(strings('Me.introTitle'),strings('Me.intro'));
+                        // Alert.alert('Language');
+                        this.selectCurrencyUnit();
+                    }}>
+                        <View style={style.languageContainer}>
+                            <Text style={style.aboutUS} >{strings('Me.currencyUnit')}</Text>
+                            <Text style={style.currentLanguage}>{this.state.currencyUnit}</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <View style={style.seperator} />
+                </View>
+                <View>
+                    <TouchableOpacity onPress={() => {
+                        Alert.alert(strings('Me.introTitle'), strings('Me.intro'));
                     }}>
                         <Text style={style.aboutUS} >{strings('Me.aboutUS')}</Text>
                     </TouchableOpacity>
@@ -184,11 +225,11 @@ const style = StyleSheet.create(
             height: 0.5,
             backgroundColor: '#414042'
         },
-        languageContainer:{
-            flexDirection:'row',
-            justifyContent:'space-between'
+        languageContainer: {
+            flexDirection: 'row',
+            justifyContent: 'space-between'
         },
-        currentLanguage:{
+        currentLanguage: {
             marginTop: 20,
             fontSize: 15,
             marginRight: 25,

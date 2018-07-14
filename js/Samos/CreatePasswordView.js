@@ -31,12 +31,14 @@ export default class CreatePasswordView extends Component {
     async tapCreate() {
         var pinCode = this.state.pinCode;
         var pinCodeConfirm = this.state.pinCodeConfirm;
+        var pinCodeHint = this.state.pinCodeHint;
         if (pinCode.length != 6) {
             Alert.alert(strings("CreatePasswordView.pinCodeError6Digits"));
         } else if (pinCode != pinCodeConfirm) {
             Alert.alert(strings("CreatePasswordView.pinCodeNotSame"));
         } else {
             console.log('create wallet');
+            await WalletManager.updatePinCodeHint(pinCodeHint);
             var success = await WalletManager.createPinCode(pinCode);
 
             if (success) {

@@ -29,11 +29,12 @@ export default class GeneralWalletView extends Component<Props> {
             loading: false,
             wallet: { subWalletArray: [] },
             subWalletArray: [],
-            totalBalance: 0,
+            totalBalanceUSD: 0,
             refreshControlLoading: false,
             samosPriceUSD: 0.19,
             skyPriceUSD: 5.82,
-            displayLanguage:""
+            displayLanguage: "",
+            currentCurrencyUnit: "USD"
         };
     }
 
@@ -48,8 +49,16 @@ export default class GeneralWalletView extends Component<Props> {
 
     async refreshCurrentWallet() {
         this.setState({ loading: true });
+
+        let currentCurrencyUnit = await WalletManager.getCurrentCurrencyUnit();
+        this.setState({ currentCurrencyUnit: currentCurrencyUnit });
+
         let samos_price_usd = 1;
         let sky_price_usd = 1;
+
+        let samos_price_cny = 1;
+        let sky_price_cny = 1;
+
         var rateApiUrl = 'http://samos.io/api/price?token=all';
 
         var dataDict = await fetch(rateApiUrl)
@@ -57,8 +66,12 @@ export default class GeneralWalletView extends Component<Props> {
             .then((responseJson) => {
                 samos_price_usd = responseJson.data.samos.price_usd;
                 sky_price_usd = responseJson.data.skycoin.price_usd;
+
+                samos_price_cny = responseJson.data.samos.price_cny;
+                sky_price_cny = responseJson.data.skycoin.price_cny;
                 console.log('success');
-                console.log(samos_price_usd);
+                console.log(samos_price_cny);
+                console.log(sky_price_cny);
 
                 this.setState({
                     samosPriceUSD: samos_price_usd,
@@ -82,13 +95,14 @@ export default class GeneralWalletView extends Component<Props> {
 
         for (const subWallet of currentWallet.subWalletArray) {
             for (const walletType of currentWallet.supportedWalletTypes) {
-                if(subWallet.walletType == walletType) {
+                if (subWallet.walletType == walletType) {
                     tempSubWalletArray.push(subWallet);
                 }
-            }            
+            }
         }
 
-        var total = 0;
+        var totalUSD = 0;
+        var totalCNY = 0;
         for (let i in tempSubWalletArray) {
             let wallet = tempSubWalletArray[i]
             let balanceDict = await WalletManager.getBalanceDictOfWallet(wallet.walletId, wallet.walletType);
@@ -97,29 +111,50 @@ export default class GeneralWalletView extends Component<Props> {
 
             let balanceUSD = 0;
             let walletRateUSD = 1;
+
+            let balanceCNY = 0;
+            let walletRateCNY = 1;
+
             if (wallet.walletType == 'samos') {
                 walletRateUSD = samos_price_usd;
                 balanceUSD = balanceNum * samos_price_usd;
-                total += balanceUSD;
+                totalUSD += balanceUSD;
+
+                walletRateCNY = sky_price_usd;
+                balanceCNY = balanceNum * samos_price_cny;
+                totalCNY += balanceCNY;
+
             } else if (wallet.walletType == 'skycoin') {
                 walletRateUSD = sky_price_usd;
                 balanceUSD = balanceNum * sky_price_usd;
-                total += balanceUSD;
+                totalUSD += balanceUSD;
+
+                walletRateCNY = sky_price_cny;
+                balanceCNY = balanceNum * sky_price_cny;
+                totalCNY += balanceCNY;
             } else {
 
             }
 
             wallet.balance = balanceNum.toFixed(2);
             wallet.balanceUSD = balanceUSD.toFixed(2);
-            wallet.walletRateUSD = walletRateUSD;
+            wallet.walletRateUSD = parseFloat(walletRateUSD).toFixed(2);
+
+            wallet.balanceCNY = balanceCNY.toFixed(2);
+            wallet.walletRateCNY = parseFloat(walletRateCNY).toFixed(2);
         }
 
-        total = total.toFixed(2);
+        totalUSD = totalUSD.toFixed(2);
+        totalCNY = totalCNY.toFixed(2);
+
+        console.log('totalCNY');
+        console.log(totalCNY);
 
         this.setState({
             subWalletArray: tempSubWalletArray,
             loading: false,
-            totalBalance: total,
+            totalBalanceUSD: totalUSD,
+            totalBalanceCNY: totalCNY,
             refreshControlLoading: false
         });
 
@@ -132,7 +167,7 @@ export default class GeneralWalletView extends Component<Props> {
     async getCurrentLanguage() {
         let currentLanguage = await WalletManager.getCurrentLanguage();
         let displayLanguage = 'English';
-        if(currentLanguage == 'zh') {
+        if (currentLanguage == 'zh') {
             displayLanguage = '中文';
         } else {
             displayLanguage = 'English';
@@ -140,11 +175,22 @@ export default class GeneralWalletView extends Component<Props> {
 
         setLanguage(currentLanguage);
 
-        this.setState({ displayLanguage: displayLanguage });        
+        this.setState({ displayLanguage: displayLanguage });
     }
 
     render() {
         const { navigation } = this.props;
+        let currentCurrencyUnit = this.state.currentCurrencyUnit;
+        let unitSign = '$';
+        let totalBalance;
+        if(currentCurrencyUnit == 'USD') {
+            unitSign = '$';
+            totalBalance = this.state.totalBalanceUSD;
+        } else if(currentCurrencyUnit == 'CNY') {
+            unitSign = '￥'
+            totalBalance = this.state.totalBalanceCNY;
+        } else {}
+
         return (
             <View style={style.container}>
                 <LoadingView loading={this.state.loading} />
@@ -166,17 +212,17 @@ export default class GeneralWalletView extends Component<Props> {
                     </View>
                     <View style={style.generalWalletImageContainer} >
                         <Image style={style.generalWalletImage} source={LocalImage[this.state.wallet.avatar]} />
-                        <Text style={style.totalBalance}>{this.state.totalBalance}</Text>
+                        <Text style={style.totalBalance}>{totalBalance}</Text>
                         <View style={style.totalAssetsContainer}>
                             <View style={style.totalAssetsPlaceholder} />
                             <View style={style.totalAssetsPlaceholder}>
-                                <Text style={style.totalAssets}>{strings('GeneralWalletView.totalAssets')} ($)</Text>
+                                <Text style={style.totalAssets}>{strings('GeneralWalletView.totalAssets')} ({unitSign})</Text>
                             </View>
                             <View style={style.totalAssetsPlaceholder}>
                                 <TouchableOpacity style={style.plusContainer} onPress={
                                     () => {
                                         // Alert.alert("add");
-                                        NavigationHelper.showSupportedWalletTypeViewController(this.state.wallet,true);
+                                        NavigationHelper.showSupportedWalletTypeViewController(this.state.wallet, true);
                                     }
                                 }>
                                     <Image style={style.plus} source={require('./images/添加.png')} />
@@ -206,15 +252,36 @@ export default class GeneralWalletView extends Component<Props> {
                                     let walletTypeName = 'samos';
                                     let walletIcon = require('./images/samos-logo.png');
                                     let walletBalance = item.balance;
-                                    let walletBalanceUSD = '$' + item.balanceUSD;
+                                    let walletBalanceMoney = '$' + item.balanceUSD;
+                                    if(currentCurrencyUnit == 'USD') {
+                                        walletBalanceMoney = '$' + item.balanceUSD;
+                                    } else if(currentCurrencyUnit == 'CNY') {
+                                        walletBalanceMoney = '￥' + item.balanceCNY;
+                                    }
+
+                                    console.log("subwallet item...");
+                                    console.log(item);
+
                                     let walletRate = '';
                                     if (item.walletType == 'samos') {
                                         walletTypeName = 'samos';
-                                        walletRate = '1 SAMO=$' + item.walletRateUSD;
+
+                                        if(currentCurrencyUnit == 'USD') {
+                                            walletRate = '1 SAMO=$' + item.walletRateUSD;
+                                        } else if(currentCurrencyUnit == 'CNY') {
+                                            walletRate = '1 SAMO=￥' + item.walletRateCNY;
+                                        }
+
                                         walletIcon = require('./images/samos-logo.png');
                                     } else if (item.walletType == 'skycoin') {
                                         walletTypeName = 'sky';
-                                        walletRate = '1 SKY=$' + item.walletRateUSD;
+
+                                        if(currentCurrencyUnit == 'USD') {
+                                            walletRate = '1 SKY=$' + item.walletRateUSD;
+                                        } else if(currentCurrencyUnit == 'CNY') {
+                                            walletRate = '1 SKY=￥' + item.walletRateCNY;
+                                        }
+
                                         walletIcon = require('./images/sky-logo.png');
                                     }
 
@@ -240,7 +307,7 @@ export default class GeneralWalletView extends Component<Props> {
                                                     <View>
                                                         <Text style={style.subWalletBalance}>{walletBalance}</Text>
                                                         <Text style={style.subWalletBalanceUSD}>
-                                                            {walletBalanceUSD}
+                                                            {walletBalanceMoney}
                                                         </Text>
                                                     </View>
                                                 </View>
@@ -314,7 +381,7 @@ const style = StyleSheet.create(
             fontSize: 12,
             marginTop: 32,
             marginBottom: 30,
-            textAlign:'center'
+            textAlign: 'center'
         },
         totalAssetsContainer: {
             flexDirection: 'row'
@@ -323,14 +390,14 @@ const style = StyleSheet.create(
             flex: 1
         },
         plusContainer: {
-            flexDirection:'row',
-            justifyContent:'flex-end'
+            flexDirection: 'row',
+            justifyContent: 'flex-end'
         },
         plus: {
-            marginTop:30,
-            marginRight:25,
-            width:20,
-            height:20,
+            marginTop: 30,
+            marginRight: 25,
+            width: 20,
+            height: 20,
         },
         //scrollView
         scrollView: {
