@@ -199,12 +199,22 @@ export default class SendCoinView extends Component {
                     const { navigation } = this.props;
 
                     setTimeout(() => {
-                        navigation.getParam('refreshCurrentWallet')();
+                        let refreshCurrentWallet = navigation.getParam('refreshCurrentWallet');
+                        if(typeof(refreshCurrentWallet) != 'undefined') {
+                            refreshCurrentWallet();
+                        }
+
                         Alert.alert(strings("SendCoinView.sendSuccess"), '',
                             [{
                                 text: 'ok',
                                 onPress: () => {
-                                    navigation.goBack();
+                                    // navigation.goBack();
+                                    let previousView = navigation.getParam('previousView', '');
+                                    if (previousView == 'SubWalletView') {
+                                        navigation.goBack();
+                                    } else {
+                                        NavigationHelper.popViewControllerAnimated(true);
+                                    }
                                 }
                             }]);
                     }, 500);

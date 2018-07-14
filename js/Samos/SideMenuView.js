@@ -11,7 +11,7 @@ import {
     NativeEventEmitter
 } from 'react-native';
 import Wallet from '../Wallet';
-import { strings, setLanguage} from './i18n';
+import { strings, setLanguage } from './i18n';
 import LocalImage from './LocalImage';
 
 const { WalletManager, NavigationHelper, WalletEventEmitter } = NativeModules;
@@ -24,7 +24,7 @@ export default class SideMenuView extends Component {
         this.state = {
             walletArray: [],
             currentWalletModel: {},
-            displayLanguage:""
+            displayLanguage: ""
         };
     }
 
@@ -57,7 +57,7 @@ export default class SideMenuView extends Component {
     async getCurrentLanguage() {
         let currentLanguage = await WalletManager.getCurrentLanguage();
         let displayLanguage = 'English';
-        if(currentLanguage == 'zh') {
+        if (currentLanguage == 'zh') {
             displayLanguage = '中文';
         } else {
             displayLanguage = 'English';
@@ -65,7 +65,7 @@ export default class SideMenuView extends Component {
 
         setLanguage(currentLanguage);
 
-        this.setState({ displayLanguage: displayLanguage });        
+        this.setState({ displayLanguage: displayLanguage });
     }
 
     render() {
@@ -77,6 +77,7 @@ export default class SideMenuView extends Component {
                     () => {
                         // Alert.alert('New wallet');
                         // navigation.navigate('NameWalletView');
+                        NavigationHelper.rn_hideSideMenu();
                         NavigationHelper.showQRReaderViewControllerFromSideMenuAnimated(true);
                     }
                 }>
@@ -94,6 +95,7 @@ export default class SideMenuView extends Component {
                     () => {
                         // Alert.alert('New wallet');
                         // navigation.navigate('NameWalletView');
+
                         NavigationHelper.showGeneralWalletGeneratorViewControllerAnimated(true);
                     }
                 }>
