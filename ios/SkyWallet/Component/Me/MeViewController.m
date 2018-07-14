@@ -18,7 +18,7 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-  self.rctView = [RNManager viewWithModuleName:@"MeView" initialProperties:nil];
+  self.rctView = [RNManager viewWithModuleName:@"MeProcess" initialProperties:nil];
   self.view = self.rctView;
   
 }

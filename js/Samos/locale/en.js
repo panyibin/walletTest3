@@ -19,6 +19,9 @@ export default {
     	create:"create"
     },
     GeneralWalletManagerDetailView:{
+        save:"save",
+        walletName:"Wallet's Name",
+        hint:"Hint(optional)",
     	backupSeed:"Backup Seed",
     	deleteWallet:"Delete wallet",
     	passwordInvalid:"the password is not valid",
@@ -48,7 +51,8 @@ export default {
         language:"Language",
         introTitle:"Samos v1.0", 
         intro:"Samos is a safe digital assets management app. Easy to use.",
-        currencyUnit:"Unit"
+        currencyUnit:"Unit",
+        systemConfig:"System"
     },
     NameWalletView:{
     	nextText:"Next",
@@ -135,5 +139,9 @@ export default {
     },
     SupportedWalletTypeManagerView:{
         title:'new assets'
+    },
+    AboutUsView:{
+        description:"samos is a good wallet",
+        title:"about us"
     }
 }

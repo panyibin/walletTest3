@@ -22,7 +22,7 @@ const wallManagerEmitter = new NativeEventEmitter(WalletEventEmitter);
 var subscription;
 
 type Props = {};
-export default class MeView extends Component<Props> {
+export default class SystemConfigurationView extends Component<Props> {
     constructor(props) {
         super(props);
         this.state = {
@@ -41,7 +41,7 @@ export default class MeView extends Component<Props> {
     static navigationOptions = ({navigation})=>{
         return (
             {
-                header:null
+                title:strings('Me.systemConfig'),
             }
         );
     };
@@ -118,39 +118,27 @@ export default class MeView extends Component<Props> {
         return (
             <View style={style.container}>
                 <LoadingView loading={this.state.loading} />
-                <View style={style.topContainer}>
-                    <View style={style.topBar}>
-                        <View style={style.topBarPlaceholder}>
-                        </View>
-                        <View style={style.topBarPlaceholder}>
-                            <Text style={style.generalWalletTitle}>{strings('Me.me')}</Text>
-                        </View>
-                        <View style={style.topBarPlaceholder} />
-                    </View>
-                    <View style={style.generalWalletImageContainer} >
-                        <Image style={style.generalWalletImage} source={require('./images/钱包设置.png')} />
-                        <Text style={style.totalAssets}>{strings('Me.walletManagement')}</Text>
-                    </View>
-                </View>
                 <View>
                     <TouchableOpacity onPress={() => {
                         // Alert.alert('Language');
-                        // this.selectLanguage();
-                        navigation.push('SystemConfigurationView');
+                        this.selectLanguage();
                     }}>
                         <View style={style.languageContainer}>
-                            <Text style={style.aboutUS} >{strings('Me.systemConfig')}</Text>
-
+                            <Text style={style.aboutUS} >{strings('Me.language')}</Text>
+                            <Text style={style.currentLanguage}>{this.state.displayLanguage}</Text>
                         </View>
                     </TouchableOpacity>
                     <View style={style.seperator} />
                 </View>
                 <View>
                     <TouchableOpacity onPress={() => {
-                        // Alert.alert(strings('Me.introTitle'), strings('Me.intro'));
-                        navigation.push('AboutUsView');
+                        // Alert.alert('Language');
+                        this.selectCurrencyUnit();
                     }}>
-                        <Text style={style.aboutUS} >{strings('Me.aboutUS')}</Text>
+                        <View style={style.languageContainer}>
+                            <Text style={style.aboutUS} >{strings('Me.currencyUnit')}</Text>
+                            <Text style={style.currentLanguage}>{this.state.currencyUnit}</Text>
+                        </View>
                     </TouchableOpacity>
                     <View style={style.seperator} />
                 </View>

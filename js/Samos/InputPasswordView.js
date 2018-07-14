@@ -75,7 +75,7 @@ export default class InputPasswordView extends Component {
                                 </TouchableOpacity>
                             </View>
                             <View style={style.titlePlaceHolder}>
-                                <Text style={style.title}>Input wallet password</Text>
+                                <Text style={style.title}>{strings('InputPasswordView.title')}</Text>
                             </View>
                             <View style={style.titleSidePlaceHolder} />
                         </View>

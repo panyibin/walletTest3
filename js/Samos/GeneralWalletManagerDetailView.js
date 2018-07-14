@@ -41,7 +41,7 @@ export default class GeneralWalletManagerDetailView
             <View>
                 <Text
                 style={{ marginRight: 20, fontSize: 20 }}
-                onPress={navigation.getParam('tapNavigationRightButton')}>Save</Text>
+                onPress={navigation.getParam('tapNavigationRightButton')}>{strings('GeneralWalletManagerDetailView.save')}</Text>
             </View>),
         });
     };
@@ -140,7 +140,7 @@ export default class GeneralWalletManagerDetailView
                         style={style.generalWalletImage}
                         source={LocalImage[this.state.walletModel.avatar]} />
                 </View>
-                <Text style={style.title}>Wallet's Name</Text>
+                <Text style={style.title}>{strings('GeneralWalletManagerDetailView.walletName')}</Text>
                 <TextInput style={style.input}
                 onChangeText={text=>{
                     this.setState({walletName:text});
@@ -150,7 +150,7 @@ export default class GeneralWalletManagerDetailView
                 {this.state.walletName}
                 </TextInput>
                 <View style={style.seperator}/>
-                <Text style={style.title}>Hint(optional)</Text>
+                <Text style={style.title}>{strings('GeneralWalletManagerDetailView.hint')}</Text>
                 <TextInput style={style.input}
                 onChangeText={
                     text=>{

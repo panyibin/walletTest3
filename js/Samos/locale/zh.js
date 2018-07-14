@@ -19,6 +19,9 @@ export default {
     	create:"create"
     },
     GeneralWalletManagerDetailView:{
+        save:"保存",
+        walletName:"钱包名称",
+        hint:"密码提示（可选）",
     	backupSeed:"备份种子",
     	deleteWallet:"删除钱包",
     	passwordInvalid:"密码错误",
@@ -43,12 +46,13 @@ export default {
     },
     Me:{
     	me:"我",
-    	walletManagement:"钱包管理",
+    	walletManagement:"管理钱包",
         aboutUS:"关于我们",
         language:"语言",
         introTitle:"Samos v1.0", 
         intro:"Samos是一个安全的钱包",
-        currencyUnit:"货币单位"
+        currencyUnit:"货币单位",
+        systemConfig:"系统设置"
     },
     NameWalletView:{
     	nextText:"下一步",
@@ -135,5 +139,9 @@ export default {
     },
     SupportedWalletTypeManagerView:{
         title:'添加资产'
+    },
+    AboutUsView:{
+        description:"Samos钱包是一款安全的手机应用，易于使用。数字资产管理工具。",
+        title:"关于我们"
     }
 }
