@@ -25,7 +25,7 @@ export default class BackSeedView extends Component {
     static navigationOptions = ({ navigation }) => {
         return (
             {
-                title: strings('BackSeedView.barTitle'),
+                title: strings('BackupSeedView.barTitle'),
             }
         );
     };
