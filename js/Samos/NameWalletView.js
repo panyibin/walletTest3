@@ -181,7 +181,7 @@ export default class NameWalletView extends Component {
                 <Image
                     style={style.walletImage}
                     source={LocalImage[this.state.selectAvatar]} />
-                    <Text style={style.selectAvatarHint}>Select an avatar</Text>
+                    <Text style={style.selectAvatarHint}>{strings("NameWalletView.selectAvatar")}</Text>
                     <FlatList 
                     style={style.flatlist}
                     numColumns = {4}

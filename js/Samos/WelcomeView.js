@@ -18,7 +18,8 @@ export default class WelcomeView extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            passwordViewVisible: false
+            passwordViewVisible: false,
+            displayLanguage:'English'
         };
     }
 
@@ -31,7 +32,20 @@ export default class WelcomeView extends Component {
     };
 
     componentDidMount() {
+        this.getCurrentLanguage();
         this.showPasswordViewIfNeeded();
+    }
+
+    async getCurrentLanguage() {
+        let currentLanguage = await WalletManager.getCurrentLanguage();
+        let displayLanguage = 'English';
+        if (currentLanguage == 'zh') {
+            displayLanguage = '中文';
+        } else {
+            displayLanguage = 'English';
+        }
+        setLanguage(currentLanguage);
+        this.setState({ displayLanguage: displayLanguage });
     }
 
     async showPasswordViewIfNeeded() {

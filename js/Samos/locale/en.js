@@ -66,7 +66,8 @@ export default {
     	inputSeedPlaceHolder:"Please input seed",
     	walletName:"Wallet's Name",
     	inputWalletName:"please input wallet's name",
-    	walletAvatar:"Wallet's Avatar"
+        walletAvatar:"Wallet's Avatar",
+        selectAvatar:"Select a avatar for your wallet"
     },
     ReceiveCoinDetailView:{
     	Receive:"Receive",

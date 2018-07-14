@@ -1,35 +1,35 @@
 export default {
     BackupSeedView:{
-    	title:"写下你的助记词",
-    	description:"The mnemonic is used to restore your wallet, please write it down accurately on a piece of paper, and put it safely. The wallet cannot be restored if you forget it. Please don't put the mnemonic on the web for your wallet's safety."
+    	title:"请抄写下您的助记词",
+    	description:"助记词用于恢复钱包，请将它准确的抄写在纸上，并存放在只有你知道的安全的地方，如果遗失助记词你的钱包将无法恢复。为了钱包的安全请不要将助记词存储在网络上。"
     },
     CreatePasswordView:{
     	pinCodeError6Digits:"密码必须为6位数字",
     	pinCodeNotSame:"密码不一致",
     	pinCodeFail:"创建密码失败",
     	title:"钱包密码",
-    	description:"Please create a password for your wallet, the password will be used for transaction and removing wallet.",
-    	passwordTitle:"输入密码(6位数字)",
-    	passwordPlaceHolder:"输入密码",
-    	confirmPassword:"确认密码",
-    	confirmPasswordPlaceHolder:"确认密码",
-    	hint:"提示(可选)",
-    	hintPlaceHolder:"请输入提示词",
-    	hintDescription:"We won't store your password, you can't find your password if you forget it. You can set a hint in case you forget your password.",
-    	create:"create"
+    	description:"请为您的钱包创建一个密码，该密码用于交易及删除钱包等敏感操作。",
+    	passwordTitle:"密码(6位数字)",
+    	passwordPlaceHolder:"请输入密码",
+    	confirmPassword:"再次输入密码",
+    	confirmPasswordPlaceHolder:"请再次确认密码",
+    	hint:"密码提示(可不填)",
+    	hintPlaceHolder:"请输入密码提示",
+    	hintDescription:"我们不会记录您的密码，密码遗失后无法找回，为防止遗忘，您可以设置一个简单的密码提示。",
+    	create:"创建"
     },
     GeneralWalletManagerDetailView:{
         save:"保存",
         walletName:"钱包名称",
-        hint:"密码提示（可选）",
-    	backupSeed:"备份种子",
+        hint:"密码提示（可不填）",
+    	backupSeed:"备份助记词",
     	deleteWallet:"删除钱包",
     	passwordInvalid:"密码错误",
     	failToDeleteWallet:"删除钱包失败",
-    	doYouWantToDeleteWallet:"要删除当前钱包吗?"
+    	doYouWantToDeleteWallet:"请慎重，删除操作无法恢复"
     },
     GeneralWalletManagerView:{
-    	title:"钱包管理",
+    	title:"管理钱包",
     	newWallet:"创建钱包",
     	importWallet:"导入钱包"
     },
@@ -41,7 +41,7 @@ export default {
     	password:"密码",
     	placeholder:"输入密码",
     	confirm:"确认",
-    	hint:"提示：如果忘记密码，请重装应用",
+    	hint:"提示：如果忘记密码，请卸载并重新安装软件",
         passwordHint:"密码提示:"
     },
     Me:{
@@ -62,41 +62,42 @@ export default {
     	walletNameCannotEmpty:"钱包名不能为空",
     	seedCannotEmpty:"助记词不能为空",
     	failToCreateWallet:"创建钱包失败",
-    	inputSeed:"请输入助记词",
-    	inputSeedPlaceHolder:"请输入助记词",
+    	inputSeed:"请输入种子",
+    	inputSeedPlaceHolder:"请输入种子",
     	walletName:"钱包名称",
     	inputWalletName:"请输入钱包名称",
-    	walletAvatar:"头像"
+        walletAvatar:"钱包图标",
+        selectAvatar:"请选择一个图像作为钱包的图标"
     },
     ReceiveCoinDetailView:{
-    	Receive:"接收",
-    	AountToReceive:"金额",
+    	Receive:"转入",
+    	AountToReceive:"收款金额",
     	copyAddress:"复制地址"
     },
     ReceiveCoinView:{
-    	Receive:"接收",
+    	Receive:"转入",
     	Balance:"余额",
     	CreateAddress:"创建地址"
     },
     SeedConfirmView:{
-    	title:"Confirm mnonomic",
-    	confirm:"Confirm",
+    	title:"备份助记词",
+    	confirm:"确认",
     	failToCreateWallet:"创建钱包失败",
     	seedsNotSame:"助记词不一致，请确认",
-    	confirmSeed:"确认助记词",
-    	inputSeed:"请输入你刚才写下的助记词",
-    	placeholder:"请输入输入助记词"
+    	confirmSeed:"验证助记词",
+    	inputSeed:"请在下方输入框中输入您刚才抄写的助记词",
+    	placeholder:"请输入助记词"
     },
     SeedView:{
     	title:"备份助记词",
     	next:"下一步",
-    	writeDownSeed:"写下钱包助记词",
-    	description:"The mnemonic is used to restore your wallet, please write it down accurately on a piece of paper, and put it safely. The wallet cannot be restored if you forget it. Please don't put the mnemonic on the web for your wallet's safety.",
-    	generateSeed:"生成助记词"
+    	writeDownSeed:"请抄写下您的助记词",
+    	description:"助记词用于恢复钱包，请将它准确的抄写在纸上，并存放在只有你知道的安全的地方，如果遗失助记词你的钱包将无法恢复。为了钱包的安全请不要将助记词存储在网络上。",
+    	generateSeed:"重新生成"
     },
     SendCoinView:{
-    	sendSamo:"发送samo",
-    	sendSky:"发送sky",
+    	sendSamo:"转出samo",
+    	sendSky:"转出sky",
     	addressInvalid:"地址无效",
     	amountInvalid:"发送金额无效",
     	passwordInvalid:"密码错误",
@@ -119,12 +120,12 @@ export default {
     SubWalletView:{
     	RecentRecords:"最近交易记录",
     	Send:"发送",
-    	RollOut:"发送",
-    	Receive:"接收",
+    	RollOut:"转出",
+    	Receive:"转入",
     },
     TransactionConfirmView:{
     	RollOut:" 发送 ",
-    	TransactionInfomation:"交易信息",
+    	TransactionInfomation:"付款明细",
     	TransactionType:"交易类型: ",
     	ToAddress:"转出地址: ",
     	Amount:"交易金额: ",
@@ -133,7 +134,7 @@ export default {
 
     },
     WelcomeView:{
-    	description:"Welcome to Samos Wallet. If it's the first time you use it, please create a wallet first. If you already have one, plese import it with your seed.",
+    	description:"欢迎使用SAMOS钱包，如果您是第一次使用，请先创建一个钱包，如果您已有钱包请导入您之前的钱包助记词（种子）",
     	createWallet:"创建钱包",
     	importWallet:"导入钱包"
     },
