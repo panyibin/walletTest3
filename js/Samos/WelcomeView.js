@@ -10,7 +10,7 @@ import {
     ImageBackground
 } from 'react-native';
 import CreatePasswordView from './CreatePasswordView'
-import { strings } from './i18n'
+import { strings, setLanguage } from './i18n'
 
 const { WalletManager } = NativeModules;
 
